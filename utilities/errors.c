@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exiting.c                                          :+:      :+:    :+:   */
+/*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/14 18:33:49 by nlonka            #+#    #+#             */
-/*   Updated: 2023/08/14 19:10:25 by nlonka           ###   ########.fr       */
+/*   Created: 2023/08/15 17:06:16 by nlonka            #+#    #+#             */
+/*   Updated: 2023/08/15 18:57:03 by nlonka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_exit(t_shell *core)
+void	error_print(t_error_code type)
 {
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, &core->term.old);
-	free_ar(core->info.env);
-	return (core->info.ret);
+	if (type == TOKEN_ERROR)
+		ft_putstr_fd("ERROR in tokenizing process🕷🕸", 2);
 }

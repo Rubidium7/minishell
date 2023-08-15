@@ -1,20 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exiting.c                                          :+:      :+:    :+:   */
+/*   character_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/14 18:33:49 by nlonka            #+#    #+#             */
-/*   Updated: 2023/08/14 19:10:25 by nlonka           ###   ########.fr       */
+/*   Created: 2023/08/15 18:34:25 by nlonka            #+#    #+#             */
+/*   Updated: 2023/08/15 19:00:01 by nlonka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_exit(t_shell *core)
+int	is_whitespace(char c)
 {
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, &core->term.old);
-	free_ar(core->info.env);
-	return (core->info.ret);
+	if (c == ' ')
+		return (1);
+	if (c >= 9 && c <= 13)
+		return (1);
+	return (0);
+}
+
+int is_special_char(char c)
+{
+	if (c == '<' || c == '>')
+		return (1);
+	if (c == '|' || c == '&')
+		return (1);
+	if (c == '(' || c == ')')
+		return (1);
+	if (c == '\'' || c == '\"')
+		return (1);
+	return (0);
 }

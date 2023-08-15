@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exiting.c                                          :+:      :+:    :+:   */
+/*   process_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/14 18:33:49 by nlonka            #+#    #+#             */
-/*   Updated: 2023/08/14 19:10:25 by nlonka           ###   ########.fr       */
+/*   Created: 2023/08/15 10:52:43 by nlonka            #+#    #+#             */
+/*   Updated: 2023/08/15 18:44:43 by nlonka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_exit(t_shell *core)
+void	process_line(t_shell *core, char *input)
 {
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, &core->term.old);
-	free_ar(core->info.env);
-	return (core->info.ret);
+	core->tokens = tokenize(input);
+	print_token_list(core->tokens);
+	if (!core->tokens)
+		return (error_print(TOKEN_ERROR));
+	//syntax check
+	//create tree
+	//expand environment variables while going through tree
+	//execute
+	//clean
 }
