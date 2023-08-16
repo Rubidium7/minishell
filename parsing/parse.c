@@ -12,4 +12,9 @@
 
 #include "minishell.h"
 
-
+void	parse(t_shell *core)
+{
+	if (syntax_check(core->tokens))
+		return ;
+	
+}

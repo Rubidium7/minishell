@@ -24,7 +24,7 @@ void	readline_pretty(t_shell *core)
 
 	tmp = readline("🍄"W"Mini"C R"Shroom"C"> ");
 //	tmp = readline("🍄"WR"Mini"C RW"Shroom"C"> ");
-	core->info.input_line = tmp;
+	core->cur_process.input_line = tmp;
 }
 
 int main(int ac, char **av, char **ev)
@@ -34,21 +34,21 @@ int main(int ac, char **av, char **ev)
 	(void)av;
 
 	set_start_data(&core, ev);
-	print_ar(core.info.env);
+	//print_ar(core.env);
 	while (37)
 	{
 		set_input_mode(&core, ON);
 		readline_pretty(&core);
 		set_input_mode(&core, OFF);
-		if (core.info.input_line)
+		if (core.cur_process.input_line)
 		{
-			process_line(&core, core.info.input_line);
-			add_to_history(core.info.input_line);
-			free(core.info.input_line);
+			process_line(&core, core.cur_process.input_line);
+			add_to_history(core.cur_process.input_line);
+			free(core.cur_process.input_line);
 		}
 		else
 			ctrl_d_handler(&core);
 	}
 	handle_exit(&core);
-	return (core.info.ret);
+	return (core.cur_process.ret);
 }

@@ -23,7 +23,7 @@ char	*get_quoted_word(char *str, size_t *i, int quote, t_token *new)
 				|| (str[*i + size] != '\"' && quote == 2)))
 		size++;
 	if (!str[*i + size])
-		new->open_quote = 1;
+		new->open_quote = TRUE;
 	word = malloc(sizeof(char) * (size + 1));
 	if (!word)
 		return (NULL);
@@ -36,7 +36,7 @@ char	*get_quoted_word(char *str, size_t *i, int quote, t_token *new)
 		size++; //so sorry for using the size var for an index here 😭
 		*i += 1;
 	}
-	if (!new->open_quote)
+	if (new->open_quote == FALSE)
 		*i += 1;
 	return (word);
 }
@@ -81,4 +81,18 @@ size_t	size_of_token(t_token_type type)
 		return (2);
 	else
 		return (1);
+}
+
+void	indexify_token_list(t_token *current)
+{
+	int	i;
+
+	i = 0;
+	while (current)
+	{
+		current->position = i;
+		i++;
+		current->new_line_error = FALSE;
+		current = current->next;
+	}
 }

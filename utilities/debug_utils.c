@@ -12,34 +12,47 @@
 
 #include "minishell.h"
 
-void	print_token_list(t_token *current)
+void	print_token_list(t_token *current, int print_quotes)
 {
 	while (current)
 	{
 		if (current->type == HEAD)
 			printf("| HEAD |\n");
 		if (current->type == WORD)
-			printf("| WORD | = '%s'\n", current->content);
+		{
+			printf("| WORD | = '%s'", current->content);
+			if (print_quotes == ON)
+			{
+				if (current->quote)
+					printf(" quote = YES open_quote = ");
+				else
+					printf(" quote = NO open_quote = ");
+				if (current->open_quote)
+					printf("YES\n");
+				else
+					printf("NO\n");
+			}
+		}
 		if (current->type == RED_IN)
-			printf("|  <  |\n");
+			printf("|  <   |\n");
 		if (current->type == HEREDOC)
 			printf("|  <<  |\n");
 		if (current->type == RED_OUT)
-			printf("|  >  |\n");
+			printf("|  >   |\n");
 		if (current->type == RED_OUT_APP)
 			printf("|  >>  |\n");
 		if (current->type == PIPE)
-			printf("|  |  |\n");
+			printf("|  |   |\n");
 		if (current->type == OR)
 			printf("|  ||  |\n");
 		if (current->type == AMPERSAND)
-			printf("|  &  |\n");
+			printf("|  &   |\n");
 		if (current->type == AND)
 			printf("|  &&  |\n");
 		if (current->type == LPAR)
-			printf("|  (  |\n");
+			printf("|  (   |\n");
 		if (current->type == RPAR)
-			printf("|  )  |\n");
+			printf("|  )   |\n");
 		if (current->type == WHITESPACE)
 			printf("|  WS  |\n");
 		if (current->next)

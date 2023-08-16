@@ -37,12 +37,22 @@ void	process_line(t_shell *core, char *input);
 
 //parsing
 //parse.c
+void	parse(t_shell *core);
 
 //tokenize.c
 t_token	*tokenize(char *input);
 
 //clean_token_list.c
-t_token	*clean_quotes_and_whitespaces(t_token *head);
+t_token	*clean_quotes_and_whitespaces(t_token *head, t_token *current);
+
+//syntax_checking.c
+t_bool	syntax_check(t_token *head);
+
+//and_or_list_syntax_rules.c
+t_ast	*list_rule(t_token *current, t_ast *up);
+
+//job_and_words_syntax_rules.c
+t_ast	*job_rule(t_token *current, t_ast *up);
 
 //setup
 
@@ -67,22 +77,30 @@ char	*get_quoted_word(char *str, size_t *i, int quote, t_token *new);
 char	*get_word_token(char *str, size_t *i);
 void	carve_out_whitespace(char *str, size_t *i);
 size_t	size_of_token(t_token_type type);
+void	indexify_token_list(t_token *current); //might be useless
 
 //character_utils.c
 int 	is_whitespace(char c);
 int 	is_special_char(char c);
 
 //debug_utils.c
-void	print_token_list(t_token *current);
+void	print_token_list(t_token *current, int print_quotes);
 void	print_ar(char **array);
+
+//ast_utils.c
+t_ast	*new_ast_node(t_ast *up, t_token *token,\
+	t_ast_type type, t_token_type separator);
+t_token	*find_last_node(t_ast *head);
 
 //exiting.c
 int		handle_exit(t_shell *core);
 
 //errors.c
 void	error_print(t_error_code type);
+t_bool	syntax_error(t_syntax_error type, t_token *token);
 
 //cleaners.c
 void	empty_token_list(t_token *current);
+void	clean_up(t_shell *core);
 
 #endif

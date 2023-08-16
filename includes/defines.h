@@ -17,11 +17,19 @@
 # define OFF 0
 
 //different colour codes
-//R is red W is white and wr is white bg red text and rw is the other way around
+//R red
+//W white
+//G green
+//M magenta
+//wr is white bg red text and rw is the other way around
 # define R "\033[0;31m"
+# define B "\033[0;34m"
+# define M "\033[0;35m"
 # define W "\033[1;37m"
 # define RW "\033[1;31;47m"
 # define WR "\033[1;37;41m"
 # define C "\033[0m"
+
+# define ERROR_SHROOM R"🕸Error"C W"🕸Shroom: "C
 
 #endif

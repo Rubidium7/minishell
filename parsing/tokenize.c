@@ -6,7 +6,7 @@
 /*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 11:03:56 by nlonka            #+#    #+#             */
-/*   Updated: 2023/08/15 18:44:47 by nlonka           ###   ########.fr       */
+/*   Updated: 2023/08/16 14:17:56 by nlonka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_token	*new_token(t_token_type type, char *str, size_t *i)
 	new->next = NULL;
 	new->type = type;
 	new->quote = 0;
-	new->open_quote = 0;
+	new->open_quote = FALSE;
 	if (type == WORD)
 	{
 		if (str[*i] == '\'')
@@ -92,6 +92,6 @@ t_token	*tokenize(char *str)
 		if (type == WHITESPACE)
 			carve_out_whitespace(str, &i);
 	}
-	////expand envss HERE
-	return (clean_quotes_and_whitespaces(head));
+	////expand envss and * HERE, don't expand if after heredoc :D
+	return (clean_quotes_and_whitespaces(head, head));
 }

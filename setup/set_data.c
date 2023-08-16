@@ -14,8 +14,8 @@
 
 void	set_start_data(t_shell *core, char **start_env)
 {
-	core->info.ret = 0;
-	core->info.env = copy_array(start_env);
-	if (!core->info.env)
+	core->cur_process.ret = 0;
+	core->env = copy_array(start_env);
+	if (!core->env)
 		exit(SETUP_ERROR);
 }

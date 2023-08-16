@@ -1,32 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cleaners.c                                         :+:      :+:    :+:   */
+/*   syntax_checking.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/15 17:13:27 by nlonka            #+#    #+#             */
-/*   Updated: 2023/08/15 18:55:57 by nlonka           ###   ########.fr       */
+/*   Created: 2023/08/16 14:18:42 by nlonka            #+#    #+#             */
+/*   Updated: 2023/08/16 14:42:54 by nlonka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	empty_token_list(t_token *current)
+t_bool	open_quotes(t_token *current)
 {
-	t_token	*prev;
-
 	while (current)
 	{
-		prev = current;
-		if (current->content)
-			free(current->content);
+		if (current->open_quote)
+			return (TRUE);
 		current = current->next;
-		free(prev);
 	}
+	return (FALSE);
 }
 
-void	clean_up(t_shell *core)
+t_bool	syntax_check(t_token *head)
 {
-	empty_token_list(core->tokens);
+	t_ast	*tree_head;
+
+	if (open_quotes(head))
+		return (syntax_error(OPEN_QUOTE, NULL));
+	if (open_parentheses(head))
+		return (syntax_error(OPEN_PARENTHESES, NULL));
+	tree_head = job_rule(head, NULL);
+	if (tree_head)
+		return (FALSE);
+	tree_head = list_rule(head, NULL);
+	if (tree_head)
+		return (FALSE);
+	else
+		return (TRUE);
 }

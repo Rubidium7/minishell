@@ -16,6 +16,12 @@
 # include <termios.h>
 # include <signal.h>
 
+typedef enum e_bool
+{
+	FALSE,
+	TRUE
+} t_bool;
+
 typedef enum e_error
 {
 	SUCCESS,
@@ -24,6 +30,13 @@ typedef enum e_error
 	TOKEN_ERROR,
 	PARSE_ERROR
 } t_error_code;
+
+typedef enum e_syntax_error
+{
+	UNEXPECTED_TOKEN = 1,
+	OPEN_QUOTE,
+	OPEN_PARENTHESES
+} t_syntax_error;
 
 typedef enum e_token
 {
@@ -39,8 +52,21 @@ typedef enum e_token
 	AND,
 	LPAR,
 	RPAR,
-	WHITESPACE
+	WHITESPACE,
+	EMPTY
 } t_token_type;
+
+typedef enum e_ast
+{
+	JOB = 1,
+	WORDS,
+	REDIRS,
+	REDIR,
+	LIST,
+	AND_OR,
+	TERMINAL,
+	NEW_LINE_ERROR
+} t_ast_type;
 
 typedef struct s_terminal
 {
@@ -66,26 +92,40 @@ typedef struct s_command
 
 typedef struct s_token
 {
+	int				position;
 	t_token_type	type;
 	char			*content;
 	int				quote;
-	int				open_quote;
+	t_bool			open_quote;
+	t_bool			new_line_error;
 	struct s_token	*next;
 }	t_token;
 
-typedef struct s_info
+typedef struct s_ast
+{
+	t_token			*token;
+	t_bool			syntax_check_mode; //might be redundant
+	t_ast_type		type;
+	struct s_ast	*up;
+	struct s_ast	*right;
+	t_token_type	separator;
+	struct s_ast	*left;
+}	t_ast;
+
+typedef struct s_current_process
 {
 	char	*input_line;
-	char	**env;
+	t_ast	*tree_head;
 	int		ret;
-}	t_info;
+}	t_current_process;
 
 typedef struct s_shell
 {
-	t_terminal	term;	
-	t_sig		signals;
-	t_token		*tokens;
-	t_info		info;
+	t_terminal			term;	
+	t_sig				signals;
+	t_token				*tokens;
+	t_current_process	cur_process;
+	char				**env;
 }	t_shell;
 
 #endif

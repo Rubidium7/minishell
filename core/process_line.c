@@ -6,7 +6,7 @@
 /*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 10:52:43 by nlonka            #+#    #+#             */
-/*   Updated: 2023/08/15 18:44:43 by nlonka           ###   ########.fr       */
+/*   Updated: 2023/08/16 13:52:07 by nlonka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,15 @@
 void	process_line(t_shell *core, char *input)
 {
 	core->tokens = tokenize(input);
-	print_token_list(core->tokens);
+	print_token_list(core->tokens, ON); //debug
 	if (!core->tokens)
 		return (error_print(TOKEN_ERROR));
-	//syntax check
-	//create tree
-	//expand environment variables while going through tree
+	if (!core->tokens->next)
+		return (free(core->tokens));
+	indexify_token_list(core->tokens);
+	parse(core);
+	if (!core->cur_process.tree_head)
+		return ;
 	//execute
-	//clean
+	clean_up(core);
 }
