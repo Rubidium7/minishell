@@ -20,9 +20,14 @@ OBJS_DIR = obj/
 
 #Sources by folder
 _CORE := main.c process_line.c
-_PARSE := parse.c tokenize.c clean_token_list.c syntax_checking.c and_or_list_syntax_rules.c job_and_words_syntax_rules.c redirection_syntax_rules.c
+_PARSE := parse.c tokenize.c clean_token_list.c \
+		syntax_checking.c and_or_list_syntax_rules.c \
+		job_and_words_syntax_rules.c redirection_syntax_rules.c \
+		redirections.c
 _SETUP := set_data.c set_input_mode.c signal_handlers.c
-_UTILS := array_utils.c exiting.c errors.c cleaners.c character_utils.c tokenizing_utils.c debug_utils.c ast_utils.c
+_UTILS := array_utils.c exiting.c errors.c \
+		cleaners.c character_utils.c tokenizing_utils.c \
+		debug_utils.c ast_utils.c
 
 ALL_SRCS := $(addprefix $(CORE_DIR), $(_CORE)) \
 			$(addprefix $(PARSE_DIR), $(_PARSE)) \

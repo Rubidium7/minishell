@@ -15,10 +15,12 @@
 void	process_line(t_shell *core, char *input)
 {
 	core->tokens = tokenize(input);
-	print_token_list(core->tokens, ON); //debug
 	if (!core->tokens)
-		return (error_print(TOKEN_ERROR));
+		return ;
+	print_token_list(core->tokens, ON); //debug
 	if (!core->tokens->next)
+		return (free(core->tokens));
+	if (check_redirections(core->tokens))
 		return (free(core->tokens));
 	indexify_token_list(core->tokens);
 	parse(core);

@@ -26,7 +26,7 @@ typedef enum e_error
 {
 	SUCCESS,
 	FAILURE,
-	SETUP_ERROR,
+	SETUP_ERROR = 259,
 	TOKEN_ERROR,
 	PARSE_ERROR
 } t_error_code;
@@ -58,7 +58,7 @@ typedef enum e_token
 
 typedef enum e_ast
 {
-	JOB = 1,
+	PIPE = 1,
 	WORDS,
 	REDIRS,
 	REDIR,
@@ -98,17 +98,16 @@ typedef struct s_token
 	int				quote;
 	t_bool			open_quote;
 	t_bool			new_line_error;
+	struct s_token	*filename;
 	struct s_token	*next;
 }	t_token;
 
 typedef struct s_ast
 {
 	t_token			*token;
-	t_bool			syntax_check_mode; //might be redundant
 	t_ast_type		type;
 	struct s_ast	*up;
 	struct s_ast	*right;
-	t_token_type	separator;
 	struct s_ast	*left;
 }	t_ast;
 

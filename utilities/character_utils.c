@@ -12,24 +12,33 @@
 
 #include "minishell.h"
 
-int	is_whitespace(char c)
+t_bool	is_whitespace(char c)
 {
 	if (c == ' ')
-		return (1);
+		return (TRUE);
 	if (c >= 9 && c <= 13)
-		return (1);
-	return (0);
+		return (TRUE);
+	return (FALSE);
 }
 
-int is_special_char(char c)
+t_bool	is_special_char(char c)
 {
 	if (c == '<' || c == '>')
-		return (1);
+		return (TRUE);
 	if (c == '|' || c == '&')
-		return (1);
+		return (TRUE);
 	if (c == '(' || c == ')')
-		return (1);
+		return (TRUE);
 	if (c == '\'' || c == '\"')
-		return (1);
-	return (0);
+		return (TRUE);
+	return (FALSE);
+}
+
+t_bool	is_redir(t_token_type type)
+{
+	if (type == RED_IN || type == HEREDOC)
+		return (TRUE);
+	if (type == RED_OUT || type == RED_OUT_APP)
+		return (TRUE);
+	return (FALSE);
 }

@@ -17,26 +17,54 @@ t_bool	open_quotes(t_token *current)
 	while (current)
 	{
 		if (current->open_quote)
-			return (TRUE);
+			return (syntax_error(OPEN_QUOTE, NULL));
 		current = current->next;
 	}
 	return (FALSE);
 }
 
-t_bool	syntax_check(t_token *head)
+t_bool	open_parentheses(t_token *current)
 {
-	t_ast	*tree_head;
+	int	amount;
 
-	if (open_quotes(head))
-		return (syntax_error(OPEN_QUOTE, NULL));
-	if (open_parentheses(head))
+	amount = 0;
+	while (current)
+	{
+		if (current->type == LPAR)
+			amount++;
+		if (current->type == RPAR)
+			amount--;
+		current = current->next;
+	}
+	if (amount > 0)
 		return (syntax_error(OPEN_PARENTHESES, NULL));
-	tree_head = job_rule(head, NULL);
-	if (tree_head)
-		return (FALSE);
-	tree_head = list_rule(head, NULL);
-	if (tree_head)
-		return (FALSE);
+	return (FALSE);
+}
+
+t_ast	*syntax_check(t_token *head, int *return_value)
+{
+	t_ast	*first_tree;
+	t_ast	*second_tree;
+	int		first_error_index;
+	int		second_error_index;
+
+	if (open_quotes(head) || open_parentheses(head))
+	{
+		*return_value = 258;
+		return (NULL);
+	}
+	first_tree = pipe_rule(head, NULL, ft_lstsize((t_list *)head) - 1);
+	first_error_index = check_tree(first_tree);
+	if (!first_error_index)
+		return (first_tree);
+	second_tree = list_rule(head, NULL, ft_lstsize((t_list *)head) - 1);
+	second_error_index = check_tree(second_tree);
+	if (!second_error_index)
+		return (free_tree(first_tree), second_tree);
+	*return_value = 258;
+	if (first_error_index <= second_error_index)
+		syntax_error(UNEXPECTED_TOKEN, node_at_index(head, first_error_index));
 	else
-		return (TRUE);
+		syntax_error(UNEXPECTED_TOKEN, node_at_index(head, second_error_index));
+	return (free_tree(first_tree), free_tree(second_tree), NULL);
 }

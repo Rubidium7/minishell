@@ -12,6 +12,15 @@
 
 #include "minishell.h"
 
+void	zero_value(t_token *new)
+{
+	new->content = NULL;
+	new->filename = NULL;
+	new->next = NULL;
+	new->quote = 0;
+	new->open_quote = FALSE;
+}
+
 t_token	*new_token(t_token_type type, char *str, size_t *i)
 {
 	t_token	*new;
@@ -19,10 +28,8 @@ t_token	*new_token(t_token_type type, char *str, size_t *i)
 	new = malloc(sizeof(t_token));
 	if (!new)
 		return (NULL);
-	new->next = NULL;
+	zero_values(new);
 	new->type = type;
-	new->quote = 0;
-	new->open_quote = FALSE;
 	if (type == WORD)
 	{
 		if (str[*i] == '\'')
@@ -36,8 +43,6 @@ t_token	*new_token(t_token_type type, char *str, size_t *i)
 		if (!new->content)
 			return (NULL);
 	}
-	else
-		new->content = NULL;
 	return (new);
 }
 

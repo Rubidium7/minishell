@@ -12,32 +12,43 @@
 
 #include "minishell.h"
 
-t_ast	*word_rule(t_token *current, t_ast *up)
+t_ast	*word_rule(t_token *section, t_ast *up, int end_index)
 {
+	t_ast	*words;
+	t_ast	*left;
+	t_ast	*right;
 
-	
+	if (!section || section->position > end_index)
+		return (new_ast_node(up, NULL, NEW_LINE_ERROR));
+	words = new_ast_node(up, NULL, WORDS);
+	if (!words)
+		return (NULL);
+	if (section->type == WORD)
+		left = new_ast_node(words, section, WORD);
+	else if (is_redir(redir))
+		
+	if (!section->next || section->position == end_index)
+		return (words);
+	if (is_redir(section->next->type))
 }
 
-t_ast	*job_rule(t_token *head, t_ast *up)
+t_ast	*pipe_rule(t_token *section, t_ast *up, int end_index)
 {
-	t_ast	*job;
-	t_token	*current;
+	t_ast	*pipe;
+	t_ast	*left;
+	t_ast	*right;
+	int		position;
 
-	if (!head)
-		return (new_ast_node(up, NULL, NEW_LINE_ERROR, EMPTY));
-	current = head;
-	job = new_ast_node(up, NULL, JOB, EMPTY);
-	if (!job)
-		return (NULL); ////figure out how to catch these
-	job->right = word_rule(current, job);
-	current = find_last_node(job->right);
-	if (!current->next)
-		return (job);
-	else if (current->next->type == PIPE)
-	{
-		job->left = new_ast_node(job, current->next, TERMINAL, EMPTY);
-		if (!job->left)
-			return (NULL);
-		job->left->left = job_rule(current->next->next, job);
-	}
+	if (!section || section->position > end_index)
+		return (new_ast_node(up, NULL, NEW_LINE_ERROR));
+	position = find_node(section, PIPE, end_index);
+	if (!position)
+		return (word_rule(section, up, end_index));
+	pipe = new_ast_node(up, node_at_index(section, position), PIPE);
+	if (!pipe)
+		return (NULL);
+	pipe->left = word_rule(section, pipe, position - 1);
+	pipe->right = pipe_rule(node_at_index (section, position)->next, \
+		pipe, end_index);
+	return (pipe);
 }

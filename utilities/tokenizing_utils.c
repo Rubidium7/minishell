@@ -92,7 +92,7 @@ void	indexify_token_list(t_token *current)
 	{
 		current->position = i;
 		i++;
-		current->new_line_error = FALSE;
+		current->new_line_error = FALSE; //might be redundant
 		current = current->next;
 	}
 }
