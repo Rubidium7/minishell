@@ -6,7 +6,7 @@
 /*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:33:49 by nlonka            #+#    #+#             */
-/*   Updated: 2023/08/14 18:34:39 by nlonka           ###   ########.fr       */
+/*   Updated: 2023/08/20 21:50:28 by nlonka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 int	handle_exit(t_shell *core)
 {
-	free_ar(core->info.env);
-	return (core->info.ret);
+	free_ar(core->env);
+	return (core->cur_process.ret);
 }

@@ -6,7 +6,7 @@
 /*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:24:10 by nlonka            #+#    #+#             */
-/*   Updated: 2023/08/15 10:55:34 by nlonka           ###   ########.fr       */
+/*   Updated: 2023/08/20 21:48:29 by nlonka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ typedef enum e_token
 
 typedef enum e_ast
 {
-	PIPE = 1,
+	PIPELINE = 1,
 	WORDS,
 	REDIRS,
 	REDIR,

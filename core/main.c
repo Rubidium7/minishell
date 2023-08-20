@@ -6,7 +6,7 @@
 /*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:17:54 by nlonka            #+#    #+#             */
-/*   Updated: 2023/08/15 10:53:21 by nlonka           ###   ########.fr       */
+/*   Updated: 2023/08/20 21:51:37 by nlonka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int main(int ac, char **av, char **ev)
 		set_input_mode(&core, OFF);
 		if (core.cur_process.input_line)
 		{
-			process_line(&core, core.cur_process.input_line);
+		//	process_line(&core, core.cur_process.input_line);
 			add_to_history(core.cur_process.input_line);
 			free(core.cur_process.input_line);
 		}
