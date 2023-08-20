@@ -6,7 +6,7 @@
 /*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:24:10 by nlonka            #+#    #+#             */
-/*   Updated: 2023/08/20 21:48:29 by nlonka           ###   ########.fr       */
+/*   Updated: 2023/08/20 21:55:53 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,12 @@ typedef struct s_sig
 
 typedef struct s_command
 {
-	char	*cmd_name;
-	char	**cmd_ar;
-	int		red_in;
-	int		red_out;
+	char				*cmd_name;
+	char				**cmd_ar;
+	int					red_in;
+	int					red_out;
+	int					index;
+	struct s_command	*next;
 }	t_command;
 
 typedef struct s_token
