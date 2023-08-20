@@ -32,10 +32,31 @@
 void	rl_replace_line(const char *text, int clear_undo);
 
 //core
+//process_line.c
+void	process_line(t_shell *core, char *input);
 
 //parsing
-
 //parse.c
+void	parse(t_shell *core);
+
+//tokenize.c
+t_token	*tokenize(char *input);
+
+//clean_token_list.c
+t_token	*clean_quotes_and_whitespaces(t_token *head, t_token *current);
+
+//redirections.c
+t_bool	handle_redirections(t_token *head)
+
+//syntax_checking.c
+t_ast	*syntax_check(t_token *head, int *return_value);
+
+//and_or_list_syntax_rules.c
+t_ast	*list_rule(t_token *section, t_ast *up, int end_index);
+
+//job_and_words_syntax_rules.c
+t_ast	*word_rule(t_token *section, t_ast *up, int end_index);
+t_ast	*pipe_rule(t_token *section, t_ast *up, int end_index);
 
 //setup
 
@@ -51,12 +72,41 @@ void	ctrl_c_handler(int signum);
 void	ctrl_d_handler(t_shell *core);
 
 //utilities
-
 //array_utils.c
 void	free_ar(char **array);
 char	**copy_array(char **src);
 
+//tokenizing_utils.c
+char	*get_quoted_word(char *str, size_t *i, int quote, t_token *new);
+char	*get_word_token(char *str, size_t *i);
+void	carve_out_whitespace(char *str, size_t *i);
+size_t	size_of_token(t_token_type type);
+void	indexify_token_list(t_token *current); //might be useless
+
+//character_utils.c
+t_bool	is_whitespace(char c);
+t_bool	is_special_char(char c);
+t_bool	is_redir(t_token_type type)
+
+//debug_utils.c
+void	print_token_list(t_token *current, int print_quotes);
+void	print_ar(char **array);
+
+//ast_utils.c
+t_ast	*new_ast_node(t_ast *up, t_token *token,\
+	t_ast_type type);
+t_token	*node_at_index(t_token *current, int index);
+int		find_node(t_token *current, t_token_type type, int end_index);
+
 //exiting.c
 int		handle_exit(t_shell *core);
+
+//errors.c
+void	error_print(t_error_code type);
+t_bool	syntax_error(t_syntax_error type, t_token *token);
+
+//cleaners.c
+void	empty_token_list(t_token *current);
+void	clean_up(t_shell *core);
 
 #endif
