@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	zero_value(t_token *new)
+void	zero_values(t_token *new)
 {
 	new->content = NULL;
 	new->filename = NULL;

@@ -32,15 +32,17 @@ void	print_token_list(t_token *current, int print_quotes)
 				else
 					printf("NO\n");
 			}
+			else
+				printf("\n");
 		}
 		if (current->type == RED_IN)
-			printf("|  <   |\n");
+			printf("|  <   | = filename '%s'\n", current->filename);
 		if (current->type == HEREDOC)
-			printf("|  <<  |\n");
+			printf("|  <<  | = filename '%s'\n", current->filename);
 		if (current->type == RED_OUT)
-			printf("|  >   |\n");
+			printf("|  >   | = filename '%s'\n", current->filename);
 		if (current->type == RED_OUT_APP)
-			printf("|  >>  |\n");
+			printf("|  >>  | = filename '%s'\n", current->filename);
 		if (current->type == PIPE)
 			printf("|  |   |\n");
 		if (current->type == OR)

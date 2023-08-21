@@ -46,17 +46,20 @@ t_token	*tokenize(char *input);
 t_token	*clean_quotes_and_whitespaces(t_token *head, t_token *current);
 
 //redirections.c
-t_bool	handle_redirections(t_token *head)
+t_bool	save_redirection_filenames(t_token *current);
+
+//preliminary_syntax_checking.c
+t_bool	preliminary_syntax_check(t_shell *core);
 
 //syntax_checking.c
 t_ast	*syntax_check(t_token *head, int *return_value);
 
 //and_or_list_syntax_rules.c
-t_ast	*list_rule(t_token *section, t_ast *up, int end_index);
+t_ast	*list_rule(t_token *current, t_ast *up, int end_index);
 
 //job_and_words_syntax_rules.c
-t_ast	*word_rule(t_token *section, t_ast *up, int end_index);
-t_ast	*pipe_rule(t_token *section, t_ast *up, int end_index);
+t_ast	*word_rule(t_token *current, t_ast *up, int end_index);
+t_ast	*pipe_rule(t_token *current, t_ast *up, int end_index);
 
 //setup
 

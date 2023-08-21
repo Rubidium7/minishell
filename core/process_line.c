@@ -20,12 +20,15 @@ void	process_line(t_shell *core, char *input)
 	print_token_list(core->tokens, ON); //debug
 	if (!core->tokens->next)
 		return (free(core->tokens));
-	if (check_redirections(core->tokens))
+	if (preliminary_syntax_check(core))
 		return (free(core->tokens));
+	if (save_redirection_filenames(core->tokens))
+		return (empty_token_list(core->tokens));
 	indexify_token_list(core->tokens);
 	parse(core);
-	if (!core->cur_process.tree_head)
-		return ;
+	//print_token_list(core->tokens, OFF); //debug
+//	if (!core->cur_process.tree_head)
+//		return ;
 	//execute
 	clean_up(core);
 }

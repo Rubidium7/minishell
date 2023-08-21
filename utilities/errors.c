@@ -18,7 +18,7 @@ void	error_print(t_error_code type)
 		ft_putstr_fd("ERROR in tokenizing process🕷🕸", 2);
 }
 
-void	print_token(t_syntax_error type)
+void	print_token(t_token *token)
 {
 	if (token->type == WORD)
 		ft_putstr_fd(token->content, 2);
@@ -58,7 +58,7 @@ t_bool	syntax_error(t_syntax_error type, t_token *token)
 		return (TRUE);
 	}
 	ft_putstr_fd("syntax error near unexpected token `", 2);
-	if (token->new_line_error == FALSE)
+	if (type != UNEXPECTED_NL && token->new_line_error == FALSE)
 		print_token(token);
 	else
 		ft_putstr_fd("newline", 2);

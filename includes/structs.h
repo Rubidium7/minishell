@@ -34,6 +34,7 @@ typedef enum e_error
 typedef enum e_syntax_error
 {
 	UNEXPECTED_TOKEN = 1,
+	UNEXPECTED_NL,
 	OPEN_QUOTE,
 	OPEN_PARENTHESES
 } t_syntax_error;
@@ -65,7 +66,8 @@ typedef enum e_ast
 	LIST,
 	AND_OR,
 	TERMINAL,
-	NEW_LINE_ERROR
+	NEW_LINE_ERROR,
+	WRONG_TOKEN_ERROR
 } t_ast_type;
 
 typedef struct s_terminal
@@ -97,10 +99,10 @@ typedef struct s_token
 	int				position;
 	t_token_type	type;
 	char			*content;
+	char			*filename;
 	int				quote;
 	t_bool			open_quote;
 	t_bool			new_line_error;
-	struct s_token	*filename;
 	struct s_token	*next;
 }	t_token;
 

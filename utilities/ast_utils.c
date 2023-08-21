@@ -11,9 +11,11 @@ t_ast	*new_ast_node(t_ast *up, t_token *token,\
 		return (NULL);
 	new->right = NULL;
 	new->left = NULL;
+	if (token && type == NEW_LINE_ERROR)
+		token->new_line_error = TRUE;
 	new->token = token;
 	new->type = type;
-	return (new)
+	return (new);
 }
 
 t_token	*node_at_index(t_token *current, int index)
