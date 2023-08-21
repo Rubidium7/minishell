@@ -6,7 +6,7 @@
 /*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:28:18 by nlonka            #+#    #+#             */
-/*   Updated: 2023/08/14 18:36:21 by nlonka           ###   ########.fr       */
+/*   Updated: 2023/08/21 11:30:05 by nlonka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	indexify_token_list(t_token *current); //might be useless
 //character_utils.c
 t_bool	is_whitespace(char c);
 t_bool	is_special_char(char c);
-t_bool	is_redir(t_token_type type)
+t_bool	is_redir(t_token_type type);
 
 //debug_utils.c
 void	print_token_list(t_token *current, int print_quotes);
