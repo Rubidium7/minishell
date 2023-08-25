@@ -52,14 +52,14 @@ t_bool	save_redirection_filenames(t_token *current);
 t_bool	preliminary_syntax_check(t_shell *core);
 
 //syntax_checking.c
-t_ast	*syntax_check(t_token *head, int *return_value);
+t_ast	*syntax_check(t_token *head, t_shell *core);
 
-//and_or_list_syntax_rules.c
-t_ast	*list_rule(t_token *current, t_ast *up, int end_index);
+//form_command_list.c
+t_command	*form_command_list(t_token *current, int end_index, int *error_index);
 
-//job_and_words_syntax_rules.c
-t_ast	*word_rule(t_token *current, t_ast *up, int end_index);
-t_ast	*pipe_rule(t_token *current, t_ast *up, int end_index);
+//form_pipeline.c
+t_pipeline	*form_pipeline(t_token *head_token, int end_index, int *error_index)
+
 
 //setup
 
@@ -96,10 +96,11 @@ void	print_token_list(t_token *current, int print_quotes);
 void	print_ar(char **array);
 
 //ast_utils.c
-t_ast	*new_ast_node(t_ast *up, t_token *token,\
+t_ast	*new_ast_node(t_ast *up, t_command *head,\
 	t_ast_type type);
 t_token	*node_at_index(t_token *current, int index);
 int		find_node(t_token *current, t_token_type type, int end_index);
+int		find_logic_token(t_token *current);
 
 //exiting.c
 int		handle_exit(t_shell *core);
@@ -110,6 +111,7 @@ t_bool	syntax_error(t_syntax_error type, t_token *token);
 
 //cleaners.c
 void	empty_token_list(t_token *current);
+void	empty_command_list(t_command *current);
 void	clean_up(t_shell *core);
 
 #endif

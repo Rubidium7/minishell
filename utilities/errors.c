@@ -14,8 +14,12 @@
 
 void	error_print(t_error_code type)
 {
+	if (type == SETUP_ERROR)
+		ft_putstr_fd("ERROR in setting up process🕷🕸", 2);
 	if (type == TOKEN_ERROR)
 		ft_putstr_fd("ERROR in tokenizing process🕷🕸", 2);
+	if (type == PARSE_ERROR)
+		ft_putstr_fd("ERROR in parsing process🕷🕸", 2);
 }
 
 void	print_token(t_token *token)

@@ -16,7 +16,7 @@ void	parse(t_shell *core)
 {
 	t_ast	*tree;
 
-	tree = syntax_check(core->tokens, &core->cur_process.ret);
+	tree = syntax_check(core->tokens->next, core);
 	if (!tree)
 		return ;
 }

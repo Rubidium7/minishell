@@ -60,12 +60,8 @@ typedef enum e_token
 typedef enum e_ast
 {
 	PIPELINE = 1,
-	WORDS,
-	REDIRS,
-	REDIR,
-	LIST,
-	AND_OR,
-	TERMINAL,
+	AND,
+	OR,
 	NEW_LINE_ERROR,
 	WRONG_TOKEN_ERROR
 } t_ast_type;
@@ -102,15 +98,24 @@ typedef struct s_token
 	char			*filename;
 	int				quote;
 	t_bool			open_quote;
-	t_bool			new_line_error;
+	t_bool			new_line_error; //might rm
 	struct s_token	*next;
 }	t_token;
 
+typedef struct s_pipeline
+{
+	t_token				*start;
+	t_token				*end;
+	struct s_pipeline	*next;
+}	t_pipeline;
+
+
 typedef struct s_ast
 {
-	t_token			*token;
+	t_pipeline		*pipeline;
 	t_ast_type		type;
 	struct s_ast	*up;
+	struct s_ast	*first_condition;
 	struct s_ast	*right;
 	struct s_ast	*left;
 }	t_ast;
@@ -118,6 +123,7 @@ typedef struct s_ast
 typedef struct s_current_process
 {
 	char	*input_line;
+	int		error_index;
 	t_ast	*tree_head;
 	int		ret;
 }	t_current_process;
