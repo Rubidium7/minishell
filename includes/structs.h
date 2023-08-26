@@ -134,13 +134,22 @@ typedef struct s_current_process
 	int		ret;
 }	t_current_process;
 
+typedef struct s_env
+{
+	char			*key;
+	char			*content;
+	struct s_env	*next;
+}	t_env;
+
+
 typedef struct s_shell
 {
 	t_terminal			term;	
 	t_sig				signals;
 	t_token				*tokens;
 	t_current_process	cur_process;
-	char				**env;
+	t_env				*env_list;
+	char				**env; //to be replaced
 }	t_shell;
 
 #endif
