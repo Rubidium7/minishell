@@ -67,9 +67,7 @@ typedef enum e_ast
 {
 	PIPELINE = 1,
 	AND_OPERATOR,
-	OR_OPERATOR,
-	NEW_LINE_ERROR,
-	WRONG_TOKEN_ERROR
+	OR_OPERATOR
 } t_ast_type;
 
 typedef struct s_terminal
@@ -121,7 +119,6 @@ typedef struct s_ast
 	t_pipeline		*pipeline;
 	t_ast_type		type;
 	struct s_ast	*up;
-	struct s_ast	*first_condition;
 	struct s_ast	*right;
 	struct s_ast	*left;
 }	t_ast;

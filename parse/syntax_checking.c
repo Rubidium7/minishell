@@ -39,14 +39,12 @@ t_ast	*syntax_check(t_token *head, t_shell *core)
 			return (error_in_parsing(core, head));
 		tree = new_ast_node(NULL, pipeline, PIPELINE);
 	}
-	// else
-	// {
-	// 	tree = 
-	// }
-	// if (!tree)
-	// 	core->cur_process.error_index = MALLOC_FAIL;
-	// if (core->cur_process.error_index != DEFAULT)
-	// 	error_in_parsing(core, head);
-	// return (tree);
+	else
+		tree = form_operator_node();
+	if (!tree)
+		core->cur_process.error_index = MALLOC_FAIL;
+	if (core->cur_process.error_index != DEFAULT)
+		error_in_parsing(core, head);
+	return (tree);
 	return (NULL);
 }
