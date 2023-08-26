@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/14 18:33:49 by nlonka            #+#    #+#             */
-/*   Updated: 2023/08/20 21:50:28 by nlonka           ###   ########.fr       */
+/*   Created: 2023/08/21 11:31:56 by nlonka            #+#    #+#             */
+/*   Updated: 2023/08/21 11:32:01 by nlonka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	handle_exit(t_shell *core)
 {
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &core->term.old);
 	free_ar(core->env);
 	return (core->cur_process.ret);
 }

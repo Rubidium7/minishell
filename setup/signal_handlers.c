@@ -22,7 +22,9 @@ void	ctrl_c_handler(int signum)
 
 void	ctrl_d_handler(t_shell *core)
 {
-	write(1, "exit\n", 5);
+	write(1, "\x1b[A", 3); // vv
+	write(1, "\x1b[14C", 5); //might remove these
+	write(1, "exit🍂\n", 9);
 	handle_exit(core);
 	exit(core->cur_process.ret);
 }
