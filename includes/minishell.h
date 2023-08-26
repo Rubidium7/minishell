@@ -58,7 +58,7 @@ t_ast	*syntax_check(t_token *head, t_shell *core);
 t_command	*form_command_list(t_token *current, int end_index, int *error_index);
 
 //form_pipeline.c
-t_pipeline	*form_pipeline(t_token *head_token, int end_index, int *error_index)
+t_pipeline	*form_pipeline(t_token *head_token, int end_index, int *error_index);
 
 
 //setup
@@ -93,10 +93,11 @@ t_bool	is_redir(t_token_type type);
 
 //debug_utils.c
 void	print_token_list(t_token *current, int print_quotes);
+void	print_token(t_token *token, int new_line);
 void	print_ar(char **array);
 
 //ast_utils.c
-t_ast	*new_ast_node(t_ast *up, t_command *head,\
+t_ast	*new_ast_node(t_ast *up, t_pipeline *head,\
 	t_ast_type type);
 t_token	*node_at_index(t_token *current, int index);
 int		find_node(t_token *current, t_token_type type, int end_index);
@@ -112,6 +113,7 @@ t_bool	syntax_error(t_syntax_error type, t_token *token);
 //cleaners.c
 void	empty_token_list(t_token *current);
 void	empty_command_list(t_command *current);
+void	empty_pipeline_list(t_pipeline *current);
 void	clean_up(t_shell *core);
 
 #endif

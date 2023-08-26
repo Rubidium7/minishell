@@ -42,9 +42,9 @@ void	empty_command_list(t_command *current)
 	}
 }
 
-void	empty_list(t_list *current)
+void	empty_pipeline_list(t_pipeline *current)
 {
-	t_list	*prev;
+	t_pipeline	*prev;
 
 	while (current)
 	{

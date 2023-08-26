@@ -22,9 +22,7 @@ OBJS_DIR = obj/
 _CORE := main.c process_line.c
 _PARSE := parse.c tokenize.c clean_token_list.c \
 		redirections_filenames.c preliminary_syntax_checks.c \
-		syntax_checking.c form_command_list.c \
-		#and_or_list_syntax_rules.c \
-		#job_and_words_syntax_rules.c \
+		syntax_checking.c form_command_list.c form_pipeline.c 
 
 _SETUP := set_data.c set_input_mode.c signal_handlers.c
 _UTILS := array_utils.c exiting.c errors.c \

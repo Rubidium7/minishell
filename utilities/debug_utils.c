@@ -63,6 +63,40 @@ void	print_token_list(t_token *current, int print_quotes)
 	}
 }
 
+void	print_token(t_token *token, int new_line)
+{
+	if (token->type == HEAD)
+		printf("HEAD");
+	else if (token->type == WORD)
+		printf("'%s'", token->content);
+	else if (token->type == RED_IN)
+		printf("<");
+	else if (token->type == HEREDOC)
+		printf("<<");
+	else if (token->type == RED_OUT)
+		printf(">");
+	else if (token->type == RED_OUT_APP)
+		printf(">>");
+	else if (token->type == PIPE)
+		printf("|");
+	else if (token->type == OR)
+		printf("||");
+	else if (token->type == AMPERSAND)
+		printf("&");
+	else if (token->type == AND)
+		printf("&&");
+	else if (token->type == LPAR)
+		printf("(");
+	else if (token->type == RPAR)
+		printf(")");
+	else if (token->type == WHITESPACE)
+		printf("whitespace");
+	else if (token->type == EMPTY)
+		printf("(empty)");
+	if (new_line)
+		printf("\n");
+}
+
 void	print_ar(char **array)
 {
 	int i = 0;

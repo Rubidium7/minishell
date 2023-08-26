@@ -17,7 +17,7 @@ void	process_line(t_shell *core, char *input)
 	core->tokens = tokenize(input);
 	if (!core->tokens)
 		return ;
-	print_token_list(core->tokens, ON); //debug
+	//print_token_list(core->tokens, ON); //debug
 	if (!core->tokens->next)
 		return (free(core->tokens));
 	if (preliminary_syntax_check(core))
@@ -25,6 +25,7 @@ void	process_line(t_shell *core, char *input)
 	if (save_redirection_filenames(core->tokens))
 		return (empty_token_list(core->tokens));
 	indexify_token_list(core->tokens);
+	//print_token_list(core->tokens, OFF); //debug
 	parse(core);
 	//print_token_list(core->tokens, OFF); //debug
 //	if (!core->cur_process.tree_head)

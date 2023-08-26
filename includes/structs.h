@@ -31,10 +31,16 @@ typedef enum e_error
 	PARSE_ERROR
 } t_error_code;
 
+typedef enum e_internal_error
+{
+	DEFAULT = -1,
+	MALLOC_FAIL = -2,
+} t_internal_error;
+
 typedef enum e_syntax_error
 {
+	UNEXPECTED_NL = -3,
 	UNEXPECTED_TOKEN = 1,
-	UNEXPECTED_NL,
 	OPEN_QUOTE,
 	OPEN_PARENTHESES
 } t_syntax_error;
@@ -60,8 +66,8 @@ typedef enum e_token
 typedef enum e_ast
 {
 	PIPELINE = 1,
-	AND,
-	OR,
+	AND_OPERATOR,
+	OR_OPERATOR,
 	NEW_LINE_ERROR,
 	WRONG_TOKEN_ERROR
 } t_ast_type;

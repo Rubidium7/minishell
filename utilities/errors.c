@@ -15,14 +15,14 @@
 void	error_print(t_error_code type)
 {
 	if (type == SETUP_ERROR)
-		ft_putstr_fd("ERROR in setting up process🕷🕸", 2);
+		ft_putendl_fd("ERROR in setting up process🕷🕸", 2);
 	if (type == TOKEN_ERROR)
-		ft_putstr_fd("ERROR in tokenizing process🕷🕸", 2);
+		ft_putendl_fd("ERROR in tokenizing process🕷🕸", 2);
 	if (type == PARSE_ERROR)
-		ft_putstr_fd("ERROR in parsing process🕷🕸", 2);
+		ft_putendl_fd("ERROR in parsing process🕷🕸", 2);
 }
 
-void	print_token(t_token *token)
+void	print_error_token(t_token *token)
 {
 	if (token->type == WORD)
 		ft_putstr_fd(token->content, 2);
@@ -63,7 +63,7 @@ t_bool	syntax_error(t_syntax_error type, t_token *token)
 	}
 	ft_putstr_fd("syntax error near unexpected token `", 2);
 	if (type != UNEXPECTED_NL && token->new_line_error == FALSE)
-		print_token(token);
+		print_error_token(token);
 	else
 		ft_putstr_fd("newline", 2);
 	ft_putstr_fd("'\n", 2);
