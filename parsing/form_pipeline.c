@@ -54,6 +54,9 @@ void	check_last_segment(t_token *last, t_token *head, int *error_index)
 	incorrect_token_in_pipeline(head, last->next, error_index);
 	if (*error_index == head->position)
 		;
+	else if (node_at_index(head, *error_index)
+		&& node_at_index(head, *error_index)->type == AMPERSAND)
+		;
 	else if (*error_index == last->position)
 	{
 		if (!last->next)

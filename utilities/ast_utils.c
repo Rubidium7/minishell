@@ -51,7 +51,7 @@ int	find_logic_token(t_token *current)
 			parentheses--;	
 		else if (current->type == OR || current->type == AND)
 		{
-			if (index[0] == -1 || index[1] > parentheses)
+			if (index[0] == -1 || index[1] >= parentheses)
 			{
 				index[0] = current->position;
 				index[1] = parentheses;

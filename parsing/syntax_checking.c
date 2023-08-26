@@ -12,6 +12,18 @@
 
 #include "minishell.h"
 
+t_ast	*error_in_parsing(t_shell *core, t_token *head)
+{
+	if (core->cur_process.error_index == MALLOC_FAIL)
+		error_print(PARSE_ERROR);
+	else if (core->cur_process.error_index == UNEXPECTED_NL)
+		syntax_error(UNEXPECTED_NL, NULL);
+	else 
+		syntax_error(UNEXPECTED_TOKEN, \
+			node_at_index(head, core->cur_process.error_index));
+	return (NULL);	
+}
+
 t_ast	*syntax_check(t_token *head, t_shell *core)
 {
 	//t_ast		*tree;
@@ -24,14 +36,7 @@ t_ast	*syntax_check(t_token *head, t_shell *core)
 	{
 		pipeline = form_pipeline(head, INT_MAX, &core->cur_process.error_index);
 		if (!pipeline)
-		{
-			if (core->cur_process.error_index == MALLOC_FAIL)
-				return (error_print(PARSE_ERROR), NULL);
-			if (core->cur_process.error_index == UNEXPECTED_NL)
-				return (syntax_error(UNEXPECTED_NL, NULL), NULL);
-			return (syntax_error(UNEXPECTED_TOKEN, \
-			node_at_index(head, core->cur_process.error_index)), NULL);
-		}
+			return (error_in_parsing(core, head));
 		return (new_ast_node(NULL, pipeline, PIPELINE));
 	}
 	return (NULL);
