@@ -27,22 +27,9 @@ t_ast	*error_in_parsing(t_shell *core, t_token *head)
 t_ast	*syntax_check(t_token *head, t_shell *core)
 {
 	t_ast		*tree;
-	t_pipeline	*pipeline;
-	int			index;
 
 	core->cur_process.error_index = DEFAULT;
-	index = find_logic_token(head);
-	if (index == -1)
-	{
-		pipeline = form_pipeline(head, INT_MAX, &core->cur_process.error_index);
-		if (!pipeline)
-			return (error_in_parsing(core, head));
-		tree = new_ast_node(NULL, pipeline, PIPELINE);
-	}
-	else
-		tree = form_operator_node();
-	if (!tree)
-		core->cur_process.error_index = MALLOC_FAIL;
+	tree = form_tree(head, NULL, INT_MAX, core);
 	if (core->cur_process.error_index != DEFAULT)
 		error_in_parsing(core, head);
 	return (tree);

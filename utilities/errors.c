@@ -12,6 +12,13 @@
 
 #include "minishell.h"
 
+void	handle_error_value(int *error_index, int position)
+{
+	if (position != UNEXPECTED_NL && position < *error_index)
+		*error_index = position;
+	//https://i.kym-cdn.com/photos/images/newsfeed/001/889/888/265.jpeg
+}
+
 void	error_print(t_error_code type)
 {
 	if (type == SETUP_ERROR)

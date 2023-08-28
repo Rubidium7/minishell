@@ -63,13 +63,6 @@ typedef enum e_token
 	EMPTY
 } t_token_type;
 
-typedef enum e_ast
-{
-	PIPELINE = 1,
-	AND_OPERATOR,
-	OR_OPERATOR
-} t_ast_type;
-
 typedef struct s_terminal
 {
 	struct termios	new;
