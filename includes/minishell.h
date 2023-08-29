@@ -105,7 +105,7 @@ t_ast	*new_ast_node(t_ast *up, t_pipeline *head, \
 	t_token_type type, int *error_index);
 t_token	*node_at_index(t_token *current, int end_index);
 t_token	*last_node(t_token *current, t_token *end);
-int		find_node(t_token *current, t_token_type type, int end_index);
+int		token_after_parentheses(t_token *current, int end_index);	
 int		find_logic_token(t_token *current, int end_index);
 
 //exiting.c
@@ -120,6 +120,7 @@ t_bool	syntax_error(t_syntax_error type, t_token *token);
 void	empty_token_list(t_token *current);
 void	empty_command_list(t_command *current);
 void	empty_pipeline_list(t_pipeline *current);
+t_ast	*free_tree(t_ast *tree);
 void	clean_up(t_shell *core);
 
 #endif

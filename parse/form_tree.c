@@ -73,7 +73,10 @@ t_ast	*form_tree(t_token *start, t_ast *up, int end_index, int *error_index)
 	//printf("index is %d\n", index);
 	//printf("end index is %d\n", end_index);
 	if (index == PARENTHESES_ERROR)
-		return (handle_error_value(error_index, start->position), NULL);
+	{
+		index = token_after_parentheses(start, end_index);
+		return (handle_error_value(error_index, index), NULL);
+	}
 	if (index == NO_LOGIC)
 		return (make_command_node(start, up, end_index, error_index));
 	new = new_ast_node(up, NULL, node_at_index(start, index)->type, error_index);

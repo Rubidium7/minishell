@@ -14,9 +14,8 @@
 
 void	parse(t_shell *core)
 {
-	t_ast	*tree;
-
-	tree = syntax_check(core->tokens->next, core);
-	if (!tree)
+	core->cur_process.tree = syntax_check(core->tokens->next, core);
+	if (!core->cur_process.tree)
 		return ;
+	//https://i.kym-cdn.com/photos/images/newsfeed/001/889/888/265.jpeg
 }

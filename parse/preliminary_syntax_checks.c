@@ -51,7 +51,7 @@ t_bool	preliminary_syntax_check(t_shell *core)
 	if (open_quotes(core->tokens) || open_parentheses(core->tokens) \
 		|| check_redirection_syntax(core->tokens)) //add check ampersand
 	{
-		core->cur_process.ret = 258;
+		core->cur_process.ret = SYNTAX_ERROR;
 		return (TRUE);
 	}
 	return (FALSE);

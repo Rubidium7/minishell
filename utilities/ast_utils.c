@@ -34,14 +34,30 @@ t_token	*last_node(t_token *current, t_token *end)
 	return (current);
 }
 
-int	find_node(t_token *current, t_token_type type, int end_index)
+int	token_after_parentheses(t_token *current, int end_index)
 {
-	while (current && current->type != type
-	&& current->position != end_index)
+	int	parentheses;
+	int	start;
+
+	parentheses = 0;
+	start = current->position;
+	while (current && current->position != end_index)
+	{
+		if (current->type == LPAR)
+			parentheses++;
+		else if (current->type == RPAR)
+		{
+			parentheses--;
+			if (parentheses == 0)
+			{
+				if (!current->next)
+					return (UNEXPECTED_NL);
+				return (current->next->position);
+			}
+		}
 		current = current->next;
-	if (!current || current->type != type)
-		return (0);
-	return (current->position);
+	}
+	return (start);
 }
 
 int	find_logic_token(t_token *current, int end_index)

@@ -27,6 +27,8 @@ void	process_line(t_shell *core, char *input)
 	indexify_token_list(core->tokens);
 	//print_token_list(core->tokens, OFF); //debug
 	parse(core);
+	if (!core->cur_process.tree)
+		return (empty_token_list(core->tokens));
 	//print_token_list(core->tokens, OFF); //debug
 //	if (!core->cur_process.tree_head)
 //		return ;

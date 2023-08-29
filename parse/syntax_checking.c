@@ -14,8 +14,12 @@
 
 t_ast	*error_in_parsing(t_shell *core, t_token *head)
 {
+	core->cur_process.ret = SYNTAX_ERROR;
 	if (core->cur_process.error_index == MALLOC_FAIL)
+	{
 		error_print(PARSE_ERROR);
+		core->cur_process.ret = PARSE_ERROR;
+	}
 	else if (core->cur_process.error_index == UNEXPECTED_NL)
 		syntax_error(UNEXPECTED_NL, NULL);
 	else 
@@ -31,7 +35,6 @@ t_ast	*syntax_check(t_token *head, t_shell *core)
 	core->cur_process.error_index = DEFAULT;
 	tree = form_tree(head, NULL, INT_MAX, &core->cur_process.error_index);
 	if (core->cur_process.error_index != DEFAULT)
-		error_in_parsing(core, head); //free_tree
+		return (error_in_parsing(core, head), free_tree(tree));
 	return (tree);
-	//https://i.kym-cdn.com/photos/images/newsfeed/001/889/888/265.jpeg
 }

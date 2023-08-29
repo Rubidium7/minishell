@@ -54,7 +54,22 @@ void	empty_pipeline_list(t_pipeline *current)
 	}
 }
 
+t_ast	*free_tree(t_ast *tree)
+{
+	if (!tree)
+		return (NULL);
+	if (tree->left)
+		free_tree(tree->left);
+	if (tree->right)
+		free_tree(tree->right);
+	if (tree->pipeline)
+		empty_pipeline_list(tree->pipeline);
+	free(tree);
+	return (NULL);
+}
+
 void	clean_up(t_shell *core)
 {
 	empty_token_list(core->tokens);
+	free_tree(core->cur_process.tree);
 }

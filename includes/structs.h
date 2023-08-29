@@ -26,7 +26,8 @@ typedef enum e_error
 {
 	SUCCESS,
 	FAILURE,
-	SETUP_ERROR = 259,
+	SYNTAX_ERROR = 258,
+	SETUP_ERROR,
 	TOKEN_ERROR,
 	PARSE_ERROR
 } t_error_code;
@@ -124,7 +125,7 @@ typedef struct s_current_process
 {
 	char	*input_line;
 	int		error_index;
-	t_ast	*tree_head;
+	t_ast	*tree;
 	int		ret;
 }	t_current_process;
 
