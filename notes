@@ -1,0 +1,3 @@
+add //debug to lines that need to be removed for eval
+tree syntax checking seems to function, haven't fixed the leaks yet tho
+report found syntax bugs to notes
