@@ -27,10 +27,35 @@ t_token	*node_at_index(t_token *current, int end_index)
 	return (current);
 }
 
-t_token	*last_node(t_token *current, t_token *end)
+int		previous_position(t_token *head, t_token *last)
 {
-	while (current->next != end)
+	t_token	*current;
+
+	if (!head)
+		return (0);
+	current = head;
+	while (current && current->next != last)
 		current = current->next;
+	if (!current)
+		return (previous_position(head, current));
+	return (current->position);
+}
+
+t_token	*right_brace(t_token *current, t_token *end)
+{
+	int	parentheses;
+
+	parentheses = 0;
+	while (current->next != end)
+	{
+		if (current->type == LPAR)
+			parentheses++;
+		else if (current->type == RPAR && parentheses == 0)
+			return (current);
+		else if (current->type == RPAR)
+			parentheses--;
+		current = current->next;
+	}
 	return (current);
 }
 

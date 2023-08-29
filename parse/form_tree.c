@@ -30,9 +30,9 @@ t_token	*remove_braces(t_token *start, t_token *end, int *error_index)
 	if (start->type == LPAR)
 	{
 		new_start = start->next;
-		end = last_node(start, end);
-		if (end->type != RPAR)
-			return (handle_error_value(error_index, start->position), NULL);
+		end = right_brace(new_start, end);
+		if (!end || end->type != RPAR)
+			return (print_token(end, ON), handle_error_value(error_index, start->position), NULL);
 	}
 	return (new_start);
 }
@@ -45,15 +45,17 @@ t_ast	*branch_out(t_token *start, t_ast *up, int end_index, int *error_index)
 
 	if (!start || find_logic_token(start, end_index) == start->position)
 		return (handle_error_value(error_index, end_index), NULL);
-	//print_token(start, ON); //debug
 	new_start = remove_braces(start, node_at_index(start, end_index), error_index);
 	if (!new_start)
 		return (NULL);
 	if (new_start != start)
 	{
-		temp = last_node(new_start, node_at_index(new_start, end_index));
+		temp = right_brace(new_start, node_at_index(new_start, end_index));
 		if (temp)
-			end_index = temp->position;
+		{
+			end_index = previous_position(new_start, temp);
+			start = remove_from_token_list(start, temp);
+		}
 		//printf("end index is %d\n", end_index); //debug
 	}
 	index = find_logic_token(new_start, end_index);
@@ -70,8 +72,9 @@ t_ast	*form_tree(t_token *start, t_ast *up, int end_index, int *error_index)
 	if (*error_index == MALLOC_FAIL)
 		return (NULL);
 	index = find_logic_token(start, end_index);
-	//printf("index is %d\n", index);
-	//printf("end index is %d\n", end_index);
+	//printf("logic index is %d\n", index); //debug
+	//printf("start index is %d\n", start->position); //debug
+	//printf("end index is %d\n", end_index); //debug
 	if (index == PARENTHESES_ERROR)
 	{
 		index = token_after_parentheses(start, end_index);

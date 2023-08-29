@@ -26,9 +26,10 @@ _PARSE := parse.c preliminary_syntax_checks.c \
 		form_tree.c syntax_checking.c \
 		form_command_list.c form_pipeline.c
 _SETUP := set_data.c set_input_mode.c signal_handlers.c
-_UTILS := array_utils.c exiting.c errors.c \
-		cleaners.c character_utils.c tokenizing_utils.c \
-		debug_utils.c ast_utils.c
+_UTILS := array_utils.c list_utils.c character_utils.c \
+		tokenizing_utils.c debug_utils.c ast_utils.c \
+		exiting.c errors.c cleaners.c
+		
 
 ALL_SRCS := $(addprefix $(CORE_DIR), $(_CORE)) \
 			$(addprefix $(TOKENIZE_DIR), $(_TOKENIZE)) \

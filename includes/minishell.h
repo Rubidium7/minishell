@@ -83,6 +83,9 @@ void	ctrl_d_handler(t_shell *core);
 void	free_ar(char **array);
 char	**copy_array(char **src);
 
+//list_utils.c
+t_token	*remove_from_token_list(t_token *head, t_token *target);
+
 //tokenizing_utils.c
 char	*get_quoted_word(char *str, size_t *i, int quote, t_token *new);
 char	*get_word_token(char *str, size_t *i);
@@ -98,13 +101,15 @@ t_bool	is_redir(t_token_type type);
 //debug_utils.c
 void	print_token_list(t_token *current, int print_quotes);
 void	print_token(t_token *token, int new_line);
+void	print_tree_in_execution_order(t_ast *tree);
 void	print_ar(char **array);
 
 //ast_utils.c
 t_ast	*new_ast_node(t_ast *up, t_pipeline *head, \
 	t_token_type type, int *error_index);
 t_token	*node_at_index(t_token *current, int end_index);
-t_token	*last_node(t_token *current, t_token *end);
+int		previous_position(t_token *head, t_token *last);
+t_token	*right_brace(t_token *current, t_token *end);
 int		token_after_parentheses(t_token *current, int end_index);	
 int		find_logic_token(t_token *current, int end_index);
 

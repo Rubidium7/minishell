@@ -99,6 +99,44 @@ void	print_token(t_token *token, int new_line)
 		printf("\n");
 }
 
+void	print_pipeline_list(t_pipeline *pipeline)
+{
+	t_token	*current;
+
+	if (!pipeline)
+		return ;
+	current = pipeline->start;
+	while (current != pipeline->end)
+	{
+		print_token(current, OFF);
+		if (current->next != pipeline->end)
+			printf(" ");
+		current = current->next;
+	}
+}
+
+void	print_tree_in_execution_order(t_ast *tree)
+{
+	t_pipeline	*current;
+
+	if (!tree)
+		return ;
+	if (tree->left)
+		print_tree_in_execution_order(tree->left);
+	if (tree->right)
+		print_tree_in_execution_order(tree->right);
+	current = tree->pipeline;
+	while (current)
+	{
+		print_pipeline_list(current);
+		if (current->next)
+			printf(" | ");
+		current = current->next;
+		if (!current)
+			printf("\n");
+	}
+}
+
 void	print_ar(char **array)
 {
 	int i = 0;
