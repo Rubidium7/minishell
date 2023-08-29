@@ -31,11 +31,15 @@ typedef enum e_error
 	PARSE_ERROR
 } t_error_code;
 
-typedef enum e_internal_error
+typedef enum e_internal_values
 {
+	OFF,
+	ON,
 	DEFAULT = -1,
 	MALLOC_FAIL = -2,
-} t_internal_error;
+	PARENTHESES_ERROR = -3,
+	NO_LOGIC = -4
+} t_internal_values;
 
 typedef enum e_syntax_error
 {
@@ -110,7 +114,7 @@ typedef struct s_pipeline
 typedef struct s_ast
 {
 	t_pipeline		*pipeline;
-	t_ast_type		type;
+	t_token_type	type;
 	struct s_ast	*up;
 	struct s_ast	*right;
 	struct s_ast	*left;

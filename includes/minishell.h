@@ -57,7 +57,7 @@ t_bool		preliminary_syntax_check(t_shell *core);
 t_ast		*syntax_check(t_token *head, t_shell *core);
 
 //form_tree.c
-t_ast		*form_tree(t_token *start, t_ast *up, int end_index, t_shell *core);
+t_ast		*form_tree(t_token *start, t_ast *up, int end_index, int *error_index);
 
 //form_pipeline.c
 t_pipeline	*form_pipeline(t_token *head_token, int end_index, int *error_index);
@@ -102,7 +102,7 @@ void	print_ar(char **array);
 
 //ast_utils.c
 t_ast	*new_ast_node(t_ast *up, t_pipeline *head, \
-	t_token_type type, t_shell *core);
+	t_token_type type, int *error_index);
 t_token	*node_at_index(t_token *current, int end_index);
 t_token	*last_node(t_token *current, t_token *end);
 int		find_node(t_token *current, t_token_type type, int end_index);

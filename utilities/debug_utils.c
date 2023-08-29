@@ -65,7 +65,9 @@ void	print_token_list(t_token *current, int print_quotes)
 
 void	print_token(t_token *token, int new_line)
 {
-	if (token->type == HEAD)
+	if (!token)
+		printf("(null)");
+	else if (token->type == HEAD)
 		printf("HEAD");
 	else if (token->type == WORD)
 		printf("'%s'", token->content);

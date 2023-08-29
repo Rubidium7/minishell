@@ -8,7 +8,7 @@ COLOUR_BLUE=\033[0;34m
 COLOUR_END=\033[0m
 
 #Flags
-FLAGS = -Wall -Werror -Wextra -I includes
+FLAGS = -Wall -Werror -Wextra -I includes -g
 READLINE = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 
 #Directory locations
@@ -23,7 +23,8 @@ OBJS_DIR = obj/
 _CORE := main.c process_line.c
 _TOKENIZE := clean_token_list.c tokenize.c redirections_filenames.c
 _PARSE := parse.c preliminary_syntax_checks.c \
-		syntax_checking.c form_command_list.c form_pipeline.c
+		form_tree.c syntax_checking.c \
+		form_command_list.c form_pipeline.c
 _SETUP := set_data.c set_input_mode.c signal_handlers.c
 _UTILS := array_utils.c exiting.c errors.c \
 		cleaners.c character_utils.c tokenizing_utils.c \

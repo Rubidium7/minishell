@@ -13,9 +13,6 @@
 #ifndef DEFINES_H
 # define DEFINES_H
 
-# define ON 1
-# define OFF 0
-# define NO_LOGIC -1
 # define INT_MAX 2147483647
 # define INT_MIN -2147483648
 

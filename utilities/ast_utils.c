@@ -2,14 +2,14 @@
 #include "minishell.h"
 
 t_ast	*new_ast_node(t_ast *up, t_pipeline *head, \
-	t_token_type type, t_shell *core)
+	t_token_type type, int *error_index)
 {
 	t_ast	*new;
 
 	new = malloc(sizeof(t_ast));
 	if (!new)
 	{
-		core->cur_process.error_index = MALLOC_FAIL;
+		*error_index = MALLOC_FAIL;
 		return (NULL);
 	}
 	new->right = NULL;
@@ -46,11 +46,10 @@ int	find_node(t_token *current, t_token_type type, int end_index)
 
 int	find_logic_token(t_token *current, int end_index)
 {
-	int index[2];
+	int index;
 	int parentheses;
 
-	index[0] = -1;
-	index[1] = -1;
+	index = NO_LOGIC;
 	parentheses = 0;
 	while (current && current->position != end_index)
 	{
@@ -60,13 +59,39 @@ int	find_logic_token(t_token *current, int end_index)
 			parentheses--;	
 		else if (current->type == OR || current->type == AND)
 		{
-			if (index[0] == -1 || index[1] >= parentheses)
-			{
-				index[0] = current->position;
-				index[1] = parentheses;
-			}
+			if (parentheses == 0)
+				index = current->position;
+			else if (index == NO_LOGIC)
+				index = PARENTHESES_ERROR;
 		}
 		current = current->next;
 	}
-	return (index[0]);
+	return (index);
 }
+
+// int	find_logic_token(t_token *current, int end_index)
+// {
+// 	int index[2];
+// 	int parentheses;
+
+// 	index[0] = DEFAULT;
+// 	index[1] = DEFAULT;
+// 	parentheses = 0;
+// 	while (current && current->position != end_index)
+// 	{
+// 		if (current->type == LPAR)
+// 			parentheses++;
+// 		else if (current->type == RPAR)
+// 			parentheses--;	
+// 		else if (current->type == OR || current->type == AND)
+// 		{
+// 			if (index[0] == -1 || index[1] >= parentheses)
+// 			{
+// 				index[0] = current->position;
+// 				index[1] = parentheses;
+// 			}
+// 		}
+// 		current = current->next;
+// 	}
+// 	return (index[0]);
+// }

@@ -7,6 +7,7 @@ t_bool	incorrect_token_in_pipeline(t_token *current, t_token *end, int *error_in
 	//printf("entering the loop..\n"); //debug
 	if (current == end)
 	{
+		//printf("current == end\n"); //debug
 		*error_index = current->position;
 		return (TRUE);
 	}
@@ -51,18 +52,21 @@ t_pipeline	*form_pipeline_node(t_pipeline *head_pipe, \
 
 void	check_last_segment(t_token *last, t_token *head, int *error_index)
 {
+	//printf("last next is "); //debug
+	//print_token(last->next, ON); //debug
 	incorrect_token_in_pipeline(head, last->next, error_index);
 	if (*error_index == head->position)
 		;
 	else if (node_at_index(head, *error_index)
 		&& node_at_index(head, *error_index)->type == AMPERSAND)
 		;
-	else if (*error_index == last->position)
+	else if (*error_index == last->position && last->type != RPAR)
 	{
 		if (!last->next)
 			*error_index = UNEXPECTED_NL;
 		else
 			*error_index = last->next->position;
+		//printf("here error\n"); //debug
 	}
 }
 
@@ -73,7 +77,9 @@ t_pipeline	*form_pipeline(t_token *head_token, int end_index, int *error_index)
 
 	current_token = head_token;
 	head_pipe = NULL;
-	while (current_token->next && current_token->next->position != end_index)
+	//printf("current index %d end index %d\n", current_token->position, end_index); //debug
+	//print_token(current_token, ON); //debug
+	while (current_token->next && current_token->next->position < end_index)
 	{
 		if (current_token->type == PIPE)
 		{

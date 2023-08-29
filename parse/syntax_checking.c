@@ -29,9 +29,9 @@ t_ast	*syntax_check(t_token *head, t_shell *core)
 	t_ast		*tree;
 
 	core->cur_process.error_index = DEFAULT;
-	tree = form_tree(head, NULL, INT_MAX, core);
+	tree = form_tree(head, NULL, INT_MAX, &core->cur_process.error_index);
 	if (core->cur_process.error_index != DEFAULT)
-		error_in_parsing(core, head);
+		error_in_parsing(core, head); //free_tree
 	return (tree);
-	return (NULL);
+	//https://i.kym-cdn.com/photos/images/newsfeed/001/889/888/265.jpeg
 }
