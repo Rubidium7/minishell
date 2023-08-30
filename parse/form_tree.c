@@ -30,9 +30,9 @@ t_token	*remove_braces(t_token *start, t_token *end, int *error_index)
 	if (start->type == LPAR)
 	{
 		new_start = start->next;
-		end = right_brace(new_start, end);
+		end = last_node(new_start, end);
 		if (!end || end->type != RPAR)
-			return (print_token(end, ON), handle_error_value(error_index, start->position), NULL);
+			return (handle_error_value(error_index, start->position), NULL);
 	}
 	return (new_start);
 }
@@ -40,28 +40,20 @@ t_token	*remove_braces(t_token *start, t_token *end, int *error_index)
 t_ast	*branch_out(t_token *start, t_ast *up, int end_index, int *error_index)
 {
 	t_token	*new_start;
-	t_token	*temp;
 	int		index;
 
-	if (!start || find_logic_token(start, end_index) == start->position)
+	if (!start) // || find_logic_token(start, end_index) == start->position
 		return (handle_error_value(error_index, end_index), NULL);
-	new_start = remove_braces(start, node_at_index(start, end_index), error_index);
-	if (!new_start)
-		return (NULL);
-	if (new_start != start)
+	index = find_logic_token(start, end_index);
+	if (index == PARENTHESES_ERROR)
 	{
-		temp = right_brace(new_start, node_at_index(new_start, end_index));
-		if (temp)
-		{
-			end_index = previous_position(new_start, temp);
-			start = remove_from_token_list(start, temp);
-		}
-		//printf("end index is %d\n", end_index); //debug
+		new_start = remove_braces(start, node_at_index(start, end_index), error_index);
+		if (!new_start)
+			return (NULL);
+		end_index = last_node(new_start, node_at_index(start, end_index))->position;
+		start = new_start;
 	}
-	index = find_logic_token(new_start, end_index);
-	if (index == NO_LOGIC && new_start != start)
-		return (handle_error_value(error_index, start->position), NULL);
-	return (form_tree(new_start, up, end_index, error_index));
+	return (form_tree(start, up, end_index, error_index));
 }
 
 t_ast	*form_tree(t_token *start, t_ast *up, int end_index, int *error_index)

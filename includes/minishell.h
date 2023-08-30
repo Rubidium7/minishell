@@ -109,6 +109,7 @@ t_ast	*new_ast_node(t_ast *up, t_pipeline *head, \
 	t_token_type type, int *error_index);
 t_token	*node_at_index(t_token *current, int end_index);
 int		previous_position(t_token *head, t_token *last);
+t_token	*last_node(t_token *current, t_token *end);
 t_token	*right_brace(t_token *current, t_token *end);
 int		token_after_parentheses(t_token *current, int end_index);	
 int		find_logic_token(t_token *current, int end_index);

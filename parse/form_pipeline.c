@@ -7,15 +7,17 @@ t_bool	incorrect_token_in_pipeline(t_token *current, t_token *end, int *error_in
 	//printf("entering the loop..\n"); //debug
 	if (current == end)
 	{
-		//printf("current == end\n"); //debug
+	//	printf("current == end\n"); //debug
 		*error_index = current->position;
 		return (TRUE);
 	}
 	while (current != end)
 	{
-		//print_token(current, ON); //debug
+	//	print_token(current, ON); //debug
 		if (current->type != WORD && !is_redir(current->type))
 		{
+	//		printf("error token: ");
+	//		print_token(current, ON); //debug
 			*error_index = current->position;
 			return (TRUE);
 		}

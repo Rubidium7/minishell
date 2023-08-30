@@ -41,23 +41,31 @@ int		previous_position(t_token *head, t_token *last)
 	return (current->position);
 }
 
-t_token	*right_brace(t_token *current, t_token *end)
+t_token	*last_node(t_token *current, t_token *end)
 {
-	int	parentheses;
-
-	parentheses = 0;
 	while (current->next != end)
-	{
-		if (current->type == LPAR)
-			parentheses++;
-		else if (current->type == RPAR && parentheses == 0)
-			return (current);
-		else if (current->type == RPAR)
-			parentheses--;
 		current = current->next;
-	}
 	return (current);
 }
+
+
+// t_token	*right_brace(t_token *current, t_token *end)
+// {
+// 	int	parentheses;
+
+// 	parentheses = 0;
+// 	while (current->next != end)
+// 	{
+// 		if (current->type == LPAR)
+// 			parentheses++;
+// 		else if (current->type == RPAR && parentheses == 0)
+// 			return (current);
+// 		else if (current->type == RPAR)
+// 			parentheses--;
+// 		current = current->next;
+// 	}
+// 	return (current);
+// }
 
 int	token_after_parentheses(t_token *current, int end_index)
 {
