@@ -39,7 +39,8 @@ typedef enum e_internal_values
 	DEFAULT = -1,
 	MALLOC_FAIL = -2,
 	PARENTHESES_ERROR = -3,
-	NO_LOGIC = -4
+	NO_LOGIC = -4,
+	NOT_FOUND = -5
 } t_internal_values;
 
 typedef enum e_syntax_error

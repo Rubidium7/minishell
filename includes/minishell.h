@@ -85,6 +85,7 @@ char	**copy_array(char **src);
 
 //list_utils.c
 t_token	*remove_from_token_list(t_token *head, t_token *target);
+int		find_token(t_token *start, int end_index, t_token_type type);
 
 //tokenizing_utils.c
 char	*get_quoted_word(char *str, size_t *i, int quote, t_token *new);

@@ -61,7 +61,7 @@ t_ast	*form_tree(t_token *start, t_ast *up, int end_index, int *error_index)
 	t_ast	*new;
 	int		index;
 
-	if (*error_index == MALLOC_FAIL)
+	if (*error_index == MALLOC_FAIL || !start)
 		return (NULL);
 	index = find_logic_token(start, end_index);
 	//printf("logic index is %d\n", index); //debug
@@ -69,7 +69,10 @@ t_ast	*form_tree(t_token *start, t_ast *up, int end_index, int *error_index)
 	//printf("end index is %d\n", end_index); //debug
 	if (index == PARENTHESES_ERROR)
 	{
-		index = token_after_parentheses(start, end_index);
+		if (start->type == LPAR)
+			index = token_after_parentheses(start, end_index);
+		else
+			index = find_token(start, end_index, LPAR);
 		return (handle_error_value(error_index, index), NULL);
 	}
 	if (index == NO_LOGIC)

@@ -28,3 +28,12 @@ t_token	*remove_from_token_list(t_token *head, t_token *target)
 	free(tmp);
 	return (head);
 }
+
+int	find_token(t_token *current, int end_index, t_token_type type)
+{
+	while (current && current->position != end_index && current->type != type)
+		current = current->next;
+	if (!current || current->position == end_index || current->type != type)
+		return (NOT_FOUND);
+	return (current->position);
+}
