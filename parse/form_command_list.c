@@ -64,10 +64,10 @@ t_command	*form_command_list(t_pipeline *pipeline, t_shell *core)
 
 t_bool	format_commands(t_ast *tree, t_shell *core)
 {
-	if (!tree)
-		return (FALSE);
 	if (core->cur_process.error_index)
 		return (TRUE);
+	if (!tree)
+		return (FALSE);
 	format_commands(tree->left, core);
 	format_commands(tree->right, core);
 	if (tree->pipeline)
