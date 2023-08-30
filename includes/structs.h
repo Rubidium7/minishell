@@ -89,6 +89,7 @@ typedef struct s_command
 	char				**cmd_ar;
 	int					red_in;
 	int					red_out;
+	char				*heredoc_file; //<- lera don't mind this o.o
 	int					index;
 	struct s_command	*next;
 }	t_command;
@@ -116,6 +117,7 @@ typedef struct s_pipeline
 typedef struct s_ast
 {
 	t_pipeline		*pipeline;
+	t_command		*command_list;
 	t_token_type	type;
 	struct s_ast	*up;
 	struct s_ast	*right;
@@ -126,6 +128,7 @@ typedef struct s_current_process
 {
 	char	*input_line;
 	int		error_index;
+	int		heredoc_index;
 	t_ast	*tree;
 	int		ret;
 }	t_current_process;
@@ -136,7 +139,6 @@ typedef struct s_env
 	char			*content;
 	struct s_env	*next;
 }	t_env;
-
 
 typedef struct s_shell
 {

@@ -18,5 +18,11 @@ void	parse(t_shell *core)
 	if (!core->cur_process.tree)
 		return ;
 	print_tree_in_execution_order(core->cur_process.tree); //debug
-	//https://i.kym-cdn.com/photos/images/newsfeed/001/889/888/265.jpeg
+	if (!format_commands(core->cur_process.tree, core))
+	{
+		free_tree(core->cur_process.tree);
+		core->cur_process.tree = NULL;
+		if (core->cur_process.error_index == MALLOC_FAIL)
+			error_print(PARSE_ERROR);
+	}
 }

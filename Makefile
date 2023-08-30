@@ -16,6 +16,7 @@ CORE_DIR = core/
 TOKENIZE_DIR = tokenize/
 PARSE_DIR = parse/
 SETUP_DIR = setup/
+RE_DIR = redirections/
 UTILS_DIR = utilities/
 OBJS_DIR = obj/
 
@@ -26,6 +27,7 @@ _PARSE := parse.c preliminary_syntax_checks.c \
 		form_tree.c syntax_checking.c \
 		form_command_list.c form_pipeline.c
 _SETUP := set_data.c set_input_mode.c signal_handlers.c
+_REDIR := redirections.c heredoc.c
 _UTILS := array_utils.c list_utils.c character_utils.c \
 		tokenizing_utils.c debug_utils.c ast_utils.c \
 		exiting.c errors.c cleaners.c
@@ -35,9 +37,10 @@ ALL_SRCS := $(addprefix $(CORE_DIR), $(_CORE)) \
 			$(addprefix $(TOKENIZE_DIR), $(_TOKENIZE)) \
 			$(addprefix $(PARSE_DIR), $(_PARSE)) \
 			$(addprefix $(SETUP_DIR), $(_SETUP)) \
+			$(addprefix $(RE_DIR), $(_REDIR)) \
 			$(addprefix $(UTILS_DIR), $(_UTILS))
 
-SRCS = $(_CORE) $(_TOKENIZE) $(_PARSE) $(_SETUP) $(_UTILS)
+SRCS = $(_CORE) $(_TOKENIZE) $(_PARSE) $(_SETUP) $(_REDIR) $(_UTILS)
 OBJ_FILES = $(SRCS:.c=.o)
 OBJS = $(patsubst %, $(OBJS_DIR)%, $(SRCS:.c=.o))
 
@@ -71,6 +74,10 @@ $(OBJS_DIR)%.o: $(PARSE_DIR)%.c
 	@echo "$(COLOUR_BLUE)$@ created$(COLOUR_END)"
 
 $(OBJS_DIR)%.o: $(SETUP_DIR)%.c
+	@cc $(FLAGS) -c $< -o $@ 
+	@echo "$(COLOUR_BLUE)$@ created$(COLOUR_END)"
+
+$(OBJS_DIR)%.o: $(RE_DIR)%.c
 	@cc $(FLAGS) -c $< -o $@ 
 	@echo "$(COLOUR_BLUE)$@ created$(COLOUR_END)"
 

@@ -63,7 +63,8 @@ t_ast		*form_tree(t_token *start, t_ast *up, int end_index, int *error_index);
 t_pipeline	*form_pipeline(t_token *head_token, int end_index, int *error_index);
 
 //form_command_list.c
-t_command	*form_command_list(t_token *current, int end_index, int *error_index);
+t_command	*form_command_list(t_pipeline *pipeline, t_shell *core);
+t_bool		format_commands(t_ast *tree, t_shell *core);
 
 //setup
 

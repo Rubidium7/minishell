@@ -16,6 +16,7 @@ t_ast	*new_ast_node(t_ast *up, t_pipeline *head, \
 	new->left = NULL;
 	new->up = up;
 	new->pipeline = head;
+	new->command_list = NULL;
 	new->type = type;
 	return (new);
 }
@@ -25,6 +26,7 @@ t_token	*node_at_index(t_token *current, int end_index)
 	while (current && current->position != end_index)
 		current = current->next;
 	return (current);
+	//https://i.kym-cdn.com/photos/images/newsfeed/001/889/888/265.jpeg
 }
 
 int		previous_position(t_token *head, t_token *last)

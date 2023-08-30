@@ -4,3 +4,4 @@ report found syntax bugs to notes
 putting something like '(cmd1 | cmd2 || cmd3) && cmd4 || cmd5' doesn't work correctly in the tree formation..
 cmd1(cmd2 && cmd3) && cmd4) does not behave correctly
 above syntax error bugs fixed
+still need to make sure that redir syntax errors don't the precedence over others
