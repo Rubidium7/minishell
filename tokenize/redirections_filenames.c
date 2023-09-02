@@ -11,6 +11,7 @@ t_bool	save_redirection_filenames(t_token *current)
 		if (is_redir(current->type))
 		{
 			current->filename = current->next->content;
+			current->quote += current->next->quote;
 			tmp = current->next;
 			current->next = current->next->next;
 			free(tmp);

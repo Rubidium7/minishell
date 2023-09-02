@@ -21,9 +21,27 @@ void	empty_token_list(t_token *current)
 		prev = current;
 		if (current->content)
 			free(current->content);
+		if (current->filename)
+			free(current->filename);
 		current = current->next;
 		free(prev);
 	}
+}
+
+void	free_command_node(t_command *node)
+{
+	if (node->cmd_ar)
+		free_ar(node->cmd_ar);
+	if (node->red_in != DEFAULT)
+		close(node->red_in);
+	if (node->red_out != DEFAULT)
+		close(node->red_in);
+	if (node->heredoc_file)
+	{
+		unlink(node->heredoc_file);
+		free(node->heredoc_file);
+	}
+	free(node);
 }
 
 void	empty_command_list(t_command *current)
@@ -32,22 +50,9 @@ void	empty_command_list(t_command *current)
 
 	while (current)
 	{
-		if (current->cmd_name)
-			free(current->cmd_name);
-		if (current->cmd_ar)
-			free_ar(current->cmd_ar);
-		if (current->red_in != DEFAULT)
-			close(current->red_in);
-		if (current->red_out != DEFAULT)
-			close(current->red_in);
-		if (current->heredoc_file)
-		{
-			unlink(current->heredoc_file);
-			free(current->heredoc_file);
-		}
 		prev = current;
 		current = current->next;
-		free(prev);
+		free_command_node(prev);
 	}
 }
 

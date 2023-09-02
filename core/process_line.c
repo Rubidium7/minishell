@@ -14,6 +14,7 @@
 
 void	process_line(t_shell *core, char *input)
 {
+	core->cur_process.heredoc_index = 0;
 	core->tokens = tokenize(input);
 	if (!core->tokens)
 		return ;

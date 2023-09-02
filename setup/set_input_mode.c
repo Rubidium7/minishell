@@ -27,6 +27,7 @@ void	ignore_signals(t_sig *signals)
 	signals->ignored.sa_handler = SIG_IGN;
 	sigemptyset(&signals->ignored.sa_mask);
 	sigaction(SIGINT, &signals->ignored, NULL);
+	sigaction(SIGQUIT, &signals->ignored, NULL);
 }
 
 void	set_termios(t_terminal *term)

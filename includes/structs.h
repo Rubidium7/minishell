@@ -27,6 +27,8 @@ typedef enum e_error
 	SUCCESS,
 	FAILURE,
 	SYNTAX_ERROR = 258,
+	MALLOC_ERROR,
+	OPEN_ERROR,
 	SETUP_ERROR,
 	TOKEN_ERROR,
 	PARSE_ERROR
@@ -40,7 +42,7 @@ typedef enum e_internal_values
 	MALLOC_FAIL = -2,
 	PARENTHESES_ERROR = -3,
 	NO_LOGIC = -4,
-	NOT_FOUND = -5
+	NOT_FOUND = -5,
 } t_internal_values;
 
 typedef enum e_syntax_error

@@ -16,7 +16,6 @@ void	set_start_data(t_shell *core, char **start_env)
 {
 	core->cur_process.ret = 0;
 	core->env_list = NULL;
-	core->cur_process.heredoc_index = 0;
 	core->env = copy_array(start_env);
 	if (!core->env)
 		exit(SETUP_ERROR);

@@ -137,6 +137,21 @@ void	print_tree_in_execution_order(t_ast *tree)
 	}
 }
 
+void	print_file(int read_fd, int write_fd)
+{
+	size_t	read_characters;
+	char	buffer[20];
+
+	read_characters = 1;
+	while (read_characters)
+	{
+		read_characters = read(read_fd, buffer, 20);
+		//printf("read [%zu] characters\n", read_characters); //debug
+		if (read_characters)
+			write(write_fd, buffer, ft_strlen(buffer));
+	}
+}
+
 void	print_ar(char **array)
 {
 	int i = 0;

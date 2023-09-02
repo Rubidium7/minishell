@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+void	heredoc_ctrl_c_handler(int signum)
+{
+	(void)signum;
+	exit (1);
+}
+
 void	ctrl_c_handler(int signum)
 {
 	(void)signum;

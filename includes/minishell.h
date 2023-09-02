@@ -66,6 +66,20 @@ t_pipeline	*form_pipeline(t_token *head_token, int end_index, int *error_index);
 t_command	*form_command_list(t_pipeline *pipeline, t_shell *core);
 t_bool		format_commands(t_ast *tree, t_shell *core);
 
+//redirections
+//redirections.c
+t_command	*open_redirections(t_command *new, t_pipeline *pipeline, t_shell *core);
+
+//heredoc.c
+t_command	*open_heredocs(t_command *new, t_pipeline *pipeline, t_shell *core);
+
+//heredoc_signals.c
+void	set_heredoc_mode(t_shell *core, int mode);
+
+//environment
+//environment_tools.c
+char	*fetch_env(const char *key, t_shell *core);
+
 //setup
 
 //set_data.c
@@ -73,9 +87,12 @@ void	set_start_data(t_shell *core, char **start_env);
 
 //set_input_mode.c
 void	set_input_mode_signals(t_sig *signals);
+void	ignore_signals(t_sig *signals);
+void	set_termios(t_terminal *term);
 void	set_input_mode(t_shell *core, int mode);
 
 //signal_handlers.c
+void	heredoc_ctrl_c_handler(int signum);
 void	ctrl_c_handler(int signum);
 void	ctrl_d_handler(t_shell *core);
 
@@ -104,6 +121,7 @@ t_bool	is_redir(t_token_type type);
 void	print_token_list(t_token *current, int print_quotes);
 void	print_token(t_token *token, int new_line);
 void	print_tree_in_execution_order(t_ast *tree);
+void	print_file(int read_fd, int write_fd);
 void	print_ar(char **array);
 
 //ast_utils.c
@@ -121,11 +139,13 @@ int		handle_exit(t_shell *core);
 
 //errors.c
 void	handle_error_value(int *error_index, int position);
+void	update_error_value(t_shell *core);
 void	error_print(t_error_code type);
 t_bool	syntax_error(t_syntax_error type, t_token *token);
 
 //cleaners.c
 void	empty_token_list(t_token *current);
+void	free_command_node(t_command *node);
 void	empty_command_list(t_command *current);
 void	empty_pipeline_list(t_pipeline *current);
 t_ast	*free_tree(t_ast *tree);
