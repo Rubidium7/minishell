@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 20:06:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/03 12:53:22 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:07:48 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "../includes/structs.h"
 #include "../includes/minishell.h"
 
-int main(int ac, char **av, char **ev)
+int old_main(int ac, char **av, char **ev)
 {
 	int 	fds[2];
 	pid_t	child;
@@ -77,9 +77,10 @@ int	**malloc_pipes(int num)
 	int	**res;
 	int	i;
 
-	res = malloc(sizeof(int*) * num);
+	res = malloc(sizeof(int*) * num + 1);
 	if (!res)
 		return (NULL);
+	res[num] = NULL;
 	i = 0;
 	while (i < num)
 	{
@@ -92,6 +93,22 @@ int	**malloc_pipes(int num)
 		i++;
 	}
 	return (res);
+}
+
+int open_pipes(int **pipes)
+{
+	int	i;
+
+	i = 0;
+	while (pipes[i])
+	{
+		if (pipe(pipes[i]) == -1)
+		{
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }
 
 int	list_len(t_command *list)
@@ -107,20 +124,45 @@ int	list_len(t_command *list)
 	return (res);
 }
 
-int mypipe(t_shell *shell, t_command *commands)
+int	execute_cmd(t_shell *shell, t_command *command)
+{
+	char	*args[2] = {"", NULL};
+
+	execve(ft_strjoin("/usr/bin/", command->cmd_name), args, shell->env_list);
+}
+
+int	pipeline_execution(t_command *head, t_shell *core)
 {
 	int			**pipes;
 	t_command	*temp;
+	int 		pipe_index;
+	int			in_fd;
 
-	pipes = malloc_pipes(list_len(commands));
+	pipes = malloc_pipes(list_len(head) - 1);
 	if (!pipes)
 		return (1);
-	temp = commands;
+	open_pipes(pipes);
+	temp = head;
 	// handle first and last case
+	pipe_index = 0;
 	while (temp)
 	{
-		while ()
+		if (temp->red_in)
+			in_fd = temp->red_in;
+		else
+			in_fd = pipes[pipe_index][0];
+		dup2(in_fd, 0);
+		close(pipes[pipe_index][1]);
+		close(pipes[pipe_index][0]);
 		temp = temp->next;
+		pipe_index++;
 	}
 	return (0);
+}
+
+int main()
+{
+	t_shell	*shell = malloc (sizeof(t_shell));
+	t_command *commands = malloc (sizeof(t_command));
+	
 }

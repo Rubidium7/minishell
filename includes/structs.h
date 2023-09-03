@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:24:10 by nlonka            #+#    #+#             */
-/*   Updated: 2023/08/21 11:31:35 by nlonka           ###   ########.fr       */
+/*   Updated: 2023/09/03 17:55:43 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ typedef enum e_error
 	OPEN_ERROR,
 	SETUP_ERROR,
 	TOKEN_ERROR,
-	PARSE_ERROR
+	PARSE_ERROR,
+	PIPE_ERROR,
 } t_error_code;
 
 typedef enum e_internal_values
