@@ -122,6 +122,7 @@ typedef struct s_ast
 	t_pipeline		*pipeline;
 	t_command		*command_list;
 	t_token_type	type;
+	int				return_value;
 	struct s_ast	*up;
 	struct s_ast	*right;
 	struct s_ast	*left;

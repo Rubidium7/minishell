@@ -108,7 +108,10 @@ t_bool	format_commands(t_ast *tree, t_shell *core)
 	format_commands(tree->left, core);
 	format_commands(tree->right, core);
 	if (tree->pipeline)
+	{
 		tree->command_list = form_command_list(tree->pipeline, core);
+		tree->return_value = pipeline_execution(core, tree->command_list);
+	}
 	if (core->cur_process.error_index != DEFAULT
 		|| core->cur_process.ret)
 		return (TRUE);
