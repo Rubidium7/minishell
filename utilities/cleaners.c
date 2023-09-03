@@ -36,11 +36,6 @@ void	free_command_node(t_command *node)
 		close(node->red_in);
 	if (node->red_out != DEFAULT)
 		close(node->red_in);
-	if (node->heredoc_file)
-	{
-		unlink(node->heredoc_file);
-		free(node->heredoc_file);
-	}
 	free(node);
 }
 
@@ -78,6 +73,11 @@ t_ast	*free_tree(t_ast *tree)
 		free_tree(tree->right);
 	if (tree->pipeline)
 		empty_pipeline_list(tree->pipeline);
+	if (tree->heredoc_file)
+	{
+		unlink(tree->heredoc_file);
+		free(tree->heredoc_file);
+	}
 	if (tree->command_list)
 		empty_command_list(tree->command_list);
 	free(tree);

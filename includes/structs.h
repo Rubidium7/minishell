@@ -91,7 +91,6 @@ typedef struct s_command
 	char				**cmd_ar;
 	int					red_in;
 	int					red_out;
-	char				*heredoc_file; //<- lera don't mind this o.o
 	int					index;
 	struct s_command	*next;
 }	t_command;
@@ -115,6 +114,12 @@ typedef struct s_pipeline
 	struct s_pipeline	*next;
 }	t_pipeline;
 
+typedef struct s_heredoc
+{
+	int					index;
+	char				*filename;
+	struct s_heredoc	*next;
+}	t_heredoc;
 
 typedef struct s_ast
 {
@@ -122,6 +127,7 @@ typedef struct s_ast
 	t_command		*command_list;
 	t_token_type	type;
 	int				return_value;
+	t_heredoc		*heredoc_list;
 	struct s_ast	*up;
 	struct s_ast	*right;
 	struct s_ast	*left;

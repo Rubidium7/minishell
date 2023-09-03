@@ -64,17 +64,20 @@ t_pipeline	*form_pipeline(t_token *head_token, int end_index, int *error_index);
 
 //form_command_list.c
 t_command	*form_command_list(t_pipeline *pipeline, t_shell *core);
-t_bool		format_commands(t_ast *tree, t_shell *core);
+t_bool		execute_tree(t_ast *tree, t_shell *core);
 
 //redirections
 //redirections.c
 t_command	*open_redirections(t_command *new, t_pipeline *pipeline, t_shell *core);
 
 //heredoc.c
-t_command	*open_heredocs(t_command *new, t_pipeline *pipeline, t_shell *core);
+t_heredoc	*open_heredocs(t_pipeline *pipeline, int index, t_shell *core);
 
 //heredoc_signals.c
 void	set_heredoc_mode(t_shell *core, int mode);
+
+//go_through_heredocs.c
+t_bool	go_through_heredocs(t_ast *tree, t_shell *core);
 
 //environment
 //environment_tools.c

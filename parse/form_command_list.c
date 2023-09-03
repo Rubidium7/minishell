@@ -42,12 +42,11 @@ static void	set_values(t_command *new, int index)
 	new->cmd_ar = NULL;
 	new->red_in = DEFAULT;
 	new->red_out = DEFAULT;
-	new->heredoc_file = NULL;
 	new->index = index;
 	new->next = NULL;
 }
 
-t_command	*form_command(t_pipeline *pipeline, int index, t_shell *core)
+t_command	*form_command(t_pipeline *pipeline, int index, t_shell *core, t_heredoc *heredoc)
 {
 	t_command	*new;
 	int			size;
@@ -67,10 +66,10 @@ t_command	*form_command(t_pipeline *pipeline, int index, t_shell *core)
 		return (free_ar(new->cmd_ar), free(new), NULL);
 	new->cmd_name = new->cmd_ar[0]; //we can decide if this should be malloced or not
 	core->cur_process.error_index = error_safe;
-	return (open_heredocs(new, pipeline, core));
+	return (open_redirections(new, pipeline, heredoc, core));
 }
 
-t_command	*form_command_list(t_pipeline *current, t_shell *core)
+t_command	*form_command_list(t_pipeline *current, t_shell *core, t_heredoc *heredoc)
 {
 	t_command	*head;
 	t_command	*current_command;
@@ -82,38 +81,36 @@ t_command	*form_command_list(t_pipeline *current, t_shell *core)
 	{
 		if (!head)
 		{
-			head = form_command(current, index, core);
+			head = form_command(current, index, core, heredoc);
 			current_command = head;
 		}
 		else
 		{
-			current_command->next = form_command(current, index, core);
+			current_command->next = form_command(current, index, core, heredoc);
 			current_command = current_command->next;
 		}
 		if (!current_command)
-			return (NULL);
+			return (empty_command_list(head), NULL);
 		index++;
 		current = current->next;
 	}
 	return (head);
 }
 
-t_bool	format_commands(t_ast *tree, t_shell *core)
+t_bool	execute_tree(t_ast *tree, t_shell *core)
 {
-	if (core->cur_process.error_index != DEFAULT
-		|| core->cur_process.ret)
+	if (core->cur_process.error_index != DEFAULT)
 		return (TRUE);
 	if (!tree)
 		return (FALSE);
-	format_commands(tree->left, core);
-	format_commands(tree->right, core);
+	execute_tree(tree->left, core);
+	execute_tree(tree->right, core);
 	if (tree->pipeline)
 	{
-		tree->command_list = form_command_list(tree->pipeline, core);
+		tree->command_list = form_command_list(tree->pipeline, core, tree->heredoc_list);
 		tree->return_value = pipeline_execution(core, tree->command_list);
 	}
-	if (core->cur_process.error_index != DEFAULT
-		|| core->cur_process.ret)
+	if (core->cur_process.error_index != DEFAULT)
 		return (TRUE);
 	return (FALSE);
 }
