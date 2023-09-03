@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:28:18 by nlonka            #+#    #+#             */
-/*   Updated: 2023/08/21 11:30:05 by nlonka           ###   ########.fr       */
+/*   Updated: 2023/09/03 21:01:46 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,5 +150,8 @@ void	empty_command_list(t_command *current);
 void	empty_pipeline_list(t_pipeline *current);
 t_ast	*free_tree(t_ast *tree);
 void	clean_up(t_shell *core);
+
+// piping.c
+int	pipeline_execution(t_shell *core, t_command *head);
 
 #endif

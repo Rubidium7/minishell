@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 20:06:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/03 21:01:19 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/03 21:31:33 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "../includes/structs.h"
 #include "../includes/minishell.h"
 
-int old_main(int ac, char **av, char **ev)
+/* int old_main(int ac, char **av, char **ev)
 {
 	int		fds[2];
 	pid_t	child;
@@ -35,9 +35,9 @@ int old_main(int ac, char **av, char **ev)
 	child2 = fork();
 	if (!child2)
 	{
-		/* if (red_in)
+		if (red_in)
 			in_fd = red_in;
-		else */
+		else
 			in_fd = fds[0];
 		dup2(in_fd, 0);
 		close(fds[1]);
@@ -45,7 +45,7 @@ int old_main(int ac, char **av, char **ev)
 		write(2, "grep yo\n", 8);
 	}
 	return (0);
-}
+} */
 
 char	**split_path(char* path)
 {
@@ -58,17 +58,18 @@ int	execute(t_shell *shell, char** paths, t_command *command)
 	char	*exe_path;
 
 	i = 0;
-	if (command->cmd_name[0] == '/' && access(exe_path, F_OK))
+	if (command->cmd_name[0] == '/' && access(exe_path, X_OK))
 		execve(command->cmd_name, command->cmd_ar, shell->env);
 	while (paths[i])
 	{
 		exe_path = ft_strjoin(paths[i], command->cmd_name);
-		if (access(exe_path, F_OK))
+		if (access(exe_path, X_OK))
 		{
 			execve(exe_path, command->cmd_ar, shell->env);
 		}
 	}
 	execve(exe_path, command->cmd_ar, shell->env);
+	return (0);
 	// Add check if directory etc
 }
 
@@ -151,7 +152,10 @@ int	execute_cmd(t_shell *shell, t_command *command)
 {
 	char	*args[2] = {"", NULL};
 
-	execve(ft_strjoin("/usr/bin/", command->cmd_name), args, shell->env_list);
+	ft_putendl_fd(command->cmd_name, 2);
+
+	execve(ft_strjoin("/bin/", command->cmd_name), args, shell->env);
+	return (0);
 }
 
 /* int	execute_node(t_command *head, t_shell *core)
@@ -166,6 +170,7 @@ int	pipeline_execution(t_shell *core, t_command *head)
 	int			pipe_index;
 	int			in_fd;
 	int			out_fd;
+	pid_t		*children;
 
 	pipes = malloc_pipes(list_len(head) - 1);
 	if (!pipes)
@@ -178,29 +183,37 @@ int	pipeline_execution(t_shell *core, t_command *head)
 		core->cur_process.error_index = PIPE_ERROR;
 		return (1);
 	}
+	children = malloc(sizeof(pid_t) * list_len(head));
 	curr_node = head;
 	// handle first and last case
 	pipe_index = 0;
 	while (curr_node)
 	{
-		if (curr_node->red_in != DEFAULT)
-			in_fd = curr_node->red_in;
-		else
-			in_fd = pipes[pipe_index][0];
-		dup2(in_fd, STDIN_FILENO);
-		if (curr_node->red_out != DEFAULT)
-			out_fd = curr_node->red_out;
-		else
+		children[pipe_index] = fork();
+		if (!children[pipe_index])
 		{
-			if (pipes[pipe_index + 1])
-				out_fd = pipes[pipe_index + 1][1];
+			if (curr_node->red_in != DEFAULT)
+				in_fd = curr_node->red_in;
 			else
-				out_fd = STDOUT_FILENO;
+				in_fd = pipes[pipe_index][0];
+			dup2(in_fd, STDIN_FILENO);
+			if (curr_node->red_out != DEFAULT)
+				out_fd = curr_node->red_out;
+			else
+			{
+				if (pipes[pipe_index + 1])
+					out_fd = pipes[pipe_index + 1][1];
+				else
+					out_fd = STDOUT_FILENO;
+			}
+			if (pipes[pipe_index])
+				dup2(out_fd, STDIN_FILENO);
+			
+			close(pipes[pipe_index][1]);
+			close(pipes[pipe_index][0]);
+			execute_cmd(core, curr_node);
 		}
-		if (pipes[pipe_index])
-			dup2(out_fd, STDIN_FILENO);
-		close(pipes[pipe_index][1]);
-		close(pipes[pipe_index][0]);
+		
 		curr_node = curr_node->next;
 		pipe_index++;
 	}
