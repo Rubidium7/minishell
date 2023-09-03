@@ -12,6 +12,29 @@
 
 #include "minishell.h"
 
+void	handle_error_value(int *error_index, int position)
+{
+	//printf("1 error position is %d\n", position); //debug
+	if (*error_index == DEFAULT)
+		*error_index = position;
+	else if (position != UNEXPECTED_NL && position < *error_index)
+		*error_index = position;
+	//printf("2 error position is %d\n", *error_index); //debug
+}
+
+void	update_error_value(t_shell *core)
+{
+	int	error;
+
+	error = core->cur_process.error_index;
+	if (error == MALLOC_FAIL)
+		core->cur_process.ret = MALLOC_ERROR;
+	else if (error == OPEN_ERROR)
+		core->cur_process.ret = OPEN_ERROR;
+	else if (error != DEFAULT && !core->cur_process.ret)
+		core->cur_process.ret = SYNTAX_ERROR;
+}
+
 void	error_print(t_error_code type)
 {
 	if (type == SETUP_ERROR)

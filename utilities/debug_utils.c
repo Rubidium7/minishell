@@ -65,7 +65,9 @@ void	print_token_list(t_token *current, int print_quotes)
 
 void	print_token(t_token *token, int new_line)
 {
-	if (token->type == HEAD)
+	if (!token)
+		printf("(null)");
+	else if (token->type == HEAD)
 		printf("HEAD");
 	else if (token->type == WORD)
 		printf("'%s'", token->content);
@@ -95,6 +97,59 @@ void	print_token(t_token *token, int new_line)
 		printf("(empty)");
 	if (new_line)
 		printf("\n");
+}
+
+void	print_pipeline_list(t_pipeline *pipeline)
+{
+	t_token	*current;
+
+	if (!pipeline)
+		return ;
+	current = pipeline->start;
+	while (current != pipeline->end)
+	{
+		print_token(current, OFF);
+		if (current->next != pipeline->end)
+			printf(" ");
+		current = current->next;
+	}
+}
+
+void	print_tree_in_execution_order(t_ast *tree)
+{
+	t_pipeline	*current;
+
+	if (!tree)
+		return ;
+	if (tree->left)
+		print_tree_in_execution_order(tree->left);
+	if (tree->right)
+		print_tree_in_execution_order(tree->right);
+	current = tree->pipeline;
+	while (current)
+	{
+		print_pipeline_list(current);
+		if (current->next)
+			printf(" | ");
+		current = current->next;
+		if (!current)
+			printf("\n");
+	}
+}
+
+void	print_file(int read_fd, int write_fd)
+{
+	size_t	read_characters;
+	char	buffer[20];
+
+	read_characters = 1;
+	while (read_characters)
+	{
+		read_characters = read(read_fd, buffer, 20);
+		//printf("read [%zu] characters\n", read_characters); //debug
+		if (read_characters)
+			write(write_fd, buffer, ft_strlen(buffer));
+	}
 }
 
 void	print_ar(char **array)

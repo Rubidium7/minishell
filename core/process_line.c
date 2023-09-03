@@ -14,6 +14,7 @@
 
 void	process_line(t_shell *core, char *input)
 {
+	core->cur_process.heredoc_index = 0;
 	core->tokens = tokenize(input);
 	if (!core->tokens)
 		return ;
@@ -27,6 +28,8 @@ void	process_line(t_shell *core, char *input)
 	indexify_token_list(core->tokens);
 	//print_token_list(core->tokens, OFF); //debug
 	parse(core);
+	if (!core->cur_process.tree)
+		return (empty_token_list(core->tokens));
 	//print_token_list(core->tokens, OFF); //debug
 //	if (!core->cur_process.tree_head)
 //		return ;

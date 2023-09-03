@@ -35,7 +35,7 @@ int main(int ac, char **av, char **ev)
 
 	set_start_data(&core, ev);
 	//print_ar(core.env);
-	while (37)
+	while (SHROOM_TIME)
 	{
 		set_input_mode(&core, ON);
 		readline_pretty(&core);

@@ -8,33 +8,42 @@ COLOUR_BLUE=\033[0;34m
 COLOUR_END=\033[0m
 
 #Flags
-FLAGS = -Wall -Werror -Wextra -I includes
+FLAGS = -Wall -Werror -Wextra -I includes -g
 READLINE = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 
-#Direcory locations
+#Directory locations
 CORE_DIR = core/
-PARSE_DIR = parsing/
+TOKENIZE_DIR = tokenize/
+PARSE_DIR = parse/
 SETUP_DIR = setup/
+RE_DIR = redirections/
+ENV_DIR = environment/
 UTILS_DIR = utilities/
 OBJS_DIR = obj/
 
 #Sources by folder
 _CORE := main.c process_line.c
-_PARSE := parse.c tokenize.c clean_token_list.c \
-		redirections_filenames.c preliminary_syntax_checks.c \
-		syntax_checking.c form_command_list.c form_pipeline.c 
-
+_TOKENIZE := clean_token_list.c tokenize.c redirections_filenames.c
+_PARSE := parse.c preliminary_syntax_checks.c \
+		form_tree.c syntax_checking.c \
+		form_command_list.c form_pipeline.c
 _SETUP := set_data.c set_input_mode.c signal_handlers.c
-_UTILS := array_utils.c exiting.c errors.c \
-		cleaners.c character_utils.c tokenizing_utils.c \
-		debug_utils.c ast_utils.c
+_REDIR := redirections.c heredoc.c heredoc_signals.c
+_ENV := environment_tools.c
+_UTILS := array_utils.c list_utils.c character_utils.c \
+		tokenizing_utils.c debug_utils.c ast_utils.c \
+		exiting.c errors.c cleaners.c
+		
 
 ALL_SRCS := $(addprefix $(CORE_DIR), $(_CORE)) \
+			$(addprefix $(TOKENIZE_DIR), $(_TOKENIZE)) \
 			$(addprefix $(PARSE_DIR), $(_PARSE)) \
 			$(addprefix $(SETUP_DIR), $(_SETUP)) \
+			$(addprefix $(RE_DIR), $(_REDIR)) \
+			$(addprefix $(ENV_DIR), $(_ENV)) \
 			$(addprefix $(UTILS_DIR), $(_UTILS))
 
-SRCS = $(_CORE) $(_PARSE) $(_SETUP) $(_UTILS)
+SRCS = $(_CORE) $(_TOKENIZE) $(_PARSE) $(_SETUP) $(_REDIR) $(_ENV) $(_UTILS)
 OBJ_FILES = $(SRCS:.c=.o)
 OBJS = $(patsubst %, $(OBJS_DIR)%, $(SRCS:.c=.o))
 
@@ -59,11 +68,23 @@ $(OBJS_DIR)%.o: $(CORE_DIR)%.c
 	@cc $(FLAGS) -c $< -o $@ 
 	@echo "$(COLOUR_BLUE)$@ created$(COLOUR_END)"
 
+$(OBJS_DIR)%.o: $(TOKENIZE_DIR)%.c
+	@cc $(FLAGS) -c $< -o $@ 
+	@echo "$(COLOUR_BLUE)$@ created$(COLOUR_END)"
+
 $(OBJS_DIR)%.o: $(PARSE_DIR)%.c
 	@cc $(FLAGS) -c $< -o $@ 
 	@echo "$(COLOUR_BLUE)$@ created$(COLOUR_END)"
 
 $(OBJS_DIR)%.o: $(SETUP_DIR)%.c
+	@cc $(FLAGS) -c $< -o $@ 
+	@echo "$(COLOUR_BLUE)$@ created$(COLOUR_END)"
+
+$(OBJS_DIR)%.o: $(RE_DIR)%.c
+	@cc $(FLAGS) -c $< -o $@ 
+	@echo "$(COLOUR_BLUE)$@ created$(COLOUR_END)"
+
+$(OBJS_DIR)%.o: $(ENV_DIR)%.c
 	@cc $(FLAGS) -c $< -o $@ 
 	@echo "$(COLOUR_BLUE)$@ created$(COLOUR_END)"
 

@@ -26,16 +26,24 @@ typedef enum e_error
 {
 	SUCCESS,
 	FAILURE,
-	SETUP_ERROR = 259,
+	SYNTAX_ERROR = 258,
+	MALLOC_ERROR,
+	OPEN_ERROR,
+	SETUP_ERROR,
 	TOKEN_ERROR,
 	PARSE_ERROR
 } t_error_code;
 
-typedef enum e_internal_error
+typedef enum e_internal_values
 {
+	OFF,
+	ON,
 	DEFAULT = -1,
 	MALLOC_FAIL = -2,
-} t_internal_error;
+	PARENTHESES_ERROR = -3,
+	NO_LOGIC = -4,
+	NOT_FOUND = -5,
+} t_internal_values;
 
 typedef enum e_syntax_error
 {
@@ -63,15 +71,6 @@ typedef enum e_token
 	EMPTY
 } t_token_type;
 
-typedef enum e_ast
-{
-	PIPELINE = 1,
-	AND_OPERATOR,
-	OR_OPERATOR,
-	NEW_LINE_ERROR,
-	WRONG_TOKEN_ERROR
-} t_ast_type;
-
 typedef struct s_terminal
 {
 	struct termios	new;
@@ -92,6 +91,7 @@ typedef struct s_command
 	char				**cmd_ar;
 	int					red_in;
 	int					red_out;
+	char				*heredoc_file; //<- lera don't mind this o.o
 	int					index;
 	struct s_command	*next;
 }	t_command;
@@ -119,9 +119,9 @@ typedef struct s_pipeline
 typedef struct s_ast
 {
 	t_pipeline		*pipeline;
-	t_ast_type		type;
+	t_command		*command_list;
+	t_token_type	type;
 	struct s_ast	*up;
-	struct s_ast	*first_condition;
 	struct s_ast	*right;
 	struct s_ast	*left;
 }	t_ast;
@@ -130,9 +130,17 @@ typedef struct s_current_process
 {
 	char	*input_line;
 	int		error_index;
-	t_ast	*tree_head;
+	int		heredoc_index;
+	t_ast	*tree;
 	int		ret;
 }	t_current_process;
+
+typedef struct s_env
+{
+	char			*key;
+	char			*content;
+	struct s_env	*next;
+}	t_env;
 
 typedef struct s_shell
 {
@@ -140,7 +148,8 @@ typedef struct s_shell
 	t_sig				signals;
 	t_token				*tokens;
 	t_current_process	cur_process;
-	char				**env;
+	t_env				*env_list;
+	char				**env; //to be replaced
 }	t_shell;
 
 #endif

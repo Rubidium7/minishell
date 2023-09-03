@@ -12,27 +12,29 @@
 
 #include "minishell.h"
 
+t_ast	*error_in_parsing(t_shell *core, t_token *head)
+{
+	core->cur_process.ret = SYNTAX_ERROR;
+	if (core->cur_process.error_index == MALLOC_FAIL)
+	{
+		error_print(PARSE_ERROR);
+		core->cur_process.ret = PARSE_ERROR;
+	}
+	else if (core->cur_process.error_index == UNEXPECTED_NL)
+		syntax_error(UNEXPECTED_NL, NULL);
+	else 
+		syntax_error(UNEXPECTED_TOKEN, \
+			node_at_index(head, core->cur_process.error_index));
+	return (NULL);	
+}
+
 t_ast	*syntax_check(t_token *head, t_shell *core)
 {
-	//t_ast		*tree;
-	t_pipeline	*pipeline;
-	int			index;
+	t_ast		*tree;
 
 	core->cur_process.error_index = DEFAULT;
-	index = find_logic_token(head);
-	if (index == -1)
-	{
-		pipeline = form_pipeline(head, INT_MAX, &core->cur_process.error_index);
-		if (!pipeline)
-		{
-			if (core->cur_process.error_index == MALLOC_FAIL)
-				return (error_print(PARSE_ERROR), NULL);
-			if (core->cur_process.error_index == UNEXPECTED_NL)
-				return (syntax_error(UNEXPECTED_NL, NULL), NULL);
-			return (syntax_error(UNEXPECTED_TOKEN, \
-			node_at_index(head, core->cur_process.error_index)), NULL);
-		}
-		return (new_ast_node(NULL, pipeline, PIPELINE));
-	}
-	return (NULL);
+	tree = form_tree(head, NULL, INT_MAX, &core->cur_process.error_index);
+	if (core->cur_process.error_index != DEFAULT)
+		return (error_in_parsing(core, head), free_tree(tree));
+	return (tree);
 }
