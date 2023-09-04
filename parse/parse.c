@@ -28,5 +28,6 @@ void	parse(t_shell *core)
 			|| core->cur_process.error_index == OPEN_ERROR)
 			error_print(PARSE_ERROR);
 	}
+	print_heredocs(core->cur_process.tree, ON); //debug
 	update_error_value(core);
 }

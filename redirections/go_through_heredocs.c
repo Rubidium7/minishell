@@ -33,24 +33,27 @@ t_heredoc	*make_heredoc_list(t_pipeline *current, t_shell *core)
 t_heredoc	*remove_heredoc_node(t_heredoc *head, int index)
 {
 	t_heredoc	*current;
+	t_heredoc	*tmp;
 
 	current = head;
+	if (head && head->index == index)
+	{
+		head = head->next;
+		free(current);
+		return (head);
+	}
 	while (current && current->next && current->next->index != index)
 		current = current->next;
 	if (!current || !current->next)
 		return (head);
-	if (current == head)
-	{
-		head = head->next;
-		free(current);
-	}
-	else
-
+	tmp = current->next;
+	current->next = current->next->next;
+	free(tmp);
 	return (head);
 }
 
 
-t_heredoc	*purge_heredoc_list(t_heredoc *head, t_pipeline *current, t_shell *core)
+t_heredoc	*purge_heredoc_list(t_heredoc *head, t_pipeline *current)
 {
 	t_token	*current_token;
 	int		use_heredoc;
@@ -71,6 +74,7 @@ t_heredoc	*purge_heredoc_list(t_heredoc *head, t_pipeline *current, t_shell *cor
 		}
 		if (use_heredoc == NO)
 			head = remove_heredoc_node(head, index);
+		index++;
 		current = current->next;
 	}
 	return (head);
@@ -88,7 +92,7 @@ t_bool	go_through_heredocs(t_ast *tree, t_shell *core)
 	if (tree->pipeline)
 	{
 		tree->heredoc_list = make_heredoc_list(tree->pipeline, core);
-		tree->heredoc_list = purge_heredoc_list(tree->heredoc_list, tree->pipeline, core);
+		tree->heredoc_list = purge_heredoc_list(tree->heredoc_list, tree->pipeline);
 	}
 	if (core->cur_process.error_index != DEFAULT 
 		|| core->cur_process.ret)

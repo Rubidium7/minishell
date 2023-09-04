@@ -74,6 +74,7 @@ t_heredoc	*heredoc(t_token *current, t_heredoc *new, int index, t_shell *core)
 		return (free(new), NULL);
 	core->cur_process.heredoc_index++;
 	new->index = index;
+	new->next = NULL;
 	fd = open(new->filename, O_CREAT | O_WRONLY, 0000644);
 	if (fd < 0)
 	{

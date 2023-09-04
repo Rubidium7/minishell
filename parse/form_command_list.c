@@ -66,7 +66,7 @@ t_command	*form_command(t_pipeline *pipeline, int index, t_shell *core, t_heredo
 		return (free_ar(new->cmd_ar), free(new), NULL);
 	new->cmd_name = new->cmd_ar[0]; //we can decide if this should be malloced or not
 	core->cur_process.error_index = error_safe;
-	return (open_redirections(new, pipeline, heredoc, core));
+	return (open_redirections(new, pipeline, heredoc, core), new);
 }
 
 t_command	*form_command_list(t_pipeline *current, t_shell *core, t_heredoc *heredoc)
@@ -108,7 +108,7 @@ t_bool	execute_tree(t_ast *tree, t_shell *core)
 	if (tree->pipeline)
 	{
 		tree->command_list = form_command_list(tree->pipeline, core, tree->heredoc_list);
-		tree->return_value = pipeline_execution(core, tree->command_list);
+		//tree->return_value = pipeline_execution(core, tree->command_list);
 	}
 	if (core->cur_process.error_index != DEFAULT)
 		return (TRUE);
