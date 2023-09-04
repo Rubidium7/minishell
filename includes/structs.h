@@ -26,6 +26,9 @@ typedef enum e_error
 {
 	SUCCESS,
 	FAILURE,
+	NO_RIGHTS,
+	NO_FILE,
+	HEREDOC_FILE_ERROR,
 	SYNTAX_ERROR = 258,
 	MALLOC_ERROR,
 	OPEN_ERROR,
@@ -38,11 +41,12 @@ typedef enum e_internal_values
 {
 	OFF,
 	ON,
-	DEFAULT = -1,
-	MALLOC_FAIL = -2,
-	PARENTHESES_ERROR = -3,
-	NO_LOGIC = -4,
-	NOT_FOUND = -5,
+	NOT_OPEN = -1,
+	DEFAULT = -2,
+	MALLOC_FAIL = -3,
+	PARENTHESES_ERROR = -4,
+	NO_LOGIC = -5,
+	NOT_FOUND = -6,
 } t_internal_values;
 
 typedef enum e_syntax_error

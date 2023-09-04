@@ -26,7 +26,7 @@ _CORE := main.c process_line.c
 _TOKENIZE := clean_token_list.c tokenize.c redirections_filenames.c
 _PARSE := parse.c preliminary_syntax_checks.c \
 		form_tree.c syntax_checking.c \
-		form_command_list.c form_pipeline.c
+		tree_execution.c form_pipeline.c
 _SETUP := set_data.c set_input_mode.c signal_handlers.c
 _REDIR := redirections.c heredoc.c heredoc_signals.c go_through_heredocs.c
 _ENV := environment_tools.c

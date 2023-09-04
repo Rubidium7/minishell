@@ -71,6 +71,17 @@ void	print_error_token(t_token *token)
 		ft_putstr_fd(")", 2);
 }
 
+void	print_file_error(char *filename, t_error_code type)
+{
+	ft_putstr_fd(ERROR_SHROOM, 2);
+	if (type != HEREDOC_FILE_ERROR)
+		ft_putstr_fd(filename, 2);
+	if (type == NO_RIGHTS)
+		ft_putendl_fd(": Permission denied", 2);
+	if (type == NO_FILE)
+		ft_putendl_fd(": No such file or directory", 2);
+}
+
 t_bool	syntax_error(t_syntax_error type, t_token *token)
 {
 	ft_putstr_fd(ERROR_SHROOM, 2);
