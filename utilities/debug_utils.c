@@ -137,18 +137,43 @@ void	print_tree_in_execution_order(t_ast *tree)
 	}
 }
 
-void	print_file(int read_fd, int write_fd)
+void	print_file(const char *filename, int write_fd)
 {
 	size_t	read_characters;
 	char	buffer[20];
+	int		read_fd;
 
 	read_characters = 1;
-	while (read_characters)
+	read_fd = open(filename, O_RDONLY);
+	while (read_fd != -1 && read_characters)
 	{
 		read_characters = read(read_fd, buffer, 20);
+		buffer[read_characters] = '\0';
 		//printf("read [%zu] characters\n", read_characters); //debug
 		if (read_characters)
 			write(write_fd, buffer, ft_strlen(buffer));
+	}
+	close(read_fd);
+}
+
+void	print_heredocs(t_ast *tree, int print_files)
+{
+	t_heredoc	*current;
+
+	if (!tree)
+		return ;
+	print_heredocs(tree->left, print_files);
+	print_heredocs(tree->right, print_files);
+	if (tree->heredoc_list)
+	{
+		current = tree->heredoc_list;
+		while (current)
+		{
+			printf("index is %d filename is [%s]\n", current->index, current->filename);
+			if (print_files)
+				print_file(current->filename, 1);
+			current = current->next;
+		}
 	}
 }
 

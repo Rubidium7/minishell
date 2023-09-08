@@ -16,6 +16,8 @@
 # define INT_MAX 2147483647
 # define INT_MIN -2147483648
 # define SHROOM_TIME 37
+# define YES 1
+# define NO 0
 
 //different colour codes
 //R red

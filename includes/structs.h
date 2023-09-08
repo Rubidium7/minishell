@@ -26,6 +26,9 @@ typedef enum e_error
 {
 	SUCCESS,
 	FAILURE,
+	NO_RIGHTS,
+	NO_FILE,
+	HEREDOC_FILE_ERROR,
 	SYNTAX_ERROR = 258,
 	MALLOC_ERROR,
 	OPEN_ERROR,
@@ -39,11 +42,12 @@ typedef enum e_internal_values
 {
 	OFF,
 	ON,
-	DEFAULT = -1,
-	MALLOC_FAIL = -2,
-	PARENTHESES_ERROR = -3,
-	NO_LOGIC = -4,
-	NOT_FOUND = -5,
+	NOT_OPEN = -1,
+	DEFAULT = -2,
+	MALLOC_FAIL = -3,
+	PARENTHESES_ERROR = -4,
+	NO_LOGIC = -5,
+	NOT_FOUND = -6,
 } t_internal_values;
 
 typedef enum e_syntax_error
@@ -92,7 +96,6 @@ typedef struct s_command
 	char				**cmd_ar;
 	int					red_in;
 	int					red_out;
-	char				*heredoc_file; //<- lera don't mind this o.o
 	int					index;
 	struct s_command	*next;
 }	t_command;
@@ -116,6 +119,12 @@ typedef struct s_pipeline
 	struct s_pipeline	*next;
 }	t_pipeline;
 
+typedef struct s_heredoc
+{
+	int					index;
+	char				*filename;
+	struct s_heredoc	*next;
+}	t_heredoc;
 
 typedef struct s_ast
 {
@@ -123,6 +132,7 @@ typedef struct s_ast
 	t_command		*command_list;
 	t_token_type	type;
 	int				return_value;
+	t_heredoc		*heredoc_list;
 	struct s_ast	*up;
 	struct s_ast	*right;
 	struct s_ast	*left;

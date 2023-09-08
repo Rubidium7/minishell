@@ -19,7 +19,8 @@ void	parse(t_shell *core)
 		return ;
 	core->cur_process.ret = 0;
 	//print_tree_in_execution_order(core->cur_process.tree); //debug
-	if (format_commands(core->cur_process.tree, core))
+	//(new, pipeline, core)
+	if (go_through_heredocs(core->cur_process.tree, core))
 	{
 		free_tree(core->cur_process.tree);
 		core->cur_process.tree = NULL;
@@ -27,5 +28,6 @@ void	parse(t_shell *core)
 			|| core->cur_process.error_index == OPEN_ERROR)
 			error_print(PARSE_ERROR);
 	}
+	print_heredocs(core->cur_process.tree, ON); //debug
 	update_error_value(core);
 }

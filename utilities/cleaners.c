@@ -28,6 +28,20 @@ void	empty_token_list(t_token *current)
 	}
 }
 
+void	empty_heredoc_list(t_heredoc *current)
+{
+	t_heredoc	*tmp;
+
+	while (current)
+	{
+		unlink(current->filename);
+		free(current->filename);
+		tmp = current;
+		current = current->next;
+		free(tmp);
+	}
+}
+
 void	free_command_node(t_command *node)
 {
 	if (node->cmd_ar)
@@ -36,11 +50,6 @@ void	free_command_node(t_command *node)
 		close(node->red_in);
 	if (node->red_out != DEFAULT)
 		close(node->red_in);
-	if (node->heredoc_file)
-	{
-		unlink(node->heredoc_file);
-		free(node->heredoc_file);
-	}
 	free(node);
 }
 
@@ -78,6 +87,8 @@ t_ast	*free_tree(t_ast *tree)
 		free_tree(tree->right);
 	if (tree->pipeline)
 		empty_pipeline_list(tree->pipeline);
+	if (tree->heredoc_list)
+		empty_heredoc_list(tree->heredoc_list);
 	if (tree->command_list)
 		empty_command_list(tree->command_list);
 	free(tree);
