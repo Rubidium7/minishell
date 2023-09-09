@@ -15,17 +15,17 @@
 void	process_line(t_shell *core, char *input)
 {
 	core->cur_process.heredoc_index = 0;
+	core->cur_process.error_index = DEFAULT;
 	core->tokens = tokenize(input);
 	if (!core->tokens)
 		return ;
 	//print_token_list(core->tokens, ON); //debug
 	if (!core->tokens->next)
 		return (free(core->tokens));
-	if (preliminary_syntax_check(core))
-		return (free(core->tokens));
+	indexify_token_list(core->tokens);
+	preliminary_syntax_check(core);
 	if (save_redirection_filenames(core->tokens))
 		return (empty_token_list(core->tokens));
-	indexify_token_list(core->tokens);
 	//print_token_list(core->tokens, OFF); //debug
 	parse(core);
 	if (!core->cur_process.tree)

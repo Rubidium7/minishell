@@ -32,7 +32,6 @@ t_ast	*syntax_check(t_token *head, t_shell *core)
 {
 	t_ast		*tree;
 
-	core->cur_process.error_index = DEFAULT;
 	tree = form_tree(head, NULL, INT_MAX, &core->cur_process.error_index);
 	if (core->cur_process.error_index != DEFAULT)
 		return (error_in_parsing(core, head), free_tree(tree));

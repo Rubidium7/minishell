@@ -85,14 +85,23 @@ size_t	size_of_token(t_token_type type)
 
 void	indexify_token_list(t_token *current)
 {
-	int	i;
+	int		i;
+	t_bool	is_prev_redir;
 
 	i = 0;
+	is_prev_redir = FALSE;
 	while (current)
 	{
+		if (is_prev_redir && current->type == WORD)
+		{
+			current = current->next;
+			is_prev_redir = FALSE;
+			continue ;
+		}
 		current->position = i;
 		i++;
-		current->new_line_error = FALSE; //might be redundant
+		if (is_redir(current->type))
+			is_prev_redir = TRUE;
 		current = current->next;
 	}
 }
