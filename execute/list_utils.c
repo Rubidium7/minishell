@@ -1,39 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipes_utils.c                                      :+:      :+:    :+:   */
+/*   list_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/09 21:27:32 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/09 21:45:42 by vvagapov         ###   ########.fr       */
+/*   Created: 2023/09/09 21:50:06 by vvagapov          #+#    #+#             */
+/*   Updated: 2023/09/09 22:03:43 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	open_pipes(int **pipes)
+int	list_len(t_command *list)
 {
-	int	i;
+	int res;
 
-	i = 0;
-	while (pipes[i])
+	res = 0;
+	while(list)
 	{
-		if (pipe(pipes[i]) == -1)
-		{
-			return (1);
-		}
-		i++;
+		list = list->next;
+		res++;
 	}
-	return (SUCCESS);
-}
-
-void	close_pipes(int **pipes)
-{
-	while (*pipes)
-	{
-		close((*pipes)[0]);
-		close((*pipes)[1]);
-		pipes++;
-	}
+	return (res);
 }

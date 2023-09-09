@@ -1,39 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipes_utils.c                                      :+:      :+:    :+:   */
+/*   memory_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/09 21:27:32 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/09 21:45:42 by vvagapov         ###   ########.fr       */
+/*   Created: 2023/09/09 21:45:07 by vvagapov          #+#    #+#             */
+/*   Updated: 2023/09/09 22:01:39 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	open_pipes(int **pipes)
+int	**malloc_pipes(int num)
 {
+	int	**res;
 	int	i;
 
+	res = malloc(sizeof(int*) * num + 1);
+	if (!res)
+		// TODO: set error
+		return (NULL);
+	res[num] = NULL;
 	i = 0;
-	while (pipes[i])
+	while (i < num)
 	{
-		if (pipe(pipes[i]) == -1)
+		res[i] = malloc(sizeof(int) * 2);
+		if (!res[i])
 		{
-			return (1);
+			free(res);
+			return (NULL);
 		}
 		i++;
 	}
-	return (SUCCESS);
+	return (res);
 }
 
-void	close_pipes(int **pipes)
+void	free_pipes(int **pipes)
 {
-	while (*pipes)
+	int i;
+	
+	i = 0;
+	while (pipes[i])
 	{
-		close((*pipes)[0]);
-		close((*pipes)[1]);
-		pipes++;
+		free(pipes[i]);
+		i++;
 	}
+	free(pipes);
 }
