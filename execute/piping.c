@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 20:06:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/09 17:29:12 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/09 18:53:54 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int	open_pipes(int **pipes)
 		{
 			return (1);
 		}
+		printf("opened %d %d\n", pipes[i][0], pipes[i][1]);
 		i++;
 	}
 	return (0);
@@ -95,10 +96,15 @@ int	open_pipes(int **pipes)
 
 void close_pipes(int **pipes)
 {
+	if (!pipes)
+		printf("pipes is NULL\n");
+	printf("almost closing soon...\n");
 	while (*pipes)
 	{
-		close(*pipes[0]);
-		close(*pipes[1]);
+		printf("closing soon...\n");
+		printf("closing %d %d\n", (*pipes)[0], (*pipes)[1]);
+		close((*pipes)[0]);
+		close((*pipes)[1]);
 		pipes++;
 	}
 }
@@ -135,14 +141,16 @@ int	pipeline_execution(t_shell *core, t_command *head)
 {
 	int			**pipes;
 	t_command	*curr_node;
-	int			pipe_index;
 	int			in_fd;
 	int			out_fd;
 	pid_t		*children;
+	int			i;
+	int			len;
 
+	len = list_len(head);
 	printf("helo\n");
 	// prepare enough pipes to connect all child processes
-	pipes = malloc_pipes(list_len(head) - 1);
+	pipes = malloc_pipes(len - 1);
 	if (!pipes)
 	{
 		core->cur_process.error_index = MALLOC_ERROR;
@@ -154,15 +162,15 @@ int	pipeline_execution(t_shell *core, t_command *head)
 		return (1);
 	}
 	// prepare an array of pids for child processes
-	children = malloc(sizeof(pid_t) * list_len(head));
+	// make this NULL-terminated too maybe?
+	children = malloc(sizeof(pid_t) * len);
 	curr_node = head;
 	// TODO: handle first and last case
-	pipe_index = 0;
 	while (curr_node)
 	{
 		// fcreate a child process
-		children[pipe_index] = fork();
-		if (!children[pipe_index])
+		children[curr_node->index] = fork();
+		if (!children[curr_node->index])
 		{
 			printf("cmd_name: %s\n", curr_node->cmd_name);
 			printf("red_in: %d\n", curr_node->red_in);
@@ -175,13 +183,14 @@ int	pipeline_execution(t_shell *core, t_command *head)
 			{
 				// if no red_in was given 
 				// and it's not the first node
-				if (pipe_index != 0)
+				if (curr_node->index)
 					// input from pipe
-					in_fd = pipes[pipe_index][0];
+					in_fd = pipes[curr_node->index - 1][0];
 				else
 					// input from stdin
 					in_fd = STDIN_FILENO;
 			}
+			printf("in_fd: %d\n", in_fd);
 			dup2(in_fd, STDIN_FILENO);
 			// set red_out
 			if (curr_node->red_out != DEFAULT)
@@ -190,24 +199,39 @@ int	pipeline_execution(t_shell *core, t_command *head)
 			{
 				// if no red_out was given 
 				// and it's not the last node
-				if (pipes[pipe_index + 1])
+				if (curr_node->next)
 					// output to the READ end of the pipe of the next command
-					out_fd = pipes[pipe_index + 1][1];
+					out_fd = pipes[curr_node->index][1];
 				else
 					// if it's the last node, output to stdout
 					out_fd = STDOUT_FILENO;
 			}
-			if (pipes[pipe_index])
-				dup2(out_fd, STDIN_FILENO);
-			close(pipes[pipe_index][1]);
-			close(pipes[pipe_index][0]);
+			printf("out_fd: %d\n", out_fd);
+			//if (pipes[pipe_index])
+				dup2(out_fd, STDOUT_FILENO);
+			if (pipes[curr_node->index])
+			{
+				close(pipes[curr_node->index][1]);
+				close(pipes[curr_node->index][0]);
+			}
+			if (pipes[curr_node->index - 1])
+			{
+				close(pipes[curr_node->index - 1][1]);
+				close(pipes[curr_node->index - 1][0]);
+			}
 			execute_cmd(core, curr_node);
 		}
 		curr_node = curr_node->next;
-		pipe_index++;
 	}
 	close_pipes(pipes);
 	free_pipes(pipes);
-	//waitpid(pid1, NULL, 0);
+	i = 0;
+	while (i < len)
+	{
+		printf("waiting for %d\n", children[i]);
+		waitpid(children[i], NULL, 0);
+		i++;
+	}
+	//
 	return (0);
 }

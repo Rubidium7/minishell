@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_input_mode.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:45:08 by nlonka            #+#    #+#             */
-/*   Updated: 2023/08/14 19:09:41 by nlonka           ###   ########.fr       */
+/*   Updated: 2023/09/09 18:37:23 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ void	set_input_mode(t_shell *core, int mode)
 {
 	if (mode == ON)
 	{
-		set_input_mode_signals(&core->signals);
+		//set_input_mode_signals(&core->signals);
 		set_termios(&core->term);
 	}
 	if (mode == OFF)
 	{
-		ignore_signals(&core->signals);
+		//ignore_signals(&core->signals);
 		tcsetattr(STDIN_FILENO, TCSAFLUSH, &core->term.old);
 	}
 }
