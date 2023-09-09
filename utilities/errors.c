@@ -14,12 +14,12 @@
 
 void	handle_error_value(int *error_index, int position)
 {
-	printf("1 error position is %d\n", position); //debug
+	//printf("1 error position is %d\n", position); //debug
 	if (*error_index == DEFAULT)
 		*error_index = position;
 	else if (position != UNEXPECTED_NL && position < *error_index)
 		*error_index = position;
-	printf("2 error position is %d\n", *error_index); //debug
+	//printf("2 error position is %d\n", *error_index); //debug
 }
 
 void	update_error_value(t_shell *core)
