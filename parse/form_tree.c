@@ -42,8 +42,10 @@ t_ast	*branch_out(t_token *start, t_ast *up, int end_index, int *error_index)
 	t_token	*new_start;
 	int		index;
 
-	if (!start) // || find_logic_token(start, end_index) == start->position
+	if (!start && node_at_index(start, end_index)) // || find_logic_token(start, end_index) == start->position
 		return (handle_error_value(error_index, end_index), NULL);
+	if (!start)
+		return (handle_error_value(error_index, UNEXPECTED_NL), NULL);
 	index = find_logic_token(start, end_index);
 	if (index == PARENTHESES_ERROR)
 	{
