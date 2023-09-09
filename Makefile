@@ -6,7 +6,7 @@
 #    By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/03 20:58:45 by vvagapov          #+#    #+#              #
-#    Updated: 2023/09/03 21:04:09 by vvagapov         ###   ########.fr        #
+#    Updated: 2023/09/09 21:36:27 by vvagapov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ ENV_DIR = environment/
 UTILS_DIR = utilities/
 OBJS_DIR = obj/
 EXE_DIR = execute/
+BUILTINS_DIR = built-ins/
 
 #Sources by folder
 _CORE := main.c process_line.c
@@ -46,7 +47,8 @@ _ENV := environment_tools.c
 _UTILS := array_utils.c list_utils.c character_utils.c \
 		tokenizing_utils.c debug_utils.c ast_utils.c \
 		exiting.c errors.c cleaners.c
-_EXE := piping.c
+_EXE := piping.c pipes_utils.c
+_BUILTINS := cd.c echo.c env.c exit.c export.c pwd.c unset.c
 
 ALL_SRCS := $(addprefix $(CORE_DIR), $(_CORE)) \
 			$(addprefix $(TOKENIZE_DIR), $(_TOKENIZE)) \
@@ -55,9 +57,10 @@ ALL_SRCS := $(addprefix $(CORE_DIR), $(_CORE)) \
 			$(addprefix $(RE_DIR), $(_REDIR)) \
 			$(addprefix $(ENV_DIR), $(_ENV)) \
 			$(addprefix $(UTILS_DIR), $(_UTILS)) \
-			$(addprefix $(EXE_DIR), $(_EXE))
+			$(addprefix $(EXE_DIR), $(_EXE)) \
+			$(addprefix $(BUILTINS_DIR), $(_BUILTINS))
 
-SRCS = $(_CORE) $(_TOKENIZE) $(_PARSE) $(_SETUP) $(_REDIR) $(_ENV) $(_UTILS) $(_EXE)
+SRCS = $(_CORE) $(_TOKENIZE) $(_PARSE) $(_SETUP) $(_REDIR) $(_ENV) $(_UTILS) $(_EXE) $(_BUILTINS)
 OBJ_FILES = $(SRCS:.c=.o)
 OBJS = $(patsubst %, $(OBJS_DIR)%, $(SRCS:.c=.o))
 
@@ -107,6 +110,10 @@ $(OBJS_DIR)%.o: $(UTILS_DIR)%.c
 	@echo "$(COLOUR_BLUE)$@ created$(COLOUR_END)"
 
 $(OBJS_DIR)%.o: $(EXE_DIR)%.c
+	@cc $(FLAGS) -c $< -o $@ 
+	@echo "$(COLOUR_BLUE)$@ created$(COLOUR_END)"
+
+$(OBJS_DIR)%.o: $(BUILTINS_DIR)%.c
 	@cc $(FLAGS) -c $< -o $@ 
 	@echo "$(COLOUR_BLUE)$@ created$(COLOUR_END)"
 

@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:24:10 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/03 21:29:24 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/09 20:49:26 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef enum e_error
 	TOKEN_ERROR,
 	PARSE_ERROR,
 	PIPE_ERROR,
+	DUP_ERROR
 } t_error_code;
 
 typedef enum e_internal_values

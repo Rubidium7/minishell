@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:28:18 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/03 21:01:46 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/09 21:36:43 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,10 @@ t_ast	*free_tree(t_ast *tree);
 void	clean_up(t_shell *core);
 
 // piping.c
-int	pipeline_execution(t_shell *core, t_command *head);
+int		pipeline_execution(t_shell *core, t_command *commands);
+
+// pipes_utils.c
+int		open_pipes(int **pipes);
+void	close_pipes(int **pipes);
 
 #endif
