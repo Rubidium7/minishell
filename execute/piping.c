@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 20:06:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/03 21:31:33 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/09 17:29:12 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,6 @@
 #include <fcntl.h>
 #include "../includes/structs.h"
 #include "../includes/minishell.h"
-
-/* int old_main(int ac, char **av, char **ev)
-{
-	int		fds[2];
-	pid_t	child;
-	pid_t	child2;
-	char	*args[2] = {"", NULL};
-	int		in_fd;
-
-	pipe(fds);
-	child = fork();
-	if (!child)
-	{
-		dup2(fds[1], 1);
-		close(fds[0]);
-		execve("/bin/ls", args, ev);
-		write(2, "ls hi\n", 6);
-	}
-	child2 = fork();
-	if (!child2)
-	{
-		if (red_in)
-			in_fd = red_in;
-		else
-			in_fd = fds[0];
-		dup2(in_fd, 0);
-		close(fds[1]);
-		execve("/usr/bin/grep", av, ev);
-		write(2, "grep yo\n", 8);
-	}
-	return (0);
-} */
 
 char	**split_path(char* path)
 {
@@ -172,6 +140,8 @@ int	pipeline_execution(t_shell *core, t_command *head)
 	int			out_fd;
 	pid_t		*children;
 
+	printf("helo\n");
+	// prepare enough pipes to connect all child processes
 	pipes = malloc_pipes(list_len(head) - 1);
 	if (!pipes)
 	{
@@ -183,37 +153,56 @@ int	pipeline_execution(t_shell *core, t_command *head)
 		core->cur_process.error_index = PIPE_ERROR;
 		return (1);
 	}
+	// prepare an array of pids for child processes
 	children = malloc(sizeof(pid_t) * list_len(head));
 	curr_node = head;
-	// handle first and last case
+	// TODO: handle first and last case
 	pipe_index = 0;
 	while (curr_node)
 	{
+		// fcreate a child process
 		children[pipe_index] = fork();
 		if (!children[pipe_index])
 		{
+			printf("cmd_name: %s\n", curr_node->cmd_name);
+			printf("red_in: %d\n", curr_node->red_in);
+			printf("red_out: %d\n", curr_node->red_out);
+			// for a child process:
+			// set red_in
 			if (curr_node->red_in != DEFAULT)
 				in_fd = curr_node->red_in;
 			else
-				in_fd = pipes[pipe_index][0];
+			{
+				// if no red_in was given 
+				// and it's not the first node
+				if (pipe_index != 0)
+					// input from pipe
+					in_fd = pipes[pipe_index][0];
+				else
+					// input from stdin
+					in_fd = STDIN_FILENO;
+			}
 			dup2(in_fd, STDIN_FILENO);
+			// set red_out
 			if (curr_node->red_out != DEFAULT)
 				out_fd = curr_node->red_out;
 			else
 			{
+				// if no red_out was given 
+				// and it's not the last node
 				if (pipes[pipe_index + 1])
+					// output to the READ end of the pipe of the next command
 					out_fd = pipes[pipe_index + 1][1];
 				else
+					// if it's the last node, output to stdout
 					out_fd = STDOUT_FILENO;
 			}
 			if (pipes[pipe_index])
 				dup2(out_fd, STDIN_FILENO);
-			
 			close(pipes[pipe_index][1]);
 			close(pipes[pipe_index][0]);
 			execute_cmd(core, curr_node);
 		}
-		
 		curr_node = curr_node->next;
 		pipe_index++;
 	}
