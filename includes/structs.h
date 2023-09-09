@@ -34,7 +34,8 @@ typedef enum e_error
 	OPEN_ERROR,
 	SETUP_ERROR,
 	TOKEN_ERROR,
-	PARSE_ERROR
+	PARSE_ERROR,
+	HEREDOC_ERROR,
 } t_error_code;
 
 typedef enum e_internal_values

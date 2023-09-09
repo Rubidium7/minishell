@@ -38,11 +38,13 @@ void	update_error_value(t_shell *core)
 void	error_print(t_error_code type)
 {
 	if (type == SETUP_ERROR)
-		ft_putendl_fd("ERROR in setting up process🕷🕸", 2);
+		ft_putendl_fd("system call failed in setting up process🕷🕸", 2);
 	if (type == TOKEN_ERROR)
-		ft_putendl_fd("ERROR in tokenizing process🕷🕸", 2);
+		ft_putendl_fd("system call failed in tokenizing process🕷🕸", 2);
 	if (type == PARSE_ERROR)
-		ft_putendl_fd("ERROR in parsing process🕷🕸", 2);
+		ft_putendl_fd("system call failed in parsing process🕷🕸", 2);
+	if (type == PARSE_ERROR)
+		ft_putendl_fd("system call failed in heredoc process🕷🕸", 2);
 }
 
 void	print_error_token(t_token *token)

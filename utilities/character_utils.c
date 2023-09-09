@@ -12,6 +12,20 @@
 
 #include "minishell.h"
 
+t_bool	is_env_first_char(char c)
+{
+	if (ft_isalpha(c) || c == '_')
+		return (TRUE);
+	return (FALSE);
+}
+
+t_bool	is_env_char(char c)
+{
+	if (ft_isalnum(c) || c == '_')
+		return (TRUE);
+	return (FALSE);
+}
+
 t_bool	is_whitespace(char c)
 {
 	if (c == ' ')

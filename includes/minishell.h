@@ -83,6 +83,9 @@ t_bool	go_through_heredocs(t_ast *tree, t_shell *core);
 //environment_tools.c
 char	*fetch_env(const char *key, t_shell *core);
 
+//expand_envs_in_string.c
+char	*expand_envs_in_string(char *str, t_shell *core);
+
 //setup
 
 //set_data.c
@@ -116,9 +119,16 @@ size_t	size_of_token(t_token_type type);
 void	indexify_token_list(t_token *current); //might be useless
 
 //character_utils.c
+t_bool	is_env_first_char(char c);
+t_bool	is_env_char(char c);
 t_bool	is_whitespace(char c);
 t_bool	is_special_char(char c);
 t_bool	is_redir(t_token_type type);
+
+//string_utils.c
+char	*remove_string_section(char *str, int start, int end);
+char	*add_string_to(char *str, char *content, int start);
+
 
 //debug_utils.c
 void	print_token_list(t_token *current, int print_quotes);

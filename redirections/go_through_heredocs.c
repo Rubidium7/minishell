@@ -82,8 +82,8 @@ t_heredoc	*purge_heredoc_list(t_heredoc *head, t_pipeline *current)
 
 t_bool	go_through_heredocs(t_ast *tree, t_shell *core)
 {
-	if (core->cur_process.error_index != DEFAULT
-		|| core->cur_process.ret)
+	if (core->cur_process.error_index != DEFAULT 
+	&& core->cur_process.error_index != SUCCESS)
 		return (TRUE);
 	if (!tree)
 		return (FALSE);
@@ -95,7 +95,7 @@ t_bool	go_through_heredocs(t_ast *tree, t_shell *core)
 		tree->heredoc_list = purge_heredoc_list(tree->heredoc_list, tree->pipeline);
 	}
 	if (core->cur_process.error_index != DEFAULT 
-		|| core->cur_process.ret)
+	&& core->cur_process.error_index != SUCCESS)
 		return (TRUE);
 	return (FALSE);
 }

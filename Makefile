@@ -29,8 +29,8 @@ _PARSE := parse.c preliminary_syntax_checks.c \
 		tree_execution.c form_pipeline.c
 _SETUP := set_data.c set_input_mode.c signal_handlers.c
 _REDIR := redirections.c heredoc.c heredoc_signals.c go_through_heredocs.c
-_ENV := environment_tools.c
-_UTILS := array_utils.c list_utils.c character_utils.c \
+_ENV := environment_tools.c expand_envs_in_string.c
+_UTILS := array_utils.c list_utils.c character_utils.c string_utils.c \
 		tokenizing_utils.c debug_utils.c ast_utils.c \
 		exiting.c errors.c cleaners.c
 		
