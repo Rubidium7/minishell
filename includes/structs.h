@@ -51,7 +51,7 @@ typedef enum e_internal_values
 
 typedef enum e_syntax_error
 {
-	UNEXPECTED_NL = -3,
+	UNEXPECTED_NL = -4,
 	UNEXPECTED_TOKEN = 1,
 	OPEN_QUOTE,
 	OPEN_PARENTHESES
@@ -107,7 +107,6 @@ typedef struct s_token
 	char			*filename;
 	int				quote;
 	t_bool			open_quote;
-	t_bool			new_line_error; //might rm
 	struct s_token	*next;
 }	t_token;
 

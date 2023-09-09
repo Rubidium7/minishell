@@ -1,34 +1,27 @@
 
 #include "minishell.h"
 
-t_bool	check_redirection_syntax(t_token *current)
+t_bool	separated_syntax_check(t_token *current, int *error_index)
 {
 	while (current)
 	{
 		if (is_redir(current->type))
 		{
 			if (!current->next)
-				return (syntax_error(UNEXPECTED_NL, NULL));
+				return (handle_error_value(error_index, UNEXPECTED_NL), TRUE);
 			if (current->next->type != WORD)
-				return (syntax_error(UNEXPECTED_TOKEN, current->next));				
+				return (handle_error_value(error_index, current->next->position), TRUE);
 		}
-		current = current->next;
-	}
-	return (FALSE);
-}
-
-t_bool	open_quotes(t_token *current)
-{
-	while (current)
-	{
 		if (current->open_quote)
-			return (syntax_error(OPEN_QUOTE, NULL));
+			return (handle_error_value(error_index, UNEXPECTED_NL), TRUE);
+		if (current->type == AMPERSAND)
+				return (handle_error_value(error_index, current->position), TRUE);
 		current = current->next;
 	}
 	return (FALSE);
 }
 
-t_bool	open_parentheses(t_token *current)
+t_bool	open_parentheses(t_token *current, int *error_index)
 {
 	int	amount;
 
@@ -42,15 +35,16 @@ t_bool	open_parentheses(t_token *current)
 		current = current->next;
 	}
 	if (amount > 0)
-		return (syntax_error(OPEN_PARENTHESES, NULL));
+		return (handle_error_value(error_index, UNEXPECTED_NL), TRUE);
 	return (FALSE);
 }
 
 t_bool	preliminary_syntax_check(t_shell *core)
 {
-	if (open_quotes(core->tokens) || open_parentheses(core->tokens) 
-		|| check_redirection_syntax(core->tokens)) //add check ampersand
+	if (open_parentheses(core->tokens, &core->cur_process.error_index)
+	|| separated_syntax_check(core->tokens, &core->cur_process.error_index))
 	{
+		
 		core->cur_process.ret = SYNTAX_ERROR;
 		return (TRUE);
 	}

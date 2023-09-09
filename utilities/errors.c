@@ -96,7 +96,7 @@ t_bool	syntax_error(t_syntax_error type, t_token *token)
 		return (TRUE);
 	}
 	ft_putstr_fd("syntax error near unexpected token `", 2);
-	if (type != UNEXPECTED_NL && token->new_line_error == FALSE)
+	if (type != UNEXPECTED_NL)
 		print_error_token(token);
 	else
 		ft_putstr_fd("newline", 2);

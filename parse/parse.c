@@ -14,6 +14,7 @@
 
 void	parse(t_shell *core)
 {
+	//printf("ERROR AT %d\n", core->cur_process.error_index);
 	core->cur_process.tree = syntax_check(core->tokens->next, core);
 	if (!core->cur_process.tree)
 		return ;
