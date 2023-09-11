@@ -59,22 +59,29 @@ t_bool	heredoc_input(int fd, char *limiter, t_bool expand, t_shell *core)
 		ft_putendl_fd(buffer, fd);
 		free(buffer);
 	}
-	waitpid(child, &core->cur_process.ret, 0);
+	waitpid(child, &core->cur_process.error_index, 0);
 	close(fd);
-	core->cur_process.error_index = WEXITSTATUS(core->cur_process.ret);
+	core->cur_process.error_index = WEXITSTATUS(core->cur_process.error_index);
 	return (!(!core->cur_process.error_index));
 }
 
-t_heredoc	*heredoc(t_token *current, t_heredoc *new, int index, t_shell *core)
+static t_heredoc	*replace_old(t_heredoc *new)
 {
-	int	fd;
-
 	if (new)
 	{
 		free(new->filename);
 		free(new);
 	}
 	new = malloc(sizeof(t_heredoc));
+	return (new);
+}
+
+t_heredoc	*heredoc(t_token *current, t_heredoc *new, int index, t_shell *core)
+{
+	int	fd;
+
+	core->cur_process.error_index = MALLOC_FAIL;
+	new = replace_old(new);
 	if (!new)
 		return (NULL);
 	new->filename = \
@@ -90,6 +97,7 @@ t_heredoc	*heredoc(t_token *current, t_heredoc *new, int index, t_shell *core)
 		core->cur_process.error_index = OPEN_ERROR;
 		return (free(new->filename), free(new), NULL);
 	}
+	core->cur_process.error_index = SUCCESS;
 	return (heredoc_input(fd, current->filename, !current->quote, core), new);
 }
 
@@ -105,8 +113,7 @@ t_heredoc	*open_heredocs(t_pipeline *pipeline, int index, t_shell *core)
 		if (current->type == HEREDOC)
 		{
 			new = heredoc(current, new, index, core);
-			if (core->cur_process.error_index != DEFAULT
-				&& core->cur_process.error_index != SUCCESS)
+			if (core->cur_process.error_index != SUCCESS)
 				return (free(new->filename), free(new), NULL);
 		}
 		current = current->next;

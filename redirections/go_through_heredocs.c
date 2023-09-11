@@ -22,7 +22,7 @@ t_heredoc	*make_heredoc_list(t_pipeline *current, t_shell *core)
 			if (current_doc->next)
 				current_doc = current_doc->next;
 		}
-		if (core->cur_process.error_index != DEFAULT)
+		if (core->cur_process.error_index != SUCCESS)
 			return (empty_heredoc_list(head), NULL);
 		index++;
 		current = current->next;
@@ -82,8 +82,7 @@ t_heredoc	*purge_heredoc_list(t_heredoc *head, t_pipeline *current)
 
 t_bool	go_through_heredocs(t_ast *tree, t_shell *core)
 {
-	if (core->cur_process.error_index != DEFAULT 
-	&& core->cur_process.error_index != SUCCESS)
+	if (core->cur_process.error_index != SUCCESS)
 		return (TRUE);
 	if (!tree)
 		return (FALSE);
@@ -94,8 +93,7 @@ t_bool	go_through_heredocs(t_ast *tree, t_shell *core)
 		tree->heredoc_list = make_heredoc_list(tree->pipeline, core);
 		tree->heredoc_list = purge_heredoc_list(tree->heredoc_list, tree->pipeline);
 	}
-	if (core->cur_process.error_index != DEFAULT 
-	&& core->cur_process.error_index != SUCCESS)
+	if (core->cur_process.error_index != SUCCESS)
 		return (TRUE);
 	return (FALSE);
 }

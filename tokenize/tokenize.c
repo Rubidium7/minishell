@@ -19,6 +19,8 @@ void	zero_values(t_token *new)
 	new->next = NULL;
 	new->quote = 0;
 	new->open_quote = FALSE;
+	new->after_redir = HEAD;
+	new->ambiguity = FALSE;
 }
 
 t_token	*new_token(t_token_type type, char *str, size_t *i)
@@ -74,7 +76,7 @@ t_token_type	identify_token(char *str, size_t i)
 		return (WORD);
 }
 
-t_token	*tokenize(char *str)
+t_token	*tokenize(char *str, t_shell *core)
 {
 	size_t			i;
 	t_token_type	type;
@@ -97,6 +99,9 @@ t_token	*tokenize(char *str)
 		if (type == WHITESPACE)
 			carve_out_whitespace(str, &i);
 	}
-	////expand envss and * HERE, don't expand if after heredoc :D
+	////expand envss HERE, don't expand if after heredoc :D
+	mark_redirections(head);
+	if (expand_envs(head, core))
+			return (empty_token_list(head), NULL);
 	return (clean_quotes_and_whitespaces(head, head));
 }

@@ -12,12 +12,50 @@
 
 #include "minishell.h"
 
+static t_bool	is_empty(t_token *token)
+{
+	if (token && token->type == WORD)
+	{
+		if (!token->quote)
+		{
+			if (!token->content || !token->content[0])
+				return (TRUE);
+		}
+	}
+	return (FALSE);
+}
+
+t_token	*cleap_empty_strings(t_token *head)
+{
+	t_token	*current;
+	t_token	*tmp;
+
+	if (is_empty(head))
+	{
+		tmp = head;
+		head = head->next;
+		free(tmp);
+	}
+	current = head;
+	while (current)
+	{
+		if (is_empty(current->next))
+		{
+			tmp = current->next;
+			current->next = current->next->next;
+			free(tmp);
+		}
+		current = current->next;
+	}
+	return (head);
+}
+
 t_token	*clean_whitespace(t_token *head)
 {
 	t_token	*current;
 	t_token	*tmp;
 
-	if (head->type == WHITESPACE)
+	if (head && head->type == WHITESPACE)
 	{
 		tmp = head;
 		head = head->next;
@@ -34,16 +72,17 @@ t_token	*clean_whitespace(t_token *head)
 		}
 		current = current->next;
 	}
-	return (head);
+	return (cleap_empty_strings(head));
 }
 
-void	add_up_quotes(int *cur_quote, t_bool *open_quote,\
-int next_quote, t_bool next_open_quote)
+void	add_up_values(t_token *current, t_token *next)
 {
-	if (*cur_quote || next_quote)
-		*cur_quote = 1;
-	if (*open_quote || next_open_quote)
-		*open_quote = TRUE;
+	if (current->quote || next->quote)
+		current->quote = 1;
+	if (current->open_quote || next->open_quote)
+		current->open_quote = TRUE;
+	if (current->ambiguity || next->ambiguity)
+		current->ambiguity = TRUE;
 }
 
 t_token	*clean_quotes_and_whitespaces(t_token *head, t_token *current)
@@ -61,8 +100,7 @@ t_token	*clean_quotes_and_whitespaces(t_token *head, t_token *current)
 					return (NULL);
 				free(current->content);
 				free(current->next->content);
-				add_up_quotes(&current->quote, &current->open_quote,\
-				current->next->quote, current->next->open_quote);
+				add_up_values(current, current->next);
 				current->content = str;
 				tmp = current->next;
 				current->next = current->next->next;

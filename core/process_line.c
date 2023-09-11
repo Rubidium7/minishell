@@ -16,21 +16,24 @@ void	process_line(t_shell *core, char *input)
 {
 	core->cur_process.heredoc_index = 0;
 	core->cur_process.error_index = DEFAULT;
-	core->tokens = tokenize(input);
+	core->tokens = tokenize(input, core);
 	if (!core->tokens)
-		return ;
+	{
+		core->cur_process.ret = MALLOC_ERROR;
+		return (error_print(TOKEN_ERROR));
+	}
 	//print_token_list(core->tokens, ON); //debug
 	if (!core->tokens->next)
-		return (free(core->tokens));
+		return (empty_token_list(core->tokens));
 	indexify_token_list(core->tokens);
 	preliminary_syntax_check(core);
-	if (save_redirection_filenames(core->tokens))
-		return (empty_token_list(core->tokens));
+	save_redirection_filenames(core->tokens);
 	//print_token_list(core->tokens, OFF); //debug
 	parse(core);
 	if (!core->cur_process.tree)
 		return (empty_token_list(core->tokens));
 	//print_token_list(core->tokens, OFF); //debug
+	core->cur_process.error_index = DEFAULT;
 	execute_tree(core->cur_process.tree, core);
 	clean_up(core);
 }

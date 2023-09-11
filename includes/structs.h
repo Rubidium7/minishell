@@ -28,6 +28,7 @@ typedef enum e_error
 	FAILURE,
 	NO_RIGHTS,
 	NO_FILE,
+	AMBIGUOUS,
 	HEREDOC_FILE_ERROR,
 	SYNTAX_ERROR = 258,
 	MALLOC_ERROR,
@@ -108,6 +109,8 @@ typedef struct s_token
 	char			*filename;
 	int				quote;
 	t_bool			open_quote;
+	t_bool			ambiguity;
+	int				after_redir;
 	struct s_token	*next;
 }	t_token;
 

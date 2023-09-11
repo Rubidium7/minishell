@@ -38,13 +38,14 @@ void	process_line(t_shell *core, char *input);
 //tokenize
 
 //tokenize.c
-t_token	*tokenize(char *input);
+t_token	*tokenize(char *str, t_shell *core);
 
 //clean_token_list.c
 t_token	*clean_quotes_and_whitespaces(t_token *head, t_token *current);
 
 //redirection_filenames.c
-t_bool	save_redirection_filenames(t_token *current);
+void	mark_redirections(t_token *current);
+void	save_redirection_filenames(t_token *current);
 
 //parse
 //parse.c
@@ -85,6 +86,9 @@ char	*fetch_env(const char *key, t_shell *core);
 
 //expand_envs_in_string.c
 char	*expand_envs_in_string(char *str, t_shell *core);
+
+//expand_envs.c
+t_bool	expand_envs(t_token *head, t_shell *core);
 
 //setup
 

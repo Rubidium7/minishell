@@ -29,10 +29,8 @@ void	update_error_value(t_shell *core)
 	error = core->cur_process.error_index;
 	if (error == MALLOC_FAIL)
 		core->cur_process.ret = MALLOC_ERROR;
-	else if (error == OPEN_ERROR)
-		core->cur_process.ret = OPEN_ERROR;
-	else if (error != DEFAULT && !core->cur_process.ret)
-		core->cur_process.ret = SYNTAX_ERROR;
+	else
+		core->cur_process.ret = error;
 }
 
 void	error_print(t_error_code type)
@@ -84,6 +82,10 @@ void	print_file_error(char *filename, t_error_code type)
 		ft_putendl_fd(": Permission denied", 2);
 	if (type == NO_FILE)
 		ft_putendl_fd(": No such file or directory", 2);
+	if (type == HEREDOC_FILE_ERROR)
+		ft_putendl_fd("heredoc file open error", 2);
+	if (type == AMBIGUOUS)
+		ft_putendl_fd(": ambiguous redirect", 2);
 }
 
 t_bool	syntax_error(t_syntax_error type, t_token *token)
