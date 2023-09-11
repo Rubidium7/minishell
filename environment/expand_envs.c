@@ -15,16 +15,16 @@ t_bool	expand_envs(t_token *head, t_shell *core)
 		if (current->type == WORD && current->after_redir != HEREDOC)
 		{
 			old_content = ft_strdup(current->content);
-			current->content = 
-				expand_envs_in_string(current->content, core);
-			if (!current->content || !old_content)
+			if (!old_content)
 				return (TRUE);
+			current->content = expand_envs_in_string(current->content, core);
+			if (!current->content)
+				return (free(old_content), TRUE);
 			//printf("content is '%s'\n", current->content); //debug
-			if (current->after_redir && !current->content[0])
+			if (current->after_redir && !current->content[0] && old_content[0])
 			{
 				current->ambiguity = TRUE;
-				free(current->content);
-				current->content = old_content;			
+				current->filename = old_content;	
 			}
 			else
 				free(old_content);

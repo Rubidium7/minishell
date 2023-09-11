@@ -35,6 +35,18 @@ void	mark_redirections(t_token *current)
 	}
 }
 
+static void	free_node(t_token *node, t_bool remove_filename)
+{
+	if (remove_filename)
+	{
+		if (node->filename)
+			free(node->filename);
+	}
+	else
+		free(node->content);
+	free(node);
+}
+
 void	save_redirection_filenames(t_token *current)
 {
 	t_token	*tmp;
@@ -46,11 +58,16 @@ void	save_redirection_filenames(t_token *current)
 			if (current->next && current->next->type == WORD)
 			{
 				current->ambiguity = current->next->ambiguity;
-				current->filename = current->next->content;
+				//printf("filename [%s]\ncontent [%s]\n", current->next->filename, current->next->content);
+				//printf("ambiguity [%d]\n", current->ambiguity);
+				if (!current->ambiguity)
+					current->filename = current->next->content;
+				else
+					current->filename = current->next->filename;
 				current->quote += current->next->quote;
 				tmp = current->next;
 				current->next = current->next->next;
-				free(tmp);
+				free_node(tmp, !current->ambiguity);
 			}
 		}
 		current = current->next;

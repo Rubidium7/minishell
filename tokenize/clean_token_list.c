@@ -14,7 +14,7 @@
 
 static t_bool	is_empty(t_token *token)
 {
-	if (token && token->type == WORD)
+	if (token && !token->ambiguity && token->type == WORD)
 	{
 		if (!token->quote)
 		{
@@ -34,7 +34,7 @@ t_token	*cleap_empty_strings(t_token *head)
 	{
 		tmp = head;
 		head = head->next;
-		free(tmp);
+		free_token_node(tmp);
 	}
 	current = head;
 	while (current)
@@ -43,7 +43,7 @@ t_token	*cleap_empty_strings(t_token *head)
 		{
 			tmp = current->next;
 			current->next = current->next->next;
-			free(tmp);
+			free_token_node(tmp);
 		}
 		current = current->next;
 	}
@@ -81,8 +81,8 @@ void	add_up_values(t_token *current, t_token *next)
 		current->quote = 1;
 	if (current->open_quote || next->open_quote)
 		current->open_quote = TRUE;
-	if (current->ambiguity || next->ambiguity)
-		current->ambiguity = TRUE;
+	if (!current->ambiguity || !next->ambiguity)
+		current->ambiguity = FALSE;
 }
 
 t_token	*clean_quotes_and_whitespaces(t_token *head, t_token *current)
@@ -99,12 +99,11 @@ t_token	*clean_quotes_and_whitespaces(t_token *head, t_token *current)
 				if (!str)
 					return (NULL);
 				free(current->content);
-				free(current->next->content);
 				add_up_values(current, current->next);
 				current->content = str;
 				tmp = current->next;
 				current->next = current->next->next;
-				free(tmp);
+				free_token_node(tmp);
 			}
 		else
 			current = current->next;

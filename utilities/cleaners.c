@@ -19,12 +19,8 @@ void	empty_token_list(t_token *current)
 	while (current)
 	{
 		prev = current;
-		if (current->content)
-			free(current->content);
-		if (current->filename)
-			free(current->filename);
 		current = current->next;
-		free(prev);
+		free_token_node(prev);
 	}
 }
 
@@ -46,10 +42,10 @@ void	free_command_node(t_command *node)
 {
 	if (node->cmd_ar)
 		free_ar(node->cmd_ar);
-	if (node->red_in != DEFAULT)
+	if (node->red_in > 0)
 		close(node->red_in);
-	if (node->red_out != DEFAULT)
-		close(node->red_in);
+	if (node->red_out > 0)
+		close(node->red_out);
 	free(node);
 }
 

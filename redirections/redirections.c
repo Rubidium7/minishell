@@ -4,7 +4,7 @@
 
 void	open_infile(t_command *new, t_token *current)
 {
-	if (new->red_in != DEFAULT)
+	if (new->red_in > 0)
 		close(new->red_in);
 	if (current->ambiguity)
 		new->red_in = NOT_OPEN;
@@ -23,7 +23,7 @@ void	open_infile(t_command *new, t_token *current)
 
 void	open_outfile(t_command *new, t_token *current)
 {
-	if (new->red_out != DEFAULT)
+	if (new->red_out > 0)
 		close(new->red_out);
 	if (current->ambiguity)
 		new->red_out = NOT_OPEN;
