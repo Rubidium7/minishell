@@ -6,7 +6,7 @@
 #    By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/03 20:58:45 by vvagapov          #+#    #+#              #
-#    Updated: 2023/09/09 22:03:49 by vvagapov         ###   ########.fr        #
+#    Updated: 2023/09/11 15:38:02 by vvagapov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ _PARSE := parse.c preliminary_syntax_checks.c \
 _SETUP := set_data.c set_input_mode.c signal_handlers.c
 _REDIR := redirections.c heredoc.c heredoc_signals.c go_through_heredocs.c
 _ENV := environment_tools.c
-_UTILS := array_utils.c list_utils.c character_utils.c \
+_UTILS := array_utils.c token_list_utils.c character_utils.c \
 		tokenizing_utils.c debug_utils.c ast_utils.c \
 		exiting.c errors.c cleaners.c
 _EXE := piping.c pipes_utils.c memory_utils.c list_utils.c dup.c
