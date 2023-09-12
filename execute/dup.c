@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:47:40 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/11 23:15:03 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/12 13:08:31 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,13 @@ int	dup_input(t_command *command, int **pipes)
 		in_fd = command->red_in;
 	else
 		in_fd = pipes[command->index - 1][0];
-	// printf("%s: in_fd: %d\n", command->cmd_name, in_fd); //debug
+	ft_putstr_fd(command->cmd_name, 2); //debug
+	ft_putstr_fd("[", 2);
+	ft_putnbr_fd(command->index, 2);
+	ft_putstr_fd("]", 2);
+	ft_putstr_fd(" in: ", 2);
+	ft_putnbr_fd(in_fd, 2);
+	ft_putstr_fd("\n", 2);
 	return (dup2(in_fd, STDIN_FILENO));
 }
 
@@ -38,6 +44,12 @@ int	dup_output(t_command *command, int **pipes)
 		out_fd = command->red_out;
 	else
 		out_fd = pipes[command->index][1];
-	// printf("%s: out_fd: %d\n", command->cmd_name, out_fd); //debug
+	ft_putstr_fd(command->cmd_name, 2); //debug
+	ft_putstr_fd("[", 2);
+	ft_putnbr_fd(command->index, 2);
+	ft_putstr_fd("]", 2);
+	ft_putstr_fd(" out: ", 2);
+	ft_putnbr_fd(out_fd, 2);
+	ft_putstr_fd("\n", 2);
 	return (dup2(out_fd, STDOUT_FILENO));
 }
