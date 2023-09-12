@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 20:06:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/12 15:37:26 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/12 22:36:41 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**split_path(char* path)
 	return ft_split(path, ':');
 }
 
-int	execute(t_shell *shell, char** paths, t_command *command)
+/* int	execute(t_shell *shell, char** paths, t_command *command)
 {
 	int		i;
 	char	*exe_path;
@@ -46,7 +46,7 @@ int	execute(t_shell *shell, char** paths, t_command *command)
 	}
 	exit (1);
 	// Add check if directory etc
-}
+} */
 
 int	run_builtin(t_command *command)
 {
@@ -68,43 +68,16 @@ int	is_builtin(t_command *command)
 	return (TRUE);
 }
 
-int	execute_cmd(t_shell *core, t_command *command)
+void	execute_cmd(t_shell *core, t_command *command, char *exe_path)
 {
-	char	*paths;
-	char	**paths_split;
-
 	if (is_builtin(command))
-	{
-		run_builtin(command);
-		// TODO: handle return value of run_builtin?
-		exit(1);
-	}
-	printf("executing %s[%d]\n", command->cmd_name, command->index);
-	paths = fetch_env("PATH", core);
-	if (!paths)
-	{
-		// what to do in this case? anything extra?
-		//printf("no path found\n"); //debug
-		return (1);
-	}
-	paths_split = split_path(paths);
-	if (!paths_split)
-	{
-		//printf("path split error\n"); //debug
-		core->cur_process.error_index = MALLOC_FAIL;
-		// TODO: set error
-		return (1);
-	}
-	if (execute(core, paths_split, command) != SUCCESS)
-	{
-		// TODO: set error
-		//printf("execute error\n"); //debug
-		return (1);
-	}
-	return (SUCCESS);
+		exit(run_builtin(command));
+	else
+		execve(exe_path, command->cmd_ar, core->env);
 }
 
-int	handle_child(t_command *curr_command, int **pipes, t_shell *core)
+void	handle_child(t_command *curr_command, int **pipes, t_shell *core,
+	char *exe_path)
 {
 /*	printf("child name: %s\n", curr_command->cmd_name);  //debug
  	printf("red_in: %d\n", curr_command->red_in);
@@ -118,7 +91,7 @@ int	handle_child(t_command *curr_command, int **pipes, t_shell *core)
 		exit(1);
 	}
 	close_pipes(pipes);
-	execute_cmd(core, curr_command);
+	execute_cmd(core, curr_command, exe_path);
 	//execute_placeholder(core, curr_command);
 	exit(1);
 }
@@ -135,11 +108,11 @@ int	wait_for_children(pid_t *children, int len)
 		waitpid(children[i], &ret, 0);
 		i++;
 	}
-	// wouldn't this contain only last return value?
 	return(WEXITSTATUS(ret));
 }
 
-// Joins the path to command name and returns the result if successful
+// Joins the path to command name and returns the result if successful,
+// Otherwise sets the error index and returns NULL
 char	*join_path(t_shell *core, char* path, char *cmd_name)
 {
 	char	*full_path;
@@ -161,45 +134,65 @@ char	*join_path(t_shell *core, char* path, char *cmd_name)
 	return (full_path);
 }
 
-char	*find_cmd_path(t_shell *core, t_command *command)
+/* char *check_path(t_shell *core, char *path, t_command *command)
 {
-	int		i;
-	char	*cmd_path;
-	char	**paths;
+	char	*exe_path;
+
+	exe_path = join_path(core, path, command->cmd_name);
+
+} */
+char	**fetch_paths_array(t_shell *core)
+{
+	char	*paths;
 	char	**paths_split;
 
-	if (is_builtin(command))
-	{
-		//run_builtin(command);
-		// TODO: handle return value of run_builtin?
-	}
-	//printf("executing %s[%d]\n", command->cmd_name, command->index);
 	paths = fetch_env("PATH", core);
 	if (!paths)
 	{
 		// what to do in this case? anything extra?
-		//printf("no path found\n"); //debug
 		core->cur_process.error_index = MALLOC_FAIL;
-		return (1);
+		return (NULL);
 	}
 	paths_split = split_path(paths);
 	if (!paths_split)
 	{
-		//printf("path split error\n"); //debug
 		core->cur_process.error_index = MALLOC_FAIL;
-		return (1);
 	}
+	free(paths);
+	return (paths_split);
+}
+
+// Go through Paths and find the correct one.
+// If not found return NULL
+char	*find_exe_path(t_shell *core, t_command *command)
+{
+	int		i;
+	char	*exe_path;
+	char	**paths_split;
+
+	paths_split = fetch_paths_array(core);
+	if (!paths_split)
+		return (NULL);
 	i = 0;
 	while (paths_split[i])
 	{
-		cmd_path = join_path(core, paths_split[i], command->cmd_name);
-		if (!cmd_path)
-			return (NULL);
-		if (access(cmd_path, X_OK) == SUCCESS)
-			return (cmd_path);
-		free(cmd_path);
+		exe_path = join_path(core, paths_split[i], command->cmd_name);
+		if (!exe_path || access(exe_path, X_OK) == SUCCESS)
+		{
+			/* ft_putstr_fd("exe_path exiting: ", 2);
+			if (!exe_path)
+				ft_putstr_fd("null", 2);
+			else
+				ft_putstr_fd(exe_path, 2);
+			ft_putstr_fd("\n", 2); */
+			free_ar(paths_split);
+			return (exe_path);
+		}
+		free(exe_path);
 		i++;
 	}
+	free_ar(paths_split);
+	// how to differenciate between not foudn and malloc fail??
 	return (NULL);
 }
 
@@ -215,7 +208,7 @@ int	has_args(char **args)
 	return (FALSE);
 }
 
-int	no_child_needed(t_command *commands)
+int	no_children_needed(t_command *commands)
 {
 	if (list_len(commands) > 1)
 		return (FALSE);
@@ -228,61 +221,122 @@ int	no_child_needed(t_command *commands)
 	return (FALSE);
 }
 
-int	execute_with_children(t_shell *core, t_command *commands)
+// Finds executable path,
+int	handle_command(t_shell *core, pid_t *children, int **pipes,
+	t_command *command)
+{
+	char	*exe_path;
+
+	if (access(command->cmd_name, X_OK) == SUCCESS || is_builtin(command))
+	{
+		exe_path = ft_strdup(command->cmd_name);
+		if (!exe_path)
+		{
+			core->cur_process.error_index = MALLOC_FAIL;
+			return (MALLOC_FAIL);
+		}
+	}
+	else
+	{
+		exe_path = find_exe_path(core, command);
+	}
+	if (!exe_path)
+	{
+		// TODO: print error and return
+		ft_putstr_fd(MINI_SHROOM, 2);
+		ft_putstr_fd(command->cmd_name, 2);
+		ft_putstr_fd(": no such shroom😿\n", 2);
+		return (SUCCESS);
+	}
+/* 	else
+	{
+		ft_putstr_fd("exe_path: ", 2);
+		ft_putstr_fd(exe_path, 2);
+		ft_putstr_fd("\n", 2);
+	} */
+	// create a child process
+	children[command->index] = fork();
+	if (!children[command->index])
+		handle_child(command, pipes, core, exe_path);
+	// We should never get here...think of how to handle these return values
+	return (SUCCESS);
+}
+
+// Pipe and child init
+int	prepare_pipes_and_children(t_shell *core, int ***pipes, pid_t **children,
+int len)
+{
+	*pipes = malloc_pipes(len - 1);
+	if (!(*pipes))
+	{
+		core->cur_process.error_index = MALLOC_FAIL;
+		return (MALLOC_FAIL);
+	}
+	if (open_pipes(*pipes) != SUCCESS)
+	{
+		core->cur_process.error_index = PIPE_FAIL;
+		return (PIPE_FAIL);
+	}
+	*children = malloc(sizeof(pid_t) * len);
+	if (!(*children))
+	{
+		core->cur_process.error_index = MALLOC_FAIL;
+		return (MALLOC_FAIL);
+	}
+	return (SUCCESS);
+}
+
+// Pipe and child cleanup
+int	finalise_pipes_and_children(int **pipes, pid_t *children, int len)
+{
+	int			ret;
+
+	close_pipes(pipes);
+	ret = wait_for_children(children, len);
+	free_pipes(pipes);
+	free(children);
+	return (ret);
+}
+
+// Create pipes and children, handle each command, clean up
+int	execute_pipeline(t_shell *core, t_command *commands)
 {
 	int			**pipes;
 	t_command	*curr_command;
 	pid_t		*children;
 	int			len;
 	int			ret;
-	char		*cmd_path;
 	
 	len = list_len(commands);
-	pipes = malloc_pipes(len - 1);
-	if (!pipes)
+	ret = prepare_pipes_and_children(core, &pipes, &children, len);
+	if (ret != SUCCESS)
 	{
-		core->cur_process.error_index = MALLOC_FAIL;
-		return (1);
+		finalise_pipes_and_children(pipes, children, len);
+		return (ret);
 	}
-	if (open_pipes(pipes) != SUCCESS)
-	{
-		core->cur_process.error_index = PIPE_FAIL;
-		return (1);
-	}
-	// prepare an array of pids for child processes
-	children = malloc(sizeof(pid_t) * len);
 	curr_command = commands;
-	// TODO: handle first and last case
 	while (curr_command)
 	{
-		// create a child process
-		// TODO: put path search here
-		cmd_path = find_cmd_path(core, curr_command);
-		//if (access(curr_command->cmd_ar, X_OK))
-		children[curr_command->index] = fork();
-		if (!children[curr_command->index])
-			handle_child(curr_command, pipes, core);
+		ret = handle_command(core, children, pipes, curr_command);
+		if (ret != SUCCESS)
+		{
+			finalise_pipes_and_children(pipes, children, len);
+			return (ret);
+		}
 		curr_command = curr_command->next;
 	}
-	close_pipes(pipes);
-	ret = wait_for_children(children, len);
-	free_pipes(pipes);
-	return (ret);
+	return (finalise_pipes_and_children(pipes, children, len));
 }
 
+// If creating child processes is not needed, just execute the command.
+// Otherwise execute pipeline
 int	pipeline_execution(t_shell *core, t_command *commands)
 {
-	int	ret;
-
-	// TODO: shorten?
-	if (no_child_needed(commands))
+	if (no_children_needed(commands))
 	{
-		// more stuff needed?
-		ret = execute_cmd(core, commands);
+		/* ft_putstr_fd("no children needed\n", 2); */
+		return (run_builtin(commands));
 	}
 	else
-	{
-		ret = execute_with_children(core, commands);
-	}
-	return (ret);
+		return (execute_pipeline(core, commands));
 }
