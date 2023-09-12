@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:27:32 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/09 21:45:42 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/12 15:26:00 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	open_pipes(int **pipes)
 	{
 		if (pipe(pipes[i]) == -1)
 		{
+
 			return (1);
 		}
 		i++;
