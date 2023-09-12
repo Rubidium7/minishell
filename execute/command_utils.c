@@ -1,50 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   memory_utils.c                                     :+:      :+:    :+:   */
+/*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/09 21:45:07 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/12 15:26:30 by vvagapov         ###   ########.fr       */
+/*   Created: 2023/09/11 22:28:56 by vvagapov          #+#    #+#             */
+/*   Updated: 2023/09/12 14:53:57 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	**malloc_pipes(int num)
+int	is_first_command(t_command *command)
 {
-	int	**res;
-	int	i;
-
-	res = malloc(sizeof(int*) * num + 1);
-	if (!res)
-		// TODO: set error
-		return (NULL);
-	res[num] = NULL;
-	i = 0;
-	while (i < num)
-	{
-		res[i] = malloc(sizeof(int) * 2);
-		if (!res[i])
-		{
-			free(res);
-			return (NULL);
-		}
-		i++;
-	}
-	return (res);
+	return (!command->index);
 }
 
-void	free_pipes(int **pipes)
+int	is_last_command(t_command *command)
 {
-	int i;
-	
-	i = 0;
-	while (pipes[i])
-	{
-		free(pipes[i]);
-		i++;
-	}
-	free(pipes);
+	return (!command->next);
 }

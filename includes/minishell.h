@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:28:18 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/09 22:03:39 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/11 23:01:09 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,8 +171,12 @@ void	free_pipes(int **pipes);
 // list_utils.c
 int		list_len(t_command *list);
 
+// command_utils.c
+int		is_first_command(t_command *command);
+int		is_last_command(t_command *command);
+
 // dup.c
-int		dup_input(t_command *curr_command, int **pipes);
-int		dup_output(t_command *curr_command, int **pipes);
+int		dup_input(t_command *command, int **pipes);
+int		dup_output(t_command *command, int **pipes);
 
 #endif
