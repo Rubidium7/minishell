@@ -28,6 +28,7 @@
 # include <sys/wait.h>
 # include <dirent.h>
 # include <sys/stat.h>
+# include <dirent.h>
 
 void	rl_replace_line(const char *text, int clear_undo);
 
@@ -38,6 +39,7 @@ void	process_line(t_shell *core, char *input);
 //tokenize
 
 //tokenize.c
+void	zero_values(t_token *new);
 t_token	*tokenize(char *str, t_shell *core);
 
 //clean_token_list.c
@@ -106,6 +108,23 @@ void	heredoc_ctrl_c_handler(int signum);
 void	ctrl_c_handler(int signum);
 void	ctrl_d_handler(t_shell *core);
 
+//wildcards
+//save_wildcards.c
+t_token		*clean_non_wildcards(t_token *head, t_token *current);
+void		save_wildcards(t_token *current);
+
+//expand_wildcards.c
+t_token	*expand_wildcards(t_token *head);
+
+//wildcard_matching.c
+t_bool	is_wildcard_match(char *file, t_wildcard *wildcard);
+
+//format_wildcard_into_string.c
+char	*format_wildcard_into_string(t_wildcard *current);
+
+//ft_ls.c
+char	**ft_ls(void);
+
 //utilities
 //array_utils.c
 void	free_ar(char **array);
@@ -113,6 +132,7 @@ char	**copy_array(char **src);
 
 //token_list_utils.c
 t_token	*remove_from_token_list(t_token *head, t_token *target);
+t_token	*last_token(t_token *current);
 int		find_token(t_token *start, int end_index, t_token_type type);
 void	free_token_node(t_token *node);
 
@@ -163,6 +183,7 @@ void	print_file_error(char *filename, t_error_code type);
 t_bool	syntax_error(t_syntax_error type, t_token *token);
 
 //cleaners.c
+void	empty_wildcard_list(t_wildcard *current);
 void	empty_token_list(t_token *current);
 void	empty_heredoc_list(t_heredoc *current);
 void	free_command_node(t_command *node);

@@ -5,3 +5,5 @@ putting something like '(cmd1 | cmd2 || cmd3) && cmd4 || cmd5' doesn't work corr
 cmd1(cmd2 && cmd3) && cmd4) does not behave correctly
 above syntax error bugs fixed
 still need to make sure that redir syntax errors don't the precedence over others
+echo hi > "$<NON_EXISTENT>" does not produce correct error
+echo hi > ""$<NON_EXISTENT> has a double free....

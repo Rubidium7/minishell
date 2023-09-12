@@ -25,10 +25,11 @@ void	process_line(t_shell *core, char *input)
 	//print_token_list(core->tokens, ON); //debug
 	if (!core->tokens->next)
 		return (empty_token_list(core->tokens));
+	core->tokens = expand_wildcards(core->tokens);
 	indexify_token_list(core->tokens);
 	preliminary_syntax_check(core);
 	save_redirection_filenames(core->tokens);
-	//print_token_list(core->tokens, OFF); //debug
+	print_token_list(core->tokens, OFF); //debug
 	parse(core);
 	if (!core->cur_process.tree)
 		return (empty_token_list(core->tokens));

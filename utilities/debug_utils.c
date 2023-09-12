@@ -12,6 +12,20 @@
 
 #include "minishell.h"
 
+void	print_wildcard(t_wildcard *current)
+{
+	printf("-> has wildcard: ");
+	while (current)
+	{
+		if (current->expand)
+			printf("{%s}", current->str);
+		else
+			printf("%s", current->str);
+		current = current->next;
+	}
+	printf("\n");
+}
+
 void	print_token_list(t_token *current, int print_quotes)
 {
 	while (current)
@@ -57,6 +71,8 @@ void	print_token_list(t_token *current, int print_quotes)
 			printf("|  )   |\n");
 		if (current->type == WHITESPACE)
 			printf("|  WS  |\n");
+		if (current->wildcard)
+			print_wildcard(current->wildcard);
 		if (current->next)
 			printf("   v   \n");
 		current = current->next;

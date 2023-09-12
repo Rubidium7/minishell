@@ -12,6 +12,20 @@
 
 #include "minishell.h"
 
+void	empty_wildcard_list(t_wildcard *current)
+{
+	t_wildcard	*prev;
+
+	while (current)
+	{
+		if (current->str)
+			free(current->str);
+		prev = current;
+		current = current->next;
+		free(prev);
+	}
+}
+
 void	empty_token_list(t_token *current)
 {
 	t_token	*prev;

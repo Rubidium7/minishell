@@ -29,6 +29,13 @@ t_token	*remove_from_token_list(t_token *head, t_token *target)
 	return (head);
 }
 
+t_token	*last_token(t_token *current)
+{
+	while (current && current->next)
+		current = current->next;
+	return (current);
+}
+
 int	find_token(t_token *current, int end_index, t_token_type type)
 {
 	while (current && current->position != end_index && current->type != type)
@@ -44,5 +51,7 @@ void	free_token_node(t_token *node)
 		free(node->filename);
 	if (node->content)
 		free(node->content);
+	if (node->wildcard)
+		empty_wildcard_list(node->wildcard);
 	free(node);
 }

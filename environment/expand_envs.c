@@ -12,7 +12,8 @@ t_bool	expand_envs(t_token *head, t_shell *core)
 	{
 		//print_token(current, OFF); //debug
 		//printf(" [%d]\n", current->after_redir); //debug
-		if (current->type == WORD && current->after_redir != HEREDOC)
+		if (current->type == WORD 
+			&& current->after_redir != HEREDOC && current->quote != 1)
 		{
 			old_content = ft_strdup(current->content);
 			if (!old_content)
@@ -21,7 +22,8 @@ t_bool	expand_envs(t_token *head, t_shell *core)
 			if (!current->content)
 				return (free(old_content), TRUE);
 			//printf("content is '%s'\n", current->content); //debug
-			if (current->after_redir && !current->content[0] && old_content[0])
+			if (current->after_redir && !current->content[0]
+				&& old_content[0] && !current->quote)
 			{
 				current->ambiguity = TRUE;
 				current->filename = old_content;	

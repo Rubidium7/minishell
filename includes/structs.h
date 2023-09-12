@@ -37,6 +37,7 @@ typedef enum e_error
 	TOKEN_ERROR,
 	PARSE_ERROR,
 	HEREDOC_ERROR,
+	WILDCARD_ERROR,
 } t_error_code;
 
 typedef enum e_internal_values
@@ -88,8 +89,14 @@ typedef struct s_sig
 {
 	struct sigaction	ignored;
 	struct sigaction	ctrl_c;
-
 }	t_sig;
+
+typedef struct s_wildcard
+{
+	char				*str;
+	t_bool				expand;
+	struct s_wildcard	*next;
+}	t_wildcard;
 
 typedef struct s_command
 {
@@ -111,6 +118,7 @@ typedef struct s_token
 	t_bool			open_quote;
 	t_bool			ambiguity;
 	int				after_redir;
+	t_wildcard		*wildcard;
 	struct s_token	*next;
 }	t_token;
 

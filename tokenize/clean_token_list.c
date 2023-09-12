@@ -47,7 +47,7 @@ t_token	*cleap_empty_strings(t_token *head)
 		}
 		current = current->next;
 	}
-	return (head);
+	return (clean_non_wildcards(head, head));
 }
 
 t_token	*clean_whitespace(t_token *head)
@@ -90,23 +90,24 @@ t_token	*clean_quotes_and_whitespaces(t_token *head, t_token *current)
 	t_token	*tmp;
 	char	*str;
 
-	current = head;
+	save_wildcards(head);
 	while (current)
 	{
-		if (current->type == WORD && current->next && current->next->type == WORD)
-			{
-				str = ft_strjoin(current->content, current->next->content);
-				if (!str)
-					return (NULL);
-				free(current->content);
-				add_up_values(current, current->next);
-				current->content = str;
-				tmp = current->next;
-				current->next = current->next->next;
-				free_token_node(tmp);
-			}
-		else
-			current = current->next;
+		if (current->type == WORD && current->next
+			&& current->next->type == WORD)
+		{
+			str = ft_strjoin(current->content, current->next->content);
+			if (!str)
+				return (NULL);
+			free(current->content);
+			add_up_values(current, current->next);
+			current->content = str;
+			tmp = current->next;
+			current->next = current->next->next;
+			free_token_node(tmp);
+			continue ;
+		}
+		current = current->next;
 	}
 	return (clean_whitespace(head));
 }

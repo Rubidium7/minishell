@@ -37,6 +37,7 @@ void	mark_redirections(t_token *current)
 
 static void	free_node(t_token *node, t_bool remove_filename)
 {
+	empty_wildcard_list(node->wildcard);
 	if (remove_filename)
 	{
 		if (node->filename)

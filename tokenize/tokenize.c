@@ -21,6 +21,7 @@ void	zero_values(t_token *new)
 	new->open_quote = FALSE;
 	new->after_redir = HEAD;
 	new->ambiguity = FALSE;
+	new->wildcard = NULL;
 }
 
 t_token	*new_token(t_token_type type, char *str, size_t *i)

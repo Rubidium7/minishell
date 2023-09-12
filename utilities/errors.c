@@ -41,7 +41,9 @@ void	error_print(t_error_code type)
 		ft_putendl_fd("system call failed in tokenizing process🕷🕸", 2);
 	if (type == PARSE_ERROR)
 		ft_putendl_fd("system call failed in parsing process🕷🕸", 2);
-	if (type == PARSE_ERROR)
+	if (type == HEREDOC_ERROR)
+		ft_putendl_fd("system call failed in heredoc process🕷🕸", 2);
+	if (type == WILDCARD_ERROR)
 		ft_putendl_fd("system call failed in heredoc process🕷🕸", 2);
 }
 
