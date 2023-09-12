@@ -1,50 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   memory_utils.c                                     :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/09 21:45:07 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/12 15:26:30 by vvagapov         ###   ########.fr       */
+/*   Created: 2023/09/12 13:44:38 by vvagapov          #+#    #+#             */
+/*   Updated: 2023/09/12 21:48:34 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-int	**malloc_pipes(int num)
+int	ft_strcmp(char *s1, char *s2)
 {
-	int	**res;
 	int	i;
 
-	res = malloc(sizeof(int*) * num + 1);
-	if (!res)
-		// TODO: set error
-		return (NULL);
-	res[num] = NULL;
 	i = 0;
-	while (i < num)
-	{
-		res[i] = malloc(sizeof(int) * 2);
-		if (!res[i])
-		{
-			free(res);
-			return (NULL);
-		}
+	while ((s1[i] == s2[i]) && (s1[i] != '\0'))
 		i++;
-	}
-	return (res);
-}
-
-void	free_pipes(int **pipes)
-{
-	int i;
-	
-	i = 0;
-	while (pipes[i])
-	{
-		free(pipes[i]);
-		i++;
-	}
-	free(pipes);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
