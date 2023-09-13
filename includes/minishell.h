@@ -114,6 +114,7 @@ t_token		*clean_non_wildcards(t_token *head, t_token *current);
 void		save_wildcards(t_token *current);
 
 //expand_wildcards.c
+t_token	*find_matches(t_wildcard *wildcard);
 t_token	*expand_wildcards(t_token *head);
 
 //wildcard_matching.c
@@ -121,6 +122,9 @@ t_bool	is_wildcard_match(char *file, t_wildcard *wildcard);
 
 //format_wildcard_into_string.c
 char	*format_wildcard_into_string(t_wildcard *current);
+
+//wildcards_in_filenames.c
+void	wildcards_in_filenames(t_token *current);
 
 //ft_ls.c
 char	**ft_ls(void);

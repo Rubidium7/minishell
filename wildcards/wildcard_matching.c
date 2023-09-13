@@ -7,7 +7,7 @@ static void	incrementer(int *int1, int *int2)
 	*int2 += 1;
 } //fuck you norm
 
-void	assign_numbers(int *fi, int *wi, int *back, int next_to_wild)
+static void	assign_numbers(int *fi, int *wi, int *back, int next_to_wild)
 {
 	*wi = next_to_wild;
 	*fi = ++(*back);
@@ -52,12 +52,12 @@ t_bool	is_wildcard_match(char *file, t_wildcard *wildcard)
 	fi = 0;
 	wi = 0;
 	if (!backtrack_wildcards(file, wild_str, &fi, &wi))
-		return (FALSE);
+		return (free(wild_str), FALSE);
 	while (wild_str[wi])
 	{
 		if (wild_str[wi] != 1)
-			return (FALSE);
+			return (free(wild_str), FALSE);
 		wi++;
 	}
-	return (TRUE);
+	return (free(wild_str), TRUE);
 }
