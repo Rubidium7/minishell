@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:45:07 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/12 15:26:30 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/13 13:13:02 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	**malloc_pipes(int num)
 	int	**res;
 	int	i;
 
-	res = malloc(sizeof(int*) * num + 1);
+	res = malloc(sizeof(int*) * (num + 1));
 	if (!res)
 		// TODO: set error
 		return (NULL);

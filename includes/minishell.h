@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:28:18 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/11 23:01:09 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/13 15:08:08 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,5 +228,9 @@ int		is_last_command(t_command *command);
 // dup.c
 int		dup_input(t_command *command, int **pipes);
 int		dup_output(t_command *command, int **pipes);
+
+// builtins
+int		pwd(t_shell *core);
+int		ft_exit(t_shell *core, t_command *command);
 
 #endif
