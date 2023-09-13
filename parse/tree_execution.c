@@ -111,8 +111,9 @@ t_bool	execute_tree(t_ast *tree, t_shell *core)
 		if (tree->command_list)
 		{
 			tree->return_value = pipeline_execution(core, tree->command_list);
-			core->cur_process.ret = tree->return_value;
-			//printf("ret is %d\n", core->cur_process.ret); //debug
+			core->cur_process.ret = process_exit_status(tree->return_value, core);
+			if (core->cur_process.terminated)
+				print_terminating_signal(core->cur_process.ret);
 		}
 	}
 	if (core->cur_process.error_index != DEFAULT)

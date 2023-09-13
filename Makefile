@@ -42,7 +42,7 @@ _TOKENIZE := clean_token_list.c tokenize.c redirections_filenames.c
 _PARSE := parse.c preliminary_syntax_checks.c \
 		form_tree.c syntax_checking.c \
 		tree_execution.c form_pipeline.c
-_SETUP := set_data.c set_input_mode.c set_child_signals.c signal_handlers.c
+_SETUP := set_data.c set_input_mode.c manage_child_signals.c signal_handlers.c
 _REDIR := redirections.c heredoc.c heredoc_signals.c go_through_heredocs.c
 _ENV := environment_tools.c expand_envs_in_string.c expand_envs.c
 _WILD := save_wildcards.c expand_wildcards.c wildcard_matching.c \

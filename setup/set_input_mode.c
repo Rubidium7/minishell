@@ -12,25 +12,30 @@
 
 #include "minishell.h"
 
-void	set_input_mode_signals(t_sig *signals)
+void	set_input_mode_signals(void)
 {
-	ft_bzero(&signals->ignored, sizeof(signals->ignored));
-	signals->ignored.sa_handler = SIG_IGN;
-	sigemptyset(&signals->ignored.sa_mask);
-	sigaction(SIGQUIT, &signals->ignored, NULL);
-	ft_bzero(&signals->ctrl_c, sizeof(signals->ctrl_c));
-	signals->ctrl_c.sa_handler = ctrl_c_handler;
-	sigemptyset(&signals->ctrl_c.sa_mask);
-	sigaction(SIGINT, &signals->ctrl_c, NULL);
+	struct sigaction	ignored;
+	struct sigaction	ctrl_c;
+
+	ft_bzero(&ignored, sizeof(ignored));
+	ignored.sa_handler = SIG_IGN;
+	sigemptyset(&ignored.sa_mask);
+	sigaction(SIGQUIT, &ignored, NULL);
+	ft_bzero(&ctrl_c, sizeof(ctrl_c));
+	ctrl_c.sa_handler = ctrl_c_handler;
+	sigemptyset(&ctrl_c.sa_mask);
+	sigaction(SIGINT, &ctrl_c, NULL);
 }
 
-void	ignore_signals(t_sig *signals)
+void	ignore_signals(void)
 {
-	ft_bzero(&signals->ignored, sizeof(signals->ignored));
-	signals->ignored.sa_handler = SIG_IGN;
-	sigemptyset(&signals->ignored.sa_mask);
-	sigaction(SIGINT, &signals->ignored, NULL);
-	sigaction(SIGQUIT, &signals->ignored, NULL);
+	struct sigaction	ignored;
+
+	ft_bzero(&ignored, sizeof(ignored));
+	ignored.sa_handler = SIG_IGN;
+	sigemptyset(&ignored.sa_mask);
+	sigaction(SIGINT, &ignored, NULL);
+	sigaction(SIGQUIT, &ignored, NULL);
 }
 
 void	set_termios(t_terminal *term)
@@ -45,12 +50,12 @@ void	set_input_mode(t_shell *core, int mode)
 {
 	if (mode == ON)
 	{
-		set_input_mode_signals(&core->signals);
+		set_input_mode_signals();
 		set_termios(&core->term);
 	}
 	if (mode == OFF)
 	{
-		ignore_signals(&core->signals);
+		ignore_signals();
 		tcsetattr(STDIN_FILENO, TCSAFLUSH, &core->term.old);
 	}
 }

@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+void	test_file(const char *str)
+{
+	int	fd = open("mutsis_test.txt", O_WRONLY | O_CREAT | O_APPEND, 0000644);
+	write(fd, str, ft_strlen(str));
+}
+
 void	print_wildcard(t_wildcard *current)
 {
 	printf("-> has wildcard: ");

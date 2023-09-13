@@ -14,6 +14,7 @@
 
 void	heredoc_ctrl_c_handler(int signum)
 {
+	//test_file("ctrl c heredoc called\n"); //debug
 	(void)signum;
 	exit (1);
 }
@@ -21,6 +22,7 @@ void	heredoc_ctrl_c_handler(int signum)
 void	ctrl_c_handler(int signum)
 {
 	(void)signum;
+	//test_file("ctrl c called\n"); //debug
 	ioctl(0, TIOCSTI, "\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);

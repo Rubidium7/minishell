@@ -83,7 +83,7 @@ void	handle_child(t_command *curr_command, int **pipes, t_shell *core,
 /*	printf("child name: %s\n", curr_command->cmd_name);  //debug
  	printf("red_in: %d\n", curr_command->red_in);
 	printf("red_out: %d\n", curr_command->red_out); */
-	set_child_signals(&core->signals);
+	set_child_signals();
 	if (dup_input(curr_command, pipes) == -1
 	|| dup_output(curr_command, pipes) == -1)
 	{
@@ -110,8 +110,7 @@ int	wait_for_children(pid_t *children, int len)
 		waitpid(children[i], &ret, 0);
 		i++;
 	}
-	//printf("ret = %d\n", ret); //debug
-	return(WEXITSTATUS(ret));
+	return(ret);
 }
 
 // Joins the path to command name and returns the result if successful,

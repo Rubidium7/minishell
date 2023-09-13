@@ -98,13 +98,17 @@ t_bool	expand_envs(t_token *head, t_shell *core);
 void	set_start_data(t_shell *core, char **start_env);
 
 // set_input_mode.c
-void	set_input_mode_signals(t_sig *signals);
-void	ignore_signals(t_sig *signals);
+void	set_input_mode_signals(void);
+void	ignore_signals(void);
 void	set_termios(t_terminal *term);
 void	set_input_mode(t_shell *core, int mode);
 
-//set_child_signals.c
-void	set_child_signals(t_sig *signals);
+//manage_child_signals.c
+void	child_ctrl_c(int signum);
+void	child_ctrl_slash(int signum);
+void	set_child_signals(void);
+int		process_exit_status(int ret, t_shell *core);
+void	print_terminating_signal(int signum);
 
 // signal_handlers.c
 void	heredoc_ctrl_c_handler(int signum);
@@ -165,6 +169,7 @@ char	*add_string_to(char *str, char *content, int start);
 
 
 //debug_utils.c
+void	test_file(const char *str);
 void	print_token_list(t_token *current, int print_quotes);
 void	print_token(t_token *token, int new_line);
 void	print_tree_in_execution_order(t_ast *tree);

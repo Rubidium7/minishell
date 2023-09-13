@@ -87,14 +87,6 @@ typedef struct s_terminal
 
 }	t_terminal;
 
-typedef struct s_sig
-{
-	struct sigaction	ignored;
-	struct sigaction	ctrl_c;
-	struct sigaction	child_c;
-	struct sigaction	child_slash;
-}	t_sig;
-
 typedef struct s_wildcard
 {
 	char				*str;
@@ -157,6 +149,7 @@ typedef struct s_current_process
 	char	*input_line;
 	int		error_index;
 	int		heredoc_index;
+	t_bool	terminated;
 	t_ast	*tree;
 	int		ret;
 }	t_current_process;
@@ -170,8 +163,7 @@ typedef struct s_env
 
 typedef struct s_shell
 {
-	t_terminal			term;	
-	t_sig				signals;
+	t_terminal			term;
 	t_token				*tokens;
 	t_current_process	cur_process;
 	t_env				*env_list;
