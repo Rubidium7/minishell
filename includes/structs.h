@@ -53,7 +53,6 @@ typedef enum e_internal_values
 	NO_LOGIC = -5,
 	NOT_FOUND = -6,
 	PIPE_FAIL = -7,
-	DUP_FAIL = -8,
 } t_internal_values;
 
 typedef enum e_syntax_error
