@@ -30,7 +30,7 @@ void	process_line(t_shell *core, char *input)
 	preliminary_syntax_check(core);
 	save_redirection_filenames(core->tokens);
 	wildcards_in_filenames(core->tokens);
-	print_token_list(core->tokens, OFF); //debug
+	//print_token_list(core->tokens, OFF); //debug
 	parse(core);
 	if (!core->cur_process.tree)
 		return (empty_token_list(core->tokens));

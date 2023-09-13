@@ -27,7 +27,7 @@ void	open_outfile(t_command *new, t_token *current)
 		close(new->red_out);
 	if (current->ambiguity)
 		new->red_out = NOT_OPEN;
-	else if (current->type == RED_IN)
+	else if (current->type == RED_OUT)
 		new->red_out = open(current->filename, O_WRONLY | O_CREAT | O_TRUNC, 0000644);
 	else
 		new->red_out = open(current->filename, O_WRONLY | O_CREAT | O_APPEND, 0000644);

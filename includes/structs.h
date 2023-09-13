@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:24:10 by nlonka            #+#    #+#             */
-/*   Updated: 2023/08/21 11:31:35 by nlonka           ###   ########.fr       */
+/*   Updated: 2023/09/12 13:23:03 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ typedef enum e_internal_values
 	PARENTHESES_ERROR = -4,
 	NO_LOGIC = -5,
 	NOT_FOUND = -6,
+	PIPE_FAIL = -7,
+	DUP_FAIL = -8,
 } t_internal_values;
 
 typedef enum e_syntax_error

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:28:18 by nlonka            #+#    #+#             */
-/*   Updated: 2023/08/21 11:30:05 by nlonka           ###   ########.fr       */
+/*   Updated: 2023/09/11 23:01:09 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,57 +33,57 @@
 void	rl_replace_line(const char *text, int clear_undo);
 
 //core
-//process_line.c
+// process_line.c
 void	process_line(t_shell *core, char *input);
 
-//tokenize
+// tokenize
 
 //tokenize.c
 void	zero_values(t_token *new);
 t_token	*tokenize(char *str, t_shell *core);
 
-//clean_token_list.c
+// clean_token_list.c
 t_token	*clean_quotes_and_whitespaces(t_token *head, t_token *current);
 
 //redirection_filenames.c
 void	mark_redirections(t_token *current);
 void	save_redirection_filenames(t_token *current);
 
-//parse
-//parse.c
+// parse
+// parse.c
 void		parse(t_shell *core);
 
-//preliminary_syntax_checking.c
+// preliminary_syntax_checking.c
 t_bool		preliminary_syntax_check(t_shell *core);
 
-//syntax_checking.c
+// syntax_checking.c
 t_ast		*syntax_check(t_token *head, t_shell *core);
 
-//form_tree.c
+// form_tree.c
 t_ast		*form_tree(t_token *start, t_ast *up, int end_index, int *error_index);
 
-//form_pipeline.c
+// form_pipeline.c
 t_pipeline	*form_pipeline(t_token *head_token, int end_index, int *error_index);
 
-//tree_execution.c
+// tree_execution.c
 t_command	*form_command_list(t_pipeline *current, t_shell *core, t_heredoc *heredoc);
 t_bool		execute_tree(t_ast *tree, t_shell *core);
 
-//redirections
-//redirections.c
+// redirections
+// redirections.c
 void	open_redirections(t_command *new, t_pipeline *pipeline, t_heredoc *heredoc, t_shell *core);
 
-//heredoc.c
+// heredoc.c
 t_heredoc	*open_heredocs(t_pipeline *pipeline, int index, t_shell *core);
 
-//heredoc_signals.c
+// heredoc_signals.c
 void	set_heredoc_mode(t_shell *core, int mode);
 
-//go_through_heredocs.c
+// go_through_heredocs.c
 t_bool	go_through_heredocs(t_ast *tree, t_shell *core);
 
-//environment
-//environment_tools.c
+// environment
+// environment_tools.c
 char	*fetch_env(const char *key, t_shell *core);
 
 //expand_envs_in_string.c
@@ -94,16 +94,16 @@ t_bool	expand_envs(t_token *head, t_shell *core);
 
 //setup
 
-//set_data.c
+// set_data.c
 void	set_start_data(t_shell *core, char **start_env);
 
-//set_input_mode.c
+// set_input_mode.c
 void	set_input_mode_signals(t_sig *signals);
 void	ignore_signals(t_sig *signals);
 void	set_termios(t_terminal *term);
 void	set_input_mode(t_shell *core, int mode);
 
-//signal_handlers.c
+// signal_handlers.c
 void	heredoc_ctrl_c_handler(int signum);
 void	ctrl_c_handler(int signum);
 void	ctrl_d_handler(t_shell *core);
@@ -130,17 +130,19 @@ void	wildcards_in_filenames(t_token *current);
 char	**ft_ls(void);
 
 //utilities
-//array_utils.c
+
+//token_list_utils.c
+// array_utils.c
 void	free_ar(char **array);
 char	**copy_array(char **src);
 
-//token_list_utils.c
+// list_utils.c
 t_token	*remove_from_token_list(t_token *head, t_token *target);
 t_token	*last_token(t_token *current);
 int		find_token(t_token *start, int end_index, t_token_type type);
 void	free_token_node(t_token *node);
 
-//tokenizing_utils.c
+// tokenizing_utils.c
 char	*get_quoted_word(char *str, size_t *i, int quote, t_token *new);
 char	*get_word_token(char *str, size_t *i);
 void	carve_out_whitespace(char *str, size_t *i);
@@ -167,7 +169,7 @@ void	print_file(const char *filename, int write_fd);
 void	print_heredocs(t_ast *tree, int print_files);
 void	print_ar(char **array);
 
-//ast_utils.c
+// ast_utils.c
 t_ast	*new_ast_node(t_ast *up, t_pipeline *head, \
 	t_token_type type, int *error_index);
 t_token	*node_at_index(t_token *current, int end_index);
@@ -176,10 +178,10 @@ t_token	*last_node(t_token *current, t_token *end);
 int		token_after_parentheses(t_token *current, int end_index);	
 int		find_logic_token(t_token *current, int end_index);
 
-//exiting.c
+// exiting.c
 int		handle_exit(t_shell *core);
 
-//errors.c
+// errors.c
 void	handle_error_value(int *error_index, int position);
 void	update_error_value(t_shell *core);
 void	error_print(t_error_code type);
@@ -195,5 +197,28 @@ void	empty_command_list(t_command *current);
 void	empty_pipeline_list(t_pipeline *current);
 t_ast	*free_tree(t_ast *tree);
 void	clean_up(t_shell *core);
+
+// executor
+// piping.c
+int		pipeline_execution(t_shell *core, t_command *commands);
+
+// pipes_utils.c
+int		open_pipes(int **pipes);
+void	close_pipes(int **pipes);
+
+// memory_utils.c
+int		**malloc_pipes(int num);
+void	free_pipes(int **pipes);
+
+// list_utils.c
+int		list_len(t_command *list);
+
+// command_utils.c
+int		is_first_command(t_command *command);
+int		is_last_command(t_command *command);
+
+// dup.c
+int		dup_input(t_command *command, int **pipes);
+int		dup_output(t_command *command, int **pipes);
 
 #endif
