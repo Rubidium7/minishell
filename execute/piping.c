@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 20:06:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/12 22:36:41 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/13 18:06:11 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,37 +21,13 @@ char	**split_path(char* path)
 	//https://i.kym-cdn.com/photos/images/newsfeed/001/889/888/265.jpeg
 }
 
-/* int	execute(t_shell *shell, char** paths, t_command *command)
-{
-	int		i;
-	char	*exe_path;
-
-	//printf("%s args:\n", command->cmd_name); //debug
-	//print_ar(command->cmd_ar); //debug
-	//printf("%s args end\n", command->cmd_name); //debug
-	if (command->cmd_name[0] == '/' && access(command->cmd_name, X_OK))
-	{
-		//printf("no path used\n"); //debug
-		execve(command->cmd_name, command->cmd_ar, shell->env);
-	}
-	i = 0;
-	while (paths[i])
-	{
-		exe_path = ft_strjoin(ft_strjoin(paths[i], "/"), command->cmd_name);
-		if (!access(exe_path, X_OK))
-		{
-			//printf("path accessed!\n"); //debug
-			execve(exe_path, command->cmd_ar, shell->env);
-		}
-		i++;
-	}
-	exit (1);
-	// Add check if directory etc
-} */
-
-int	run_builtin(t_command *command)
+int	run_builtin(t_shell *core, t_command *command)
 {
 	(void)command;
+	if (!ft_strcmp(command->cmd_name, "pwd"))
+		return (pwd(core));
+	else if (!ft_strcmp(command->cmd_name, "exit"))
+		return (ft_exit(core, command));
 	// TODO: implement
 	return (0);
 }
@@ -72,7 +48,7 @@ int	is_builtin(t_command *command)
 void	execute_cmd(t_shell *core, t_command *command, char *exe_path)
 {
 	if (is_builtin(command))
-		exit(run_builtin(command));
+		exit(run_builtin(core, command));
 	else
 		execve(exe_path, command->cmd_ar, core->env);
 }
@@ -93,8 +69,8 @@ void	handle_child(t_command *curr_command, int **pipes, t_shell *core,
 		exit(1);
 	}
 	close_pipes(pipes);
+	//free_pipes(pipes); // maybe needed? nah
 	execute_cmd(core, curr_command, exe_path);
-	//execute_placeholder(core, curr_command);
 	exit(1);
 }
 
@@ -121,13 +97,13 @@ char	*join_path(t_shell *core, char* path, char *cmd_name)
 	char	*full_path;
 	char	*path_with_slash;
 
-	path_with_slash = ft_strjoin(path, "/");
+	path_with_slash = ft_strjoin(path, "/"); // malloc
 	if (!path_with_slash)
 	{
 		core->cur_process.error_index = MALLOC_FAIL;
 		return (NULL);
 	}
-	full_path = ft_strjoin(path_with_slash, cmd_name);
+	full_path = ft_strjoin(path_with_slash, cmd_name); // malloc
 	free(path_with_slash);
 	if (!full_path)
 	{
@@ -149,14 +125,14 @@ char	**fetch_paths_array(t_shell *core)
 	char	*paths;
 	char	**paths_split;
 
-	paths = fetch_env("PATH", core);
+	paths = fetch_env("PATH", core); // malloc
 	if (!paths)
 	{
 		// what to do in this case? anything extra?
 		core->cur_process.error_index = MALLOC_FAIL;
 		return (NULL);
 	}
-	paths_split = split_path(paths);
+	paths_split = split_path(paths); // malloc
 	if (!paths_split)
 	{
 		core->cur_process.error_index = MALLOC_FAIL;
@@ -173,21 +149,15 @@ char	*find_exe_path(t_shell *core, t_command *command)
 	char	*exe_path;
 	char	**paths_split;
 
-	paths_split = fetch_paths_array(core);
+	paths_split = fetch_paths_array(core); // malloc
 	if (!paths_split)
 		return (NULL);
 	i = 0;
 	while (paths_split[i])
 	{
-		exe_path = join_path(core, paths_split[i], command->cmd_name);
+		exe_path = join_path(core, paths_split[i], command->cmd_name); // malloc
 		if (!exe_path || access(exe_path, X_OK) == SUCCESS)
 		{
-			/* ft_putstr_fd("exe_path exiting: ", 2);
-			if (!exe_path)
-				ft_putstr_fd("null", 2);
-			else
-				ft_putstr_fd(exe_path, 2);
-			ft_putstr_fd("\n", 2); */
 			free_ar(paths_split);
 			return (exe_path);
 		}
@@ -232,7 +202,7 @@ int	handle_command(t_shell *core, pid_t *children, int **pipes,
 
 	if (access(command->cmd_name, X_OK) == SUCCESS || is_builtin(command))
 	{
-		exe_path = ft_strdup(command->cmd_name);
+		exe_path = ft_strdup(command->cmd_name); // malloc
 		if (!exe_path)
 		{
 			core->cur_process.error_index = MALLOC_FAIL;
@@ -241,7 +211,7 @@ int	handle_command(t_shell *core, pid_t *children, int **pipes,
 	}
 	else
 	{
-		exe_path = find_exe_path(core, command);
+		exe_path = find_exe_path(core, command); // malloc
 	}
 	if (!exe_path)
 	{
@@ -251,17 +221,15 @@ int	handle_command(t_shell *core, pid_t *children, int **pipes,
 		ft_putstr_fd(": no such shroom🐛\n", 2);
 		return (SUCCESS);
 	}
-/* 	else
-	{
-		ft_putstr_fd("exe_path: ", 2);
-		ft_putstr_fd(exe_path, 2);
-		ft_putstr_fd("\n", 2);
-	} */
 	// create a child process
+	ft_putstr_fd("exe_path: ", 2);
+	ft_putstr_fd(exe_path, 2);
+	ft_putstr_fd("\n", 2);
 	children[command->index] = fork();
 	if (!children[command->index])
 		handle_child(command, pipes, core, exe_path);
 	// We should never get here...think of how to handle these return values
+	free(exe_path);
 	return (SUCCESS);
 }
 
@@ -269,7 +237,7 @@ int	handle_command(t_shell *core, pid_t *children, int **pipes,
 int	prepare_pipes_and_children(t_shell *core, int ***pipes, pid_t **children,
 int len)
 {
-	*pipes = malloc_pipes(len - 1);
+	*pipes = malloc_pipes(len - 1); // malloc
 	if (!(*pipes))
 	{
 		core->cur_process.error_index = MALLOC_FAIL;
@@ -278,12 +246,15 @@ int len)
 	if (open_pipes(*pipes) != SUCCESS)
 	{
 		core->cur_process.error_index = PIPE_FAIL;
+		free(pipes);
 		return (PIPE_FAIL);
 	}
-	*children = malloc(sizeof(pid_t) * len);
+	*children = ft_calloc(sizeof(pid_t), len);
+	/* *children = malloc(sizeof(pid_t) * len); */
 	if (!(*children))
 	{
 		core->cur_process.error_index = MALLOC_FAIL;
+		free(pipes);
 		return (MALLOC_FAIL);
 	}
 	return (SUCCESS);
@@ -311,7 +282,7 @@ int	execute_pipeline(t_shell *core, t_command *commands)
 	int			ret;
 	
 	len = list_len(commands);
-	ret = prepare_pipes_and_children(core, &pipes, &children, len);
+	ret = prepare_pipes_and_children(core, &pipes, &children, len); // malloc
 	if (ret != SUCCESS)
 	{
 		finalise_pipes_and_children(pipes, children, len);
@@ -323,6 +294,7 @@ int	execute_pipeline(t_shell *core, t_command *commands)
 		ret = handle_command(core, children, pipes, curr_command);
 		if (ret != SUCCESS)
 		{
+			ft_putstr_fd("handle_command failed\n", 2);
 			finalise_pipes_and_children(pipes, children, len);
 			return (ret);
 		}
@@ -337,8 +309,8 @@ int	pipeline_execution(t_shell *core, t_command *commands)
 {
 	if (no_children_needed(commands))
 	{
-		/* ft_putstr_fd("no children needed\n", 2); */
-		return (run_builtin(commands));
+		ft_putstr_fd("no children needed\n", 2);
+		return (run_builtin(core, commands));
 	}
 	else
 		return (execute_pipeline(core, commands));
