@@ -18,6 +18,7 @@
 char	**split_path(char* path)
 {
 	return ft_split(path, ':');
+	//https://i.kym-cdn.com/photos/images/newsfeed/001/889/888/265.jpeg
 }
 
 /* int	execute(t_shell *shell, char** paths, t_command *command)
@@ -82,6 +83,7 @@ void	handle_child(t_command *curr_command, int **pipes, t_shell *core,
 /*	printf("child name: %s\n", curr_command->cmd_name);  //debug
  	printf("red_in: %d\n", curr_command->red_in);
 	printf("red_out: %d\n", curr_command->red_out); */
+	set_child_signals(&core->signals);
 	if (dup_input(curr_command, pipes) == -1
 	|| dup_output(curr_command, pipes) == -1)
 	{
@@ -108,6 +110,7 @@ int	wait_for_children(pid_t *children, int len)
 		waitpid(children[i], &ret, 0);
 		i++;
 	}
+	//printf("ret = %d\n", ret); //debug
 	return(WEXITSTATUS(ret));
 }
 
@@ -208,7 +211,7 @@ int	has_args(char **args)
 	return (FALSE);
 }
 
-int	no_children_needed(t_command *commands)
+t_bool	no_children_needed(t_command *commands)
 {
 	if (list_len(commands) > 1)
 		return (FALSE);
@@ -243,9 +246,9 @@ int	handle_command(t_shell *core, pid_t *children, int **pipes,
 	if (!exe_path)
 	{
 		// TODO: print error and return
-		ft_putstr_fd(MINI_SHROOM, 2);
+		ft_putstr_fd(ERROR_SHROOM, 2);
 		ft_putstr_fd(command->cmd_name, 2);
-		ft_putstr_fd(": no such shroom😿\n", 2);
+		ft_putstr_fd(": no such shroom🐛\n", 2);
 		return (SUCCESS);
 	}
 /* 	else

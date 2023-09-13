@@ -109,7 +109,11 @@ t_bool	execute_tree(t_ast *tree, t_shell *core)
 	{
 		tree->command_list = form_command_list(tree->pipeline, core, tree->heredoc_list);
 		if (tree->command_list)
+		{
 			tree->return_value = pipeline_execution(core, tree->command_list);
+			core->cur_process.ret = tree->return_value;
+			//printf("ret is %d\n", core->cur_process.ret); //debug
+		}
 	}
 	if (core->cur_process.error_index != DEFAULT)
 		return (TRUE);

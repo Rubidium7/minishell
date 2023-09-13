@@ -14,9 +14,11 @@
 
 void	set_input_mode_signals(t_sig *signals)
 {
+	ft_bzero(&signals->ignored, sizeof(signals->ignored));
 	signals->ignored.sa_handler = SIG_IGN;
 	sigemptyset(&signals->ignored.sa_mask);
 	sigaction(SIGQUIT, &signals->ignored, NULL);
+	ft_bzero(&signals->ctrl_c, sizeof(signals->ctrl_c));
 	signals->ctrl_c.sa_handler = ctrl_c_handler;
 	sigemptyset(&signals->ctrl_c.sa_mask);
 	sigaction(SIGINT, &signals->ctrl_c, NULL);
@@ -24,6 +26,7 @@ void	set_input_mode_signals(t_sig *signals)
 
 void	ignore_signals(t_sig *signals)
 {
+	ft_bzero(&signals->ignored, sizeof(signals->ignored));
 	signals->ignored.sa_handler = SIG_IGN;
 	sigemptyset(&signals->ignored.sa_mask);
 	sigaction(SIGINT, &signals->ignored, NULL);
@@ -42,12 +45,12 @@ void	set_input_mode(t_shell *core, int mode)
 {
 	if (mode == ON)
 	{
-		//set_input_mode_signals(&core->signals);
+		set_input_mode_signals(&core->signals);
 		set_termios(&core->term);
 	}
 	if (mode == OFF)
 	{
-		//ignore_signals(&core->signals);
+		ignore_signals(&core->signals);
 		tcsetattr(STDIN_FILENO, TCSAFLUSH, &core->term.old);
 	}
 }

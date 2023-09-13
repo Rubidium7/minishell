@@ -28,7 +28,6 @@ t_token	*node_at_index(t_token *current, int end_index)
 	while (current && current->position != end_index)
 		current = current->next;
 	return (current);
-	//https://i.kym-cdn.com/photos/images/newsfeed/001/889/888/265.jpeg
 }
 
 int		previous_position(t_token *head, t_token *last)

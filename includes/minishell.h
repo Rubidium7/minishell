@@ -103,6 +103,9 @@ void	ignore_signals(t_sig *signals);
 void	set_termios(t_terminal *term);
 void	set_input_mode(t_shell *core, int mode);
 
+//set_child_signals.c
+void	set_child_signals(t_sig *signals);
+
 // signal_handlers.c
 void	heredoc_ctrl_c_handler(int signum);
 void	ctrl_c_handler(int signum);

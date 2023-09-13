@@ -91,6 +91,8 @@ typedef struct s_sig
 {
 	struct sigaction	ignored;
 	struct sigaction	ctrl_c;
+	struct sigaction	child_c;
+	struct sigaction	child_slash;
 }	t_sig;
 
 typedef struct s_wildcard
