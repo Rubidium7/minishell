@@ -60,6 +60,7 @@ void	open_redirections(t_command *new, t_pipeline *pipeline, t_heredoc *heredoc,
 	t_token	*current;
 
 	current = pipeline->start;
+	core->cur_process.ret = 0;
 	while (current != pipeline->end)
 	{
 		if (is_redir(current->type) && current->type != HEREDOC)

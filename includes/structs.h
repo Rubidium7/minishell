@@ -32,12 +32,14 @@ typedef enum e_error
 	HEREDOC_FILE_ERROR,
 	SYNTAX_ERROR = 258,
 	MALLOC_ERROR,
+	PIPE_ERROR,
 	OPEN_ERROR,
 	SETUP_ERROR,
 	TOKEN_ERROR,
 	PARSE_ERROR,
 	HEREDOC_ERROR,
 	WILDCARD_ERROR,
+	EXEC_ERROR,
 } t_error_code;
 
 typedef enum e_internal_values

@@ -67,7 +67,7 @@ t_pipeline	*form_pipeline(t_token *head_token, int end_index, int *error_index);
 
 // tree_execution.c
 t_command	*form_command_list(t_pipeline *current, t_shell *core, t_heredoc *heredoc);
-t_bool		execute_tree(t_ast *tree, t_shell *core);
+int			execute_tree(t_ast *tree, t_shell *core);
 
 // redirections
 // redirections.c

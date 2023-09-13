@@ -16,6 +16,7 @@ void	heredoc_ctrl_c_handler(int signum)
 {
 	//test_file("ctrl c heredoc called\n"); //debug
 	(void)signum;
+	ft_putstr_fd("\n", 1);
 	exit (1);
 }
 

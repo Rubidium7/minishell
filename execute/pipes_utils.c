@@ -17,7 +17,7 @@ int	open_pipes(int **pipes)
 	int	i;
 
 	i = 0;
-	while (pipes[i])
+	while (pipes && pipes[i])
 	{
 		if (pipe(pipes[i]) == -1)
 		{
@@ -30,7 +30,7 @@ int	open_pipes(int **pipes)
 
 void	close_pipes(int **pipes)
 {
-	while (*pipes)
+	while (pipes && *pipes)
 	{
 		close((*pipes)[0]);
 		close((*pipes)[1]);

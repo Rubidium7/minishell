@@ -97,14 +97,17 @@ t_command	*form_command_list(t_pipeline *current, t_shell *core, t_heredoc *here
 	return (head);
 }
 
-t_bool	execute_tree(t_ast *tree, t_shell *core)
+int	execute_tree(t_ast *tree, t_shell *core)
 {
-	if (core->cur_process.error_index != DEFAULT)
-		return (TRUE);
-	if (!tree)
-		return (FALSE);
-	execute_tree(tree->left, core);
-	execute_tree(tree->right, core);
+	int	ret;
+
+	if (core->cur_process.error_index != DEFAULT || !tree)
+		return (FAILURE);
+	ret = execute_tree(tree->left, core);
+	if (ret && tree->type == OR)
+		return (execute_tree(tree->right, core));
+	if (!ret && tree->type == AND)
+		return (execute_tree(tree->right, core));
 	if (tree->pipeline)
 	{
 		tree->command_list = form_command_list(tree->pipeline, core, tree->heredoc_list);
@@ -114,9 +117,9 @@ t_bool	execute_tree(t_ast *tree, t_shell *core)
 			core->cur_process.ret = process_exit_status(tree->return_value, core);
 			if (core->cur_process.terminated)
 				print_terminating_signal(core->cur_process.ret);
+			if (tree->up)
+				tree->up->return_value = tree->return_value;
 		}
 	}
-	if (core->cur_process.error_index != DEFAULT)
-		return (TRUE);
-	return (FALSE);
+	return (tree->return_value);
 }

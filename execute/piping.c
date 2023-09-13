@@ -60,6 +60,13 @@ void	handle_child(t_command *curr_command, int **pipes, t_shell *core,
  	printf("red_in: %d\n", curr_command->red_in);
 	printf("red_out: %d\n", curr_command->red_out); */
 	set_child_signals();
+	if (curr_command->red_in == NOT_OPEN 
+	|| curr_command->red_out == NOT_OPEN)
+		exit(1);
+	if (core->cur_process.ret)
+		exit(core->cur_process.ret);
+	if (!exe_path)
+		exit(0);
 	if (dup_input(curr_command, pipes) == -1
 	|| dup_output(curr_command, pipes) == -1)
 	{
@@ -164,6 +171,10 @@ char	*find_exe_path(t_shell *core, t_command *command)
 		i++;
 	}
 	free_ar(paths_split);
+	ft_putstr_fd(ERROR_SHROOM, 2);
+	ft_putstr_fd(command->cmd_name, 2);
+	ft_putstr_fd(": no such shroom🐛\n", 2);
+	core->cur_process.ret = 127;
 	// how to differenciate between not foudn and malloc fail??
 	return (NULL);
 }
@@ -182,7 +193,7 @@ int	has_args(char **args)
 
 t_bool	no_children_needed(t_command *commands)
 {
-	if (list_len(commands) > 1)
+	if (list_len(commands) > 1 || !commands->cmd_name)
 		return (FALSE);
 	if (!ft_strcmp(commands->cmd_name, "export") && has_args(commands->cmd_ar))
 			return (TRUE);
@@ -199,31 +210,21 @@ int	handle_command(t_shell *core, pid_t *children, int **pipes,
 {
 	char	*exe_path;
 
-	if (access(command->cmd_name, X_OK) == SUCCESS || is_builtin(command))
-	{
+	if (!command->cmd_name)
+		exe_path = NULL;
+	else if (access(command->cmd_name, X_OK) == SUCCESS || is_builtin(command))
 		exe_path = ft_strdup(command->cmd_name); // malloc
-		if (!exe_path)
-		{
-			core->cur_process.error_index = MALLOC_FAIL;
-			return (MALLOC_FAIL);
-		}
-	}
 	else
-	{
 		exe_path = find_exe_path(core, command); // malloc
-	}
-	if (!exe_path)
+	if (!exe_path && core->cur_process.ret != 127 && command->cmd_name)
 	{
-		// TODO: print error and return
-		ft_putstr_fd(ERROR_SHROOM, 2);
-		ft_putstr_fd(command->cmd_name, 2);
-		ft_putstr_fd(": no such shroom🐛\n", 2);
-		return (SUCCESS);
+		core->cur_process.error_index = MALLOC_FAIL;
+		return (MALLOC_FAIL);
 	}
 	// create a child process
-	ft_putstr_fd("exe_path: ", 2);
-	ft_putstr_fd(exe_path, 2);
-	ft_putstr_fd("\n", 2);
+	// ft_putstr_fd("exe_path: ", 2); //debug
+	// ft_putstr_fd(exe_path, 2); //debug
+	// ft_putstr_fd("\n", 2); //debug
 	children[command->index] = fork();
 	if (!children[command->index])
 		handle_child(command, pipes, core, exe_path);
@@ -293,7 +294,7 @@ int	execute_pipeline(t_shell *core, t_command *commands)
 		ret = handle_command(core, children, pipes, curr_command);
 		if (ret != SUCCESS)
 		{
-			ft_putstr_fd("handle_command failed\n", 2);
+			ft_putstr_fd("handle_command failed\n", 2); //debug
 			finalise_pipes_and_children(pipes, children, len);
 			return (ret);
 		}
