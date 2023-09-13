@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:24:10 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/12 13:23:03 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/13 19:17:10 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,14 @@ typedef enum e_error
 	HEREDOC_FILE_ERROR,
 	SYNTAX_ERROR = 258,
 	MALLOC_ERROR,
+	PIPE_ERROR,
 	OPEN_ERROR,
 	SETUP_ERROR,
 	TOKEN_ERROR,
 	PARSE_ERROR,
 	HEREDOC_ERROR,
 	WILDCARD_ERROR,
+	EXEC_ERROR
 } t_error_code;
 
 typedef enum e_internal_values

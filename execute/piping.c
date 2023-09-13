@@ -6,13 +6,10 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 20:06:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/13 18:06:11 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/13 19:19:27 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <fcntl.h>
-#include "structs.h"
 #include "minishell.h"
 
 char	**split_path(char* path)
@@ -65,7 +62,7 @@ void	handle_child(t_command *curr_command, int **pipes, t_shell *core,
 	{
 		// the below is useless, right?
 		// core->cur_process.error_index = DUP_ERROR;
-		ft_putstr_fd("dup error\n", 2); //debug
+		error_print(EXEC_ERROR);
 		exit(1);
 	}
 	close_pipes(pipes);

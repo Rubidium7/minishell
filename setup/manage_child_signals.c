@@ -2,17 +2,17 @@
 
 #include "minishell.h"
 
-void	child_ctrl_c(int signum)
-{
-	(void)signum;
-	exit(130);
-}
+// void	child_ctrl_c(int signum)
+// {
+// 	(void)signum;
+// 	exit(130);
+// }
 
-void	child_ctrl_slash(int signum)
-{
-	(void)signum;
-	exit(131);
-}
+// void	child_ctrl_slash(int signum)
+// {
+// 	(void)signum;
+// 	exit(131);
+// }
 
 void	set_child_signals(void)
 {
@@ -20,11 +20,11 @@ void	set_child_signals(void)
 	struct sigaction	child_slash;
 
 	ft_bzero(&child_c, sizeof(child_c));
-	child_c.sa_handler = child_ctrl_c;
+	//child_c.sa_handler = child_ctrl_c;
 	sigemptyset(&child_c.sa_mask);
 	sigaction(SIGINT, &child_c, NULL);
 	ft_bzero(&child_slash, sizeof(child_slash));
-	child_slash.sa_handler = child_ctrl_slash;
+	//child_slash.sa_handler = child_ctrl_slash;
 	sigemptyset(&child_slash.sa_mask);
 	sigaction(SIGQUIT, &child_slash, NULL);
 }
