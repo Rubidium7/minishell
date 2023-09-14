@@ -2,7 +2,7 @@
 
 #include "minishell.h"
 
-void	set_heredoc_signals()
+void	set_heredoc_signals(void)
 {
 	struct sigaction	ignored;
 	struct sigaction	ctrl_c;
@@ -22,7 +22,7 @@ void	set_heredoc_mode(t_shell *core, int mode)
 	if (mode == ON)
 	{
 		set_heredoc_signals();
-		set_termios(&core->term);
+		tcsetattr(STDIN_FILENO, TCSAFLUSH, &core->term.new);
 	}
 	if (mode == OFF)
 	{

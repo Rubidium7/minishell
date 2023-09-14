@@ -43,7 +43,6 @@ void	set_termios(t_terminal *term)
 	tcgetattr(STDIN_FILENO, &term->old);
 	tcgetattr(STDIN_FILENO, &term->new);
 	term->new.c_lflag &= ~(ECHOCTL);
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, &term->new);
 }
 
 void	set_input_mode(t_shell *core, int mode)
@@ -51,7 +50,7 @@ void	set_input_mode(t_shell *core, int mode)
 	if (mode == ON)
 	{
 		set_input_mode_signals();
-		set_termios(&core->term);
+		tcsetattr(STDIN_FILENO, TCSAFLUSH, &core->term.new);
 	}
 	if (mode == OFF)
 	{

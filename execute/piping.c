@@ -12,6 +12,31 @@
 
 #include "minishell.h"
 
+int	find_path_problem(char **paths, char *cmd_name)
+{
+	struct stat	file_info;
+
+	if (access(cmd_name, F_OK) || paths)
+	{
+		ft_putstr_fd(ERROR_SHROOM, 2);
+		ft_putstr_fd(cmd_name, 2);
+		if (paths)
+			ft_putstr_fd(": shroom not found🐛\n", 2);
+		else
+			ft_putstr_fd(": No such file or directory🐛\n", 2);
+		return (127);
+	}
+	if (stat(cmd_name, &file_info))
+		return (MALLOC_FAIL);
+	ft_putstr_fd(ERROR_SHROOM, 2);
+	ft_putstr_fd(cmd_name, 2);
+	if (S_ISDIR(file_info.st_mode))
+		ft_putstr_fd(": is a directory🐛\n", 2);
+	else
+		ft_putstr_fd(": Permission denied🐛\n", 2);
+	return (126);
+}
+
 char	**split_path(char* path)
 {
 	return ft_split(path, ':');
@@ -20,11 +45,12 @@ char	**split_path(char* path)
 
 int	run_builtin(t_shell *core, t_command *command)
 {
-	(void)command;
 	if (!ft_strcmp(command->cmd_name, "pwd"))
 		return (pwd(core));
 	else if (!ft_strcmp(command->cmd_name, "exit"))
 		return (ft_exit(core, command));
+	else if (!ft_strcmp(command->cmd_name, "echo"))
+		return (echo(command));
 	// TODO: implement
 	return (0);
 }
@@ -57,6 +83,13 @@ void	handle_child(t_command *curr_command, int **pipes, t_shell *core,
  	printf("red_in: %d\n", curr_command->red_in);
 	printf("red_out: %d\n", curr_command->red_out); */
 	set_child_signals();
+	if (curr_command->red_in == NOT_OPEN 
+	|| curr_command->red_out == NOT_OPEN)
+		exit(1);
+	if (core->cur_process.ret)
+		exit(core->cur_process.ret);
+	if (!exe_path)
+		exit(0);
 	if (dup_input(curr_command, pipes) == -1
 	|| dup_output(curr_command, pipes) == -1)
 	{
@@ -123,11 +156,7 @@ char	**fetch_paths_array(t_shell *core)
 
 	paths = fetch_env("PATH", core); // malloc
 	if (!paths)
-	{
-		// what to do in this case? anything extra?
-		core->cur_process.error_index = MALLOC_FAIL;
 		return (NULL);
-	}
 	paths_split = split_path(paths); // malloc
 	if (!paths_split)
 	{
@@ -146,10 +175,10 @@ char	*find_exe_path(t_shell *core, t_command *command)
 	char	**paths_split;
 
 	paths_split = fetch_paths_array(core); // malloc
-	if (!paths_split)
+	if (core->cur_process.error_index == MALLOC_FAIL)
 		return (NULL);
 	i = 0;
-	while (paths_split[i])
+	while (paths_split && paths_split[i] && command->cmd_name[0])
 	{
 		exe_path = join_path(core, paths_split[i], command->cmd_name); // malloc
 		if (!exe_path || access(exe_path, X_OK) == SUCCESS)
@@ -160,8 +189,9 @@ char	*find_exe_path(t_shell *core, t_command *command)
 		free(exe_path);
 		i++;
 	}
-	free_ar(paths_split);
-	// how to differenciate between not foudn and malloc fail??
+	core->cur_process.ret = find_path_problem(paths_split, command->cmd_name);
+	if (paths_split)
+		free_ar(paths_split);
 	return (NULL);
 }
 
@@ -179,7 +209,7 @@ int	has_args(char **args)
 
 t_bool	no_children_needed(t_command *commands)
 {
-	if (list_len(commands) > 1)
+	if (list_len(commands) > 1 || !commands->cmd_name)
 		return (FALSE);
 	if (!ft_strcmp(commands->cmd_name, "export") && has_args(commands->cmd_ar))
 			return (TRUE);
@@ -194,37 +224,30 @@ t_bool	no_children_needed(t_command *commands)
 int	handle_command(t_shell *core, pid_t *children, int **pipes,
 	t_command *command)
 {
-	char	*exe_path;
+	char		*exe_path;
+	struct stat	file_info;
 
-	if (access(command->cmd_name, X_OK) == SUCCESS || is_builtin(command))
-	{
+	stat(command->cmd_name, &file_info);
+	if (!command->cmd_name)
+		exe_path = NULL;
+	else if ((access(command->cmd_name, X_OK) == SUCCESS
+		&& !S_ISDIR(file_info.st_mode)) || is_builtin(command))
 		exe_path = ft_strdup(command->cmd_name); // malloc
-		if (!exe_path)
-		{
-			core->cur_process.error_index = MALLOC_FAIL;
-			return (MALLOC_FAIL);
-		}
-	}
 	else
-	{
 		exe_path = find_exe_path(core, command); // malloc
-	}
-	if (!exe_path)
+	if (!exe_path && core->cur_process.ret != 127
+	&& core->cur_process.ret != 126 && command->cmd_name)
 	{
-		// TODO: print error and return
-		ft_putstr_fd(ERROR_SHROOM, 2);
-		ft_putstr_fd(command->cmd_name, 2);
-		ft_putstr_fd(": no such shroom🐛\n", 2);
-		return (SUCCESS);
+		core->cur_process.error_index = MALLOC_FAIL;
+		return (MALLOC_FAIL);
 	}
 	// create a child process
-	ft_putstr_fd("exe_path: ", 2);
-	ft_putstr_fd(exe_path, 2);
-	ft_putstr_fd("\n", 2);
+	// ft_putstr_fd("exe_path: ", 2); //debug
+	// ft_putstr_fd(exe_path, 2); //debug
+	// ft_putstr_fd("\n", 2); //debug
 	children[command->index] = fork();
 	if (!children[command->index])
 		handle_child(command, pipes, core, exe_path);
-	// We should never get here...think of how to handle these return values
 	free(exe_path);
 	return (SUCCESS);
 }
@@ -290,7 +313,7 @@ int	execute_pipeline(t_shell *core, t_command *commands)
 		ret = handle_command(core, children, pipes, curr_command);
 		if (ret != SUCCESS)
 		{
-			ft_putstr_fd("handle_command failed\n", 2);
+			ft_putstr_fd("handle_command failed\n", 2); //debug
 			finalise_pipes_and_children(pipes, children, len);
 			return (ret);
 		}

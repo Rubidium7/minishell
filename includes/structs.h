@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:24:10 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/13 19:17:10 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/14 17:59:24 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef enum e_error
 	PARSE_ERROR,
 	HEREDOC_ERROR,
 	WILDCARD_ERROR,
-	EXEC_ERROR
+	EXEC_ERROR,
 } t_error_code;
 
 typedef enum e_internal_values
@@ -53,7 +53,6 @@ typedef enum e_internal_values
 	NO_LOGIC = -5,
 	NOT_FOUND = -6,
 	PIPE_FAIL = -7,
-	DUP_FAIL = -8,
 } t_internal_values;
 
 typedef enum e_syntax_error
@@ -153,6 +152,7 @@ typedef struct s_current_process
 	int		heredoc_index;
 	t_bool	terminated;
 	t_ast	*tree;
+	t_bool	shroom_time;
 	int		ret;
 }	t_current_process;
 
