@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 13:58:41 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/13 22:44:27 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/14 13:07:19 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,22 @@ int	env_list_len(t_env *env_list)
 		env_list = env_list->next;
 		res++;
 	}
+	return (res);
+}
+
+char	*join_three_strings(const char *s1, const char *s2, const char *s3)
+{
+	char	*temp;
+	char	*res;
+
+	// doesn't handle NULLs as arguments
+	temp = ft_strjoin(s1, s2); // malloc
+	if (!temp)
+		return (NULL);
+	res = ft_strjoin(temp, s3); // malloc
+	free(temp);
+	if (!res)
+		return (NULL);
 	return (res);
 }
 
