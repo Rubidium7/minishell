@@ -52,6 +52,8 @@ int	run_builtin(t_shell *core, t_command *command)
 		return (pwd(core));
 	else if (!ft_strcmp(command->cmd_name, "exit"))
 		return (ft_exit(core, command));
+	else if (!ft_strcmp(command->cmd_name, "echo"))
+		return (echo(command));
 	// TODO: implement
 	return (0);
 }

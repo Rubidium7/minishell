@@ -66,7 +66,7 @@ t_heredoc	*purge_heredoc_list(t_heredoc *head, t_pipeline *current)
 		current_token = current->start;
 		while (current_token != current->end)
 		{
-			if (is_redir(current_token->type))
+			if (current_token->type == RED_IN)
 				use_heredoc = NO;
 			if (current_token->type == HEREDOC)
 				use_heredoc = YES;

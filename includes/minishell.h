@@ -230,7 +230,13 @@ int		dup_input(t_command *command, int **pipes);
 int		dup_output(t_command *command, int **pipes);
 
 // builtins
+//pwd.c
 int		pwd(t_shell *core);
+
+//exit.c
 int		ft_exit(t_shell *core, t_command *command);
+
+//echo.c
+int		echo(t_command *command);
 
 #endif
