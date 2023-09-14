@@ -36,6 +36,9 @@ void	rl_replace_line(const char *text, int clear_undo);
 // process_line.c
 void	process_line(t_shell *core, char *input);
 
+//fancy_prompt.c
+void	readline_pretty(t_shell *core);
+
 // tokenize
 
 //tokenize.c
