@@ -6,7 +6,7 @@
 /*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 11:03:56 by nlonka            #+#    #+#             */
-/*   Updated: 2023/08/16 14:17:56 by nlonka           ###   ########.fr       */
+/*   Updated: 2023/09/14 15:19:05 by nlonka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ t_token	*tokenize(char *str, t_shell *core)
 		if (type == WHITESPACE)
 			carve_out_whitespace(str, &i);
 	}
-	////expand envss HERE, don't expand if after heredoc :D
 	mark_redirections(head);
 	if (expand_envs(head, core))
 			return (empty_token_list(head), NULL);

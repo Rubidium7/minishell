@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirections.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/14 15:19:22 by nlonka            #+#    #+#             */
+/*   Updated: 2023/09/14 15:20:12 by nlonka           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -28,9 +38,11 @@ void	open_outfile(t_command *new, t_token *current)
 	if (current->ambiguity)
 		new->red_out = NOT_OPEN;
 	else if (current->type == RED_OUT)
-		new->red_out = open(current->filename, O_WRONLY | O_CREAT | O_TRUNC, 0000644);
+		new->red_out = open(current->filename,
+			   	O_WRONLY | O_CREAT | O_TRUNC, 0000644);
 	else
-		new->red_out = open(current->filename, O_WRONLY | O_CREAT | O_APPEND, 0000644);
+		new->red_out = open(current->filename,
+			   	O_WRONLY | O_CREAT | O_APPEND, 0000644);
 	if (new->red_out == NOT_OPEN)
 	{
 		if (current->ambiguity)
@@ -55,7 +67,8 @@ void	update_heredoc(t_command *new, t_heredoc *heredoc)
 		print_file_error(NULL, HEREDOC_FILE_ERROR);
 }
 
-void	open_redirections(t_command *new, t_pipeline *pipeline, t_heredoc *heredoc, t_shell *core)
+void	open_redirections(t_command *new, 
+		t_pipeline *pipeline, t_heredoc *heredoc, t_shell *core)
 {
 	t_token	*current;
 

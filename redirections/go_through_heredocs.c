@@ -91,7 +91,8 @@ t_bool	go_through_heredocs(t_ast *tree, t_shell *core)
 	if (tree->pipeline)
 	{
 		tree->heredoc_list = make_heredoc_list(tree->pipeline, core);
-		tree->heredoc_list = purge_heredoc_list(tree->heredoc_list, tree->pipeline);
+		tree->heredoc_list = 
+			purge_heredoc_list(tree->heredoc_list, tree->pipeline);
 	}
 	if (core->cur_process.error_index != SUCCESS)
 		return (TRUE);
