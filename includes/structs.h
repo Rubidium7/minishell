@@ -152,6 +152,7 @@ typedef struct s_current_process
 	int		heredoc_index;
 	t_bool	terminated;
 	t_ast	*tree;
+	t_bool	shroom_time;
 	int		ret;
 }	t_current_process;
 

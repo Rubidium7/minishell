@@ -35,7 +35,7 @@ int main(int ac, char **av, char **ev)
 
 	set_start_data(&core, ev);
 	//print_ar(core.env);
-	while (SHROOM_TIME)
+	while (core.cur_process.shroom_time)
 	{
 		set_input_mode(&core, ON);
 		readline_pretty(&core);
@@ -49,6 +49,6 @@ int main(int ac, char **av, char **ev)
 		else
 			ctrl_d_handler(&core);
 	}
-	handle_exit(&core);
+	handle_exit(&core); ///change this when env management has been changed!
 	return (core.cur_process.ret);
 }

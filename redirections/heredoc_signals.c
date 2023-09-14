@@ -2,7 +2,7 @@
 
 #include "minishell.h"
 
-void	set_heredoc_signals()
+void	set_heredoc_signals(void)
 {
 	struct sigaction	ignored;
 	struct sigaction	ctrl_c;
