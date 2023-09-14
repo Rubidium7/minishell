@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 20:19:05 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/13 22:27:46 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/14 22:25:32 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,10 @@ t_env	*create_env_var(const char *key, const char *content)
 			return (NULL);
 	}
 	return (res);
+}
+
+void	clear_env_list(t_env *env_list)
+{
+	while (env_list)
+		env_list = delete_first(env_list);
 }

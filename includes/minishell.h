@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:28:18 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/14 17:58:48 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/14 22:21:35 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,9 @@ t_bool	go_through_heredocs(t_ast *tree, t_shell *core);
 char	*fetch_env(const char *key, t_shell *core);
 t_bool	set_env(const char *key, const char *content, t_shell *core);
 t_bool	unset_env(const char *key, t_shell *core);
+t_bool	array_to_env_list(char **ar, t_shell *core);
+char	**env_list_to_array(t_env *env_list, t_shell *core);
+void	print_envs(int mode, t_shell *core);
 
 //expand_envs_in_string.c
 char	*expand_envs_in_string(char *str, t_shell *core);
@@ -238,12 +241,14 @@ int		pwd(t_shell *core);
 //exit.c
 int		ft_exit(t_shell *core, t_command *command);
 
-// env_list_tools.c
+// env_list_utils.c
 t_env	*find_env(t_env *env_list, const char *key);
 t_env	*find_prev(t_env *env_list, const char *key);
 t_bool	delete_next(t_env *env_list);
 t_env	*delete_first(t_env *env_list);
 t_env	*create_env_var(const char *key, const char *content);
+void	clear_env_list(t_env *env_list);
+
 //echo.c
 int		echo(t_command *command);
 

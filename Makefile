@@ -6,7 +6,7 @@
 #    By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/03 20:58:45 by vvagapov          #+#    #+#              #
-#    Updated: 2023/09/13 22:32:34 by vvagapov         ###   ########.fr        #
+#    Updated: 2023/09/14 22:24:01 by vvagapov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ _PARSE := parse.c preliminary_syntax_checks.c \
 _SETUP := set_data.c set_input_mode.c manage_child_signals.c signal_handlers.c
 _REDIR := redirections.c heredoc.c heredoc_signals.c go_through_heredocs.c
 _ENV := environment_tools.c expand_envs_in_string.c expand_envs.c \
-		env_list_tools.c
+		env_list_utils.c
 _WILD := save_wildcards.c expand_wildcards.c wildcard_matching.c \
 		format_wildcard_into_string.c wildcards_in_filenames.c ft_ls.c
 _UTILS := array_utils.c token_list_utils.c character_utils.c string_utils.c \
