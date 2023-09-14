@@ -181,7 +181,7 @@ char	*find_exe_path(t_shell *core, t_command *command)
 	if (core->cur_process.error_index == MALLOC_FAIL)
 		return (NULL);
 	i = 0;
-	while (paths_split && paths_split[i])
+	while (paths_split && paths_split[i] && command->cmd_name[0])
 	{
 		exe_path = join_path(core, paths_split[i], command->cmd_name); // malloc
 		if (!exe_path || access(exe_path, X_OK) == SUCCESS)
