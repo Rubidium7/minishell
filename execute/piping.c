@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 20:06:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/13 19:19:27 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/14 22:38:39 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int	run_builtin(t_shell *core, t_command *command)
 		return (ft_exit(core, command));
 	else if (!ft_strcmp(command->cmd_name, "echo"))
 		return (echo(command));
+	else if (!ft_strcmp(command->cmd_name, "env"))
+		return (env(core));
 	// TODO: implement
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:28:18 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/14 22:21:35 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/14 22:39:20 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,6 +237,8 @@ int		dup_output(t_command *command, int **pipes);
 // builtins
 //pwd.c
 int		pwd(t_shell *core);
+// env.c
+int		env(t_shell *core);
 
 //exit.c
 int		ft_exit(t_shell *core, t_command *command);
