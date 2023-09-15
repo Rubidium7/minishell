@@ -40,6 +40,7 @@ typedef enum e_error
 	HEREDOC_ERROR,
 	WILDCARD_ERROR,
 	EXEC_ERROR,
+	PROMPT_ERROR
 } t_error_code;
 
 typedef enum e_internal_values

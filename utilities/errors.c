@@ -19,6 +19,8 @@ void	handle_error_value(int *error_index, int position)
 		*error_index = position;
 	else if (position != UNEXPECTED_NL && position < *error_index)
 		*error_index = position;
+	if (*error_index != UNEXPECTED_NL && *error_index < 0)
+		*error_index = UNEXPECTED_NL;
 	//printf("2 error position is %d\n", *error_index); //debug
 }
 
@@ -47,6 +49,8 @@ void	error_print(t_error_code type)
 		ft_putendl_fd("system call failed in heredoc process🕷🕸", 2);
 	if (type == EXEC_ERROR)
 		ft_putendl_fd("system call failed in executing process🕷🕸", 2);
+	if (type == PROMPT_ERROR)
+		ft_putendl_fd("problem getting the fancy prompt🕷🕸", 2);
 }
 
 void	print_error_token(t_token *token)

@@ -30,11 +30,16 @@
 # include <sys/stat.h>
 # include <dirent.h>
 
+t_bool g_sigint_received;
+
 void	rl_replace_line(const char *text, int clear_undo);
 
 //core
 // process_line.c
 void	process_line(t_shell *core, char *input);
+
+//fancy_prompt.c
+void	readline_pretty(t_shell *core);
 
 // tokenize
 

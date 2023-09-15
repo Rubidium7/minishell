@@ -54,6 +54,9 @@ void	set_input_mode(t_shell *core, int mode)
 	}
 	if (mode == OFF)
 	{
+		if (g_sigint_received)
+			core->cur_process.ret = g_sigint_received;
+		g_sigint_received = FALSE;
 		ignore_signals();
 		tcsetattr(STDIN_FILENO, TCSAFLUSH, &core->term.old);
 	}

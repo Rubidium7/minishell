@@ -32,6 +32,8 @@ t_bool	open_parentheses(t_token *current, int *error_index)
 			amount++;
 		if (current->type == RPAR)
 			amount--;
+		if (amount < 0)
+			return (handle_error_value(error_index, current->position), TRUE);
 		current = current->next;
 	}
 	if (amount > 0)

@@ -25,15 +25,6 @@ static void	add_to_history(char *str)
 		add_history(str);
 } //might be useless as a lone function
 
-static void	readline_pretty(t_shell *core)
-{
-	char	*tmp;
-
-	tmp = readline("🍄"W"Mini"C R"Shroom"C"> ");
-//	tmp = readline("🍄"WR"Mini"C RW"Shroom"C"> ");
-	core->cur_process.input_line = tmp;
-}
-
 int main(int ac, char **av, char **ev)
 {
 	t_shell	core;
