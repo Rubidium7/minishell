@@ -19,10 +19,15 @@ void	set_start_data(t_shell *core, char **start_env)
 	core->cur_process.ret = 0;
 	core->cur_process.shroom_time = TRUE;
 	core->env_list = NULL;
-	core->env = copy_array(start_env);
+	//core->env = copy_array(start_env);
 	if (array_to_env_list(start_env, core, TRUE))
-	{
 		exit(SETUP_ERROR);
-	}
+	core->tmp_dir = fetch_env("TMPDIR", core);
+	if (fetch_history_file(core))
+		core->history_saving = TRUE;
+	else
+		core->history_saving = FALSE;
+	if (!core->history_saving)
+		error_print(HISTORY_ERROR);
 }
 		

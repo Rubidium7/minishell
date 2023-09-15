@@ -51,6 +51,8 @@ void	error_print(t_error_code type)
 		ft_putendl_fd("system call failed in executing process🕷🕸", 2);
 	if (type == PROMPT_ERROR)
 		ft_putendl_fd("problem getting the fancy prompt🕷🕸", 2);
+	if (type == HISTORY_ERROR)
+		ft_putendl_fd("problem fetching the history file🕷🕸", 2);
 }
 
 void	print_error_token(t_token *token)

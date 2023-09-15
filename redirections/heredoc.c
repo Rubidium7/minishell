@@ -7,7 +7,6 @@ char	*create_heredoc_file(int heredoc_index, t_shell *core)
 	char	*number;
 	char	*path;
 	char	*filename;
-	char	*directory;
 
 	number = ft_itoa(heredoc_index);
 	if (!number)
@@ -16,11 +15,7 @@ char	*create_heredoc_file(int heredoc_index, t_shell *core)
 	free(number);
 	if (!filename)
 		return (NULL);
-	directory = fetch_env("TMPDIR", core);
-	if (!directory)
-		return (filename);
-	path = ft_strjoin(directory, filename);
-	free(directory);
+	path = ft_strjoin(core->tmp_dir, filename);
 	if (!path)
 		return (filename);
 	free(filename);
