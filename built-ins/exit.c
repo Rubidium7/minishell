@@ -6,11 +6,13 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:26:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/15 20:58:07 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/15 23:41:59 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
 
 long long int	ft_exit(t_shell *core, t_command *command)
 {
@@ -23,6 +25,7 @@ long long int	ft_exit(t_shell *core, t_command *command)
 	(void)res;
 	i = 1;
 	
+	
 	core->cur_process.shroom_time = FALSE;
-	return(0);
+	return(res);
 }
