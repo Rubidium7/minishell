@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 13:58:41 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/14 22:23:35 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/15 16:19:45 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,10 @@ char	**env_list_to_array(t_env *env_list, t_shell *core)
 		if (env_list->content)
 			res[i] = join_three_strings(env_list->key, "=", env_list->content);
 		else
-			res[i] = join_three_strings(env_list->key, "=", "");
+			res[i] = ft_strdup(env_list->key);
 		if (!res[i])
 		{
+			// ft_putstr_fd("string joining failure\n", 2);
 			free_ar(res);
 			core->cur_process.error_index = MALLOC_FAIL;
 			return (NULL);
@@ -123,6 +124,7 @@ t_bool	add_env_from_string(t_shell *core, char *str)
 	ret = parse_env_str(&key, &content, str);
 	if (ret == MALLOC_FAIL)
 	{
+		// ft_putstr_fd("parse_env_str returned NULL\n", 2);
 		core->cur_process.error_index = MALLOC_FAIL;
 		return (TRUE);
 	}
@@ -136,10 +138,15 @@ t_bool	add_env_from_string(t_shell *core, char *str)
 		ft_putstr_fd("': not a valid identifier\n", 2);
 		return (TRUE);
 	}
+	/* ft_putstr_fd("key: ", 2);
+	ft_putstr_fd(key, 2);
+	ft_putstr_fd(", content: ", 2);
+	ft_putstr_fd(content, 2);
+	ft_putstr_fd("\n", 2); */
 	return(set_env(key, content, core));
 }
 
-t_bool	array_to_env_list(char **ar, t_shell *core)
+t_bool	array_to_env_list(char **ar, t_shell *core, t_bool is_setup)
 {
 	int		i;
 	int		len;
@@ -154,6 +161,8 @@ t_bool	array_to_env_list(char **ar, t_shell *core)
 		}
 		i++;
 	}
+	if (is_setup)
+		return (set_env("OLDPWD", NULL, core));
 	return (FALSE);
 }
 
@@ -171,7 +180,10 @@ char	*fetch_env(const char *key, t_shell *core)
 	{
 		res = ft_strdup(matching_env->content);
 		if (!res)
+		{
+			//ft_putstr_fd("strdup content returned NULL\n", 2);
 			core->cur_process.error_index = MALLOC_FAIL;
+		}
 		return (res);
 	}
 	return (NULL);
@@ -191,6 +203,7 @@ t_bool	set_env(const char *key, const char *content, t_shell *core)
 		matching_env->content = ft_strdup(content);
 		if (!matching_env->content && content)
 		{
+			//ft_putstr_fd("content shouldn't be NULL but it is after strdup\n", 2);
 			core->cur_process.error_index = MALLOC_FAIL;
 			return (TRUE);
 		}
@@ -199,12 +212,13 @@ t_bool	set_env(const char *key, const char *content, t_shell *core)
 	else
 	{
 		matching_env = create_env_var(key, content);
-		if (matching_env)
+		if (!matching_env)
 		{
+			//ft_putstr_fd("create_env_var returned NULL\n", 2);
 			core->cur_process.error_index = MALLOC_FAIL;
 			return (TRUE);
 		}
-		core->env_list = matching_env;
+		core->env_list = add_node_to_end(core->env_list, matching_env);
 		return (FALSE);
 	}
 }
@@ -239,18 +253,25 @@ t_bool	unset_env(const char *key, t_shell *core)
 void print_envs(int mode, t_shell *core)
 {
 	t_env	*curr_env;
+	int		len;
 
+	len = env_list_len(core->env_list);
+	//ft_putnbr_fd(len, 2);
 	(void)mode; //TODO
 	curr_env = core->env_list;
 	while (curr_env)
 	{
-		ft_putstr_fd(curr_env->key, 1);
+		if (mode == EXPORT)
+			ft_putstr_fd("declare -x ", 2);
+		if (mode == EXPORT || curr_env->content)
+			ft_putstr_fd(curr_env->key, 1);
 		if (curr_env->content)
 		{
 			ft_putstr_fd("=", 1);
 			ft_putstr_fd(curr_env->content, 1);
 		}
-		ft_putstr_fd("\n", 1);
+		if (mode == EXPORT || curr_env->content)
+			ft_putstr_fd("\n", 1);
 		curr_env = curr_env->next;
 	}
 }

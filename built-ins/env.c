@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:26:17 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/14 22:38:52 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/15 15:01:16 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 int	env(t_shell *core)
 {
-	print_envs(1, core);
+	print_envs(ENV, core);
 	return (SUCCESS);
 }

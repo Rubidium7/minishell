@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:28:18 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/14 22:39:20 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/15 15:55:45 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,10 @@ t_bool	go_through_heredocs(t_ast *tree, t_shell *core);
 char	*fetch_env(const char *key, t_shell *core);
 t_bool	set_env(const char *key, const char *content, t_shell *core);
 t_bool	unset_env(const char *key, t_shell *core);
-t_bool	array_to_env_list(char **ar, t_shell *core);
+t_bool	array_to_env_list(char **ar, t_shell *core, t_bool is_setup);
 char	**env_list_to_array(t_env *env_list, t_shell *core);
 void	print_envs(int mode, t_shell *core);
+t_bool	add_env_from_string(t_shell *core, char *str);
 
 //expand_envs_in_string.c
 char	*expand_envs_in_string(char *str, t_shell *core);
@@ -235,12 +236,15 @@ int		dup_input(t_command *command, int **pipes);
 int		dup_output(t_command *command, int **pipes);
 
 // builtins
-//pwd.c
+// pwd.c
 int		pwd(t_shell *core);
 // env.c
 int		env(t_shell *core);
-
-//exit.c
+// echo.c
+int		echo(t_command *command);
+// export.c
+int		export(t_shell *core, t_command *command);
+// exit.c
 int		ft_exit(t_shell *core, t_command *command);
 
 // env_list_utils.c
@@ -250,8 +254,7 @@ t_bool	delete_next(t_env *env_list);
 t_env	*delete_first(t_env *env_list);
 t_env	*create_env_var(const char *key, const char *content);
 void	clear_env_list(t_env *env_list);
-
-//echo.c
-int		echo(t_command *command);
+t_env	*add_node_to_end(t_env *env_list, t_env *new_node);
+int		parse_env_str(char **key, char **content, char *str);
 
 #endif

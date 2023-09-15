@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 20:06:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/14 22:38:39 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/15 15:55:11 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int	run_builtin(t_shell *core, t_command *command)
 		return (echo(command));
 	else if (!ft_strcmp(command->cmd_name, "env"))
 		return (env(core));
+	else if (!ft_strcmp(command->cmd_name, "export"))
+		return (export(core, command));
 	// TODO: implement
 	return (0);
 }
@@ -149,8 +151,8 @@ char	*join_path(t_shell *core, char* path, char *cmd_name)
 	char	*exe_path;
 
 	exe_path = join_path(core, path, command->cmd_name);
-
 } */
+
 char	**fetch_paths_array(t_shell *core)
 {
 	char	*paths;
