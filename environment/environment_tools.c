@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 13:58:41 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/15 20:15:42 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/15 21:01:22 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,7 +262,7 @@ void print_envs(int mode, t_shell *core)
 			|| (mode == ENV && !curr_env->content)))
 		{
 			if (mode == EXPORT)
-				ft_putstr_fd("declare -x ", 2);
+				ft_putstr_fd("declare -x ", 1);
 			ft_putstr_fd(curr_env->key, 1);
 			if (curr_env->content)
 			{
