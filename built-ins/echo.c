@@ -6,13 +6,13 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:26:14 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/15 20:34:40 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/15 20:35:58 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	t_bool is_minus_n(const char *str)
+static t_bool	is_minus_n(const char *str)
 {
 	int	i;
 	
