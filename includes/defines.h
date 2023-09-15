@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 10:21:30 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/12 21:33:21 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/15 14:49:53 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # define SHROOM_TIME 37
 # define YES 1
 # define NO 0
+# define EXPORT 1
+# define ENV 2
 
 //different colour codes
 //R red

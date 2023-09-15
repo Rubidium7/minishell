@@ -6,13 +6,10 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 20:06:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/13 18:06:11 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/15 19:43:41 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <fcntl.h>
-#include "structs.h"
 #include "minishell.h"
 
 int	find_path_problem(char **paths, char *cmd_name)
@@ -54,6 +51,12 @@ int	run_builtin(t_shell *core, t_command *command)
 		return (ft_exit(core, command));
 	else if (!ft_strcmp(command->cmd_name, "echo"))
 		return (echo(command));
+	else if (!ft_strcmp(command->cmd_name, "env"))
+		return (env(core));
+	else if (!ft_strcmp(command->cmd_name, "export"))
+		return (export(core, command));
+	else if (!ft_strcmp(command->cmd_name, "unset"))
+		return (unset(core, command));
 	// TODO: implement
 	return (0);
 }
@@ -98,7 +101,7 @@ void	handle_child(t_command *curr_command, int **pipes, t_shell *core,
 	{
 		// the below is useless, right?
 		// core->cur_process.error_index = DUP_ERROR;
-		ft_putstr_fd("dup error\n", 2); //debug
+		error_print(EXEC_ERROR);
 		exit(1);
 	}
 	close_pipes(pipes);
@@ -150,8 +153,8 @@ char	*join_path(t_shell *core, char* path, char *cmd_name)
 	char	*exe_path;
 
 	exe_path = join_path(core, path, command->cmd_name);
-
 } */
+
 char	**fetch_paths_array(t_shell *core)
 {
 	char	*paths;

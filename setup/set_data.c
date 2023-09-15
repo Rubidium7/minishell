@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_data.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 10:33:41 by nlonka            #+#    #+#             */
-/*   Updated: 2023/08/20 21:49:53 by nlonka           ###   ########.fr       */
+/*   Updated: 2023/09/15 19:44:36 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ void	set_start_data(t_shell *core, char **start_env)
 	core->cur_process.shroom_time = TRUE;
 	core->env_list = NULL;
 	core->env = copy_array(start_env);
-	if (!core->env)
+	if (array_to_env_list(start_env, core, TRUE))
+	{
 		exit(SETUP_ERROR);
+	}
 }
+		
