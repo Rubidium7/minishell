@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 13:58:41 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/15 16:19:45 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/15 20:15:42 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,25 +253,25 @@ t_bool	unset_env(const char *key, t_shell *core)
 void print_envs(int mode, t_shell *core)
 {
 	t_env	*curr_env;
-	int		len;
 
-	len = env_list_len(core->env_list);
-	//ft_putnbr_fd(len, 2);
 	(void)mode; //TODO
 	curr_env = core->env_list;
 	while (curr_env)
 	{
-		if (mode == EXPORT)
-			ft_putstr_fd("declare -x ", 2);
-		if (mode == EXPORT || curr_env->content)
-			ft_putstr_fd(curr_env->key, 1);
-		if (curr_env->content)
+		if (!((mode == EXPORT && !ft_strcmp("_", curr_env->key))
+			|| (mode == ENV && !curr_env->content)))
 		{
-			ft_putstr_fd("=", 1);
-			ft_putstr_fd(curr_env->content, 1);
+			if (mode == EXPORT)
+				ft_putstr_fd("declare -x ", 2);
+			ft_putstr_fd(curr_env->key, 1);
+			if (curr_env->content)
+			{
+				ft_putstr_fd("=", 1);
+				ft_putstr_fd(curr_env->content, 1);
+			}
+			if (mode == EXPORT || curr_env->content)
+				ft_putstr_fd("\n", 1);
 		}
-		if (mode == EXPORT || curr_env->content)
-			ft_putstr_fd("\n", 1);
 		curr_env = curr_env->next;
 	}
 }
