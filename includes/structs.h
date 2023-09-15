@@ -40,7 +40,8 @@ typedef enum e_error
 	HEREDOC_ERROR,
 	WILDCARD_ERROR,
 	EXEC_ERROR,
-	PROMPT_ERROR
+	PROMPT_ERROR,
+	HISTORY_ERROR
 } t_error_code;
 
 typedef enum e_internal_values
@@ -171,6 +172,8 @@ typedef struct s_shell
 	t_current_process	cur_process;
 	t_env				*env_list;
 	char				**env; //to be replaced
+	t_bool				history_saving;
+	char				*tmp_dir;
 }	t_shell;
 
 #endif

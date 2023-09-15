@@ -37,7 +37,7 @@ EXE_DIR = execute/
 BUILTINS_DIR = built-ins/
 
 #Sources by folder
-_CORE := main.c process_line.c fancy_prompt.c
+_CORE := main.c process_line.c history.c fancy_prompt.c
 _TOKENIZE := clean_token_list.c tokenize.c redirections_filenames.c
 _PARSE := parse.c preliminary_syntax_checks.c \
 		form_tree.c syntax_checking.c \

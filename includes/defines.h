@@ -41,4 +41,6 @@
 # define MINI_SHROOM "🍄"W"Mini"C R"Shroom"C
 # define ERROR_SHROOM R"🕸Error"C W"🕸Shroom: "C
 
+# define HISTORY_FILE ".shell_history.tmp"
+
 #endif

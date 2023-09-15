@@ -22,4 +22,11 @@ void	set_start_data(t_shell *core, char **start_env)
 	core->env = copy_array(start_env);
 	if (!core->env)
 		exit(SETUP_ERROR);
+	core->tmp_dir = fetch_env("TMPDIR", core);
+	if (fetch_history_file(core))
+		core->history_saving = TRUE;
+	else
+		core->history_saving = FALSE;
+	if (!core->history_saving)
+		error_print(HISTORY_ERROR);
 }

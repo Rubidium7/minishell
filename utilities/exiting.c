@@ -15,6 +15,7 @@
 int	handle_exit(t_shell *core)
 {
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &core->term.old);
+	free(core->tmp_dir);
 	free_ar(core->env);
 	return (core->cur_process.ret);
 }

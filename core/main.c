@@ -19,12 +19,6 @@ static int	complain(void)
 	return (37);
 }
 
-static void	add_to_history(char *str)
-{
-	if (ft_strncmp(str, "", 1))
-		add_history(str);
-} //might be useless as a lone function
-
 int main(int ac, char **av, char **ev)
 {
 	t_shell	core;
@@ -41,7 +35,7 @@ int main(int ac, char **av, char **ev)
 		if (core.cur_process.input_line)
 		{
 			process_line(&core, core.cur_process.input_line);
-			add_to_history(core.cur_process.input_line);
+			add_to_history(core.cur_process.input_line, &core);
 			free(core.cur_process.input_line);
 		}
 		else
