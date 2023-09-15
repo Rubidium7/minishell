@@ -54,7 +54,7 @@ int	find_token(t_token *current, int end_index, t_token_type type)
 	if (!current || current->position == end_index || current->type != type)
 		return (NOT_FOUND);
 	return (current->position);
-} //do i use this?
+}
 
 void	free_token_node(t_token *node)
 {

@@ -37,7 +37,7 @@
 # define WR "\033[1;37;41m"
 # define C "\033[0m"
 
-# define MINI_SHROOM "🍄"W"Mini"C R"Shroom: "C
+# define MINI_SHROOM "🍄"W"Mini"C R"Shroom"C
 # define ERROR_SHROOM R"🕸Error"C W"🕸Shroom: "C
 
 #endif

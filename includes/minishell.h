@@ -30,6 +30,8 @@
 # include <sys/stat.h>
 # include <dirent.h>
 
+t_bool g_sigint_received;
+
 void	rl_replace_line(const char *text, int clear_undo);
 
 //core

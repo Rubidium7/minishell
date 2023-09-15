@@ -75,6 +75,8 @@ t_ast	*form_tree(t_token *start, t_ast *up, int end_index, int *error_index)
 			index = token_after_parentheses(start, end_index);
 		else
 			index = find_token(start, end_index, LPAR);
+		if (index == NOT_FOUND)
+			index = find_token(start, end_index, RPAR);
 		return (handle_error_value(error_index, index), NULL);
 	}
 	if (index == NO_LOGIC)

@@ -18,7 +18,7 @@ t_ast	*new_ast_node(t_ast *up, t_pipeline *head, \
 	new->pipeline = head;
 	new->command_list = NULL;
 	new->heredoc_list = NULL;
-	new->return_value = DEFAULT;
+	new->return_value = SUCCESS;
 	new->type = type;
 	return (new);
 }
