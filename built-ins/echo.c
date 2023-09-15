@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:26:14 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/15 20:28:15 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/15 20:34:40 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,12 @@ int	echo(t_command *command)
 	t_bool	no_newline;
 
 	i = 1;
-	no_newline = is_minus_n(command->cmd_ar[1]);
-	if (no_newline)
+	no_newline = FALSE;
+	while (is_minus_n(command->cmd_ar[i]) == TRUE)
+	{
+		no_newline = TRUE;
 		i++;
+	}
 	//no -n option here
 	while (command->cmd_ar[i])
 	{
