@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:24:10 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/17 16:25:54 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/17 20:39:49 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ typedef enum e_internal_values
 	NOT_FOUND = -6,
 	PIPE_FAIL = -7,
 	INVALID_IDENTIFIER = -8,
-	HOME_NOT_SET = -9,
-	GETCWD_FAIL = -10,
 } t_internal_values;
 
 typedef enum e_syntax_error
