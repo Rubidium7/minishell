@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 13:58:41 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/15 21:01:22 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/17 17:58:34 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ char	*fetch_env(const char *key, t_shell *core)
 	if (matching_env)
 	{
 		res = ft_strdup(matching_env->content);
-		if (!res)
+		if (matching_env->content && !res)
 		{
 			//ft_putstr_fd("strdup content returned NULL\n", 2);
 			core->cur_process.error_index = MALLOC_FAIL;
