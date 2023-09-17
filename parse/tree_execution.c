@@ -124,7 +124,6 @@ int	execute_tree(t_ast *tree, t_shell *core)
 		if (tree->command_list)
 		{
 			tree->return_value = pipeline_execution(core, tree->command_list);
-			tree->return_value = process_exit_status(tree->return_value, core);
 			core->cur_process.ret = tree->return_value;
 			if (core->cur_process.terminated)
 				print_terminating_signal(core->cur_process.ret);
