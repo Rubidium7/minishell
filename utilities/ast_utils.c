@@ -109,7 +109,7 @@ int	find_logic_token(t_token *current, int end_index)
 			parentheses++;
 		else if (current->type == RPAR)
 			parentheses--;	
-		else if (current->type == OR || current->type == AND)
+		else if (is_logic(current->type))
 		{
 			if (parentheses == 0)
 				index = current->position;

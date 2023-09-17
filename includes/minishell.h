@@ -63,7 +63,7 @@ void	save_redirection_filenames(t_token *current);
 void		parse(t_shell *core);
 
 // preliminary_syntax_checking.c
-t_bool		preliminary_syntax_check(t_shell *core);
+void	preliminary_syntax_check(t_shell *core);
 
 // syntax_checking.c
 t_ast		*syntax_check(t_token *head, t_shell *core);
@@ -220,6 +220,12 @@ void	empty_command_list(t_command *current);
 void	empty_pipeline_list(t_pipeline *current);
 t_ast	*free_tree(t_ast *tree);
 void	clean_up(t_shell *core);
+
+//is_token.c
+t_bool	is_redir(t_token_type type);
+t_bool	is_red_or_word(t_token_type type);
+t_bool	is_ok_after_logic(t_token_type type);
+t_bool	is_logic(t_token_type type);
 
 // executor
 // piping.c

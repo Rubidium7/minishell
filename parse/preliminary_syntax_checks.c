@@ -1,6 +1,27 @@
 
 #include "minishell.h"
 
+t_bool	is_next_token_ok(t_token *current, t_token *next)
+{
+// 	printf("comparing: ");
+// 	print_token(current, OFF);
+// 	printf(" and ");
+// 	print_token(next, OFF);
+// 	printf("\n");
+	if (current->type == WORD && next->type == LPAR)
+		return (FALSE);
+	if (current->type == PIPE && !is_red_or_word(next->type))
+		return (FALSE);
+	if (is_logic(current->type)
+		&& next->type != LPAR && !is_red_or_word(next->type))
+		return (FALSE);
+	if (current->type == LPAR && !is_red_or_word(next->type))
+		return (FALSE);
+	if (current->type == RPAR && !is_logic(next->type))
+		return (FALSE);
+	return (TRUE);
+}
+
 t_bool	separated_syntax_check(t_token *current, int *error_index)
 {
 	while (current)
@@ -15,7 +36,9 @@ t_bool	separated_syntax_check(t_token *current, int *error_index)
 		if (current->open_quote)
 			return (handle_error_value(error_index, UNEXPECTED_NL), TRUE);
 		if (current->type == AMPERSAND)
-				return (handle_error_value(error_index, current->position), TRUE);
+			return (handle_error_value(error_index, current->position), TRUE);
+		if (current->next && !is_next_token_ok(current, current->next))
+			return (handle_error_value(error_index, current->next->position), TRUE);
 		current = current->next;
 	}
 	return (FALSE);
@@ -41,14 +64,8 @@ t_bool	open_parentheses(t_token *current, int *error_index)
 	return (FALSE);
 }
 
-t_bool	preliminary_syntax_check(t_shell *core)
+void	preliminary_syntax_check(t_shell *core)
 {
-	if (open_parentheses(core->tokens, &core->cur_process.error_index)
-	|| separated_syntax_check(core->tokens, &core->cur_process.error_index))
-	{
-		
-		core->cur_process.ret = SYNTAX_ERROR;
-		return (TRUE);
-	}
-	return (FALSE);
+	open_parentheses(core->tokens, &core->cur_process.error_index);
+	separated_syntax_check(core->tokens, &core->cur_process.error_index);
 }

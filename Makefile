@@ -50,7 +50,7 @@ _WILD := save_wildcards.c expand_wildcards.c wildcard_matching.c \
 		format_wildcard_into_string.c wildcards_in_filenames.c ft_ls.c
 _UTILS := array_utils.c token_list_utils.c character_utils.c string_utils.c \
 		tokenizing_utils.c debug_utils.c ast_utils.c \
-		exiting.c errors.c cleaners.c
+		exiting.c errors.c cleaners.c is_token.c
 _EXE := piping.c pipes_utils.c memory_utils.c list_utils.c command_utils.c \
 		dup.c
 _BUILTINS := cd.c echo.c env.c exit.c export.c pwd.c unset.c
