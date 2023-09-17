@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 10:21:30 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/17 16:21:01 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/17 23:40:53 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # define INT_MAX 2147483647
 # define INT_MIN -2147483648
 # define LL_INT_MAX 9223372036854775807
-# define LL_INT_MIN -9223372036854775808
+# define LL_INT_MIN -9223372036854775807
 # define PATH_MAX_LEN 4096
 # define SHROOM_TIME 37
 # define YES 1
