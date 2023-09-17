@@ -15,7 +15,8 @@
 void	handle_error_value(int *error_index, int position)
 {
 	//printf("1 error position is %d\n", position); //debug
-	if (*error_index == DEFAULT)
+	//printf("1 error index is %d\n", *error_index); //debug
+	if (*error_index == DEFAULT || *error_index == UNEXPECTED_NL)
 		*error_index = position;
 	else if (position != UNEXPECTED_NL && position < *error_index)
 		*error_index = position;

@@ -77,7 +77,7 @@ size_t	size_of_token(t_token_type type)
 		return (0);
 	else if (type == HEREDOC || type == RED_OUT_APP)
 		return (2);
-	else if (type == OR || type == AND)
+	else if (is_logic(type))
 		return (2);
 	else
 		return (1);
