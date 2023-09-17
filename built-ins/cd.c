@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:26:10 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/17 17:58:56 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/17 18:12:49 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_bool	set_oldpwd(t_shell *core, char *arg)
 		core->cur_process.error_index = GETCWD_FAIL;
 		return (TRUE);
 	}
+	free(ret);
 	//access_res = access(arg, F_OK);
 	
 	// navigate to new path and catch errors
@@ -63,6 +64,7 @@ t_bool	set_oldpwd(t_shell *core, char *arg)
 		core->cur_process.error_index = GETCWD_FAIL;
 		return (TRUE);
 	}
+	free(ret);
 	if (set_env("PWD", path, core) == TRUE)
 		return (TRUE);
 	return (FALSE);
@@ -92,7 +94,11 @@ int	cd(t_shell *core, t_command *command)
 			}
 		}
 		if (chdir(path) == -1)
+		{
+			free(path);
 			return (TRUE);
+		}
+		free(path);
 		return (FALSE);
 	}
 	else if (!ft_strcmp(command->cmd_ar[1], "-"))
@@ -110,6 +116,7 @@ int	cd(t_shell *core, t_command *command)
 			return (TRUE);
 		}
 		ret = set_oldpwd(core, path);
+		free(path);
 		return (ret);
 	}
 	return (set_oldpwd(core, command->cmd_ar[1]));
