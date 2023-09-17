@@ -6,17 +6,26 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:26:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/13 15:20:22 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/17 17:17:34 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_exit(t_shell *core, t_command *command)
+
+
+long long int	ft_exit(t_shell *core, t_command *command)
 {
+	long long int	res;
+	int				i;
+	
+	// no args -> return curr_process ret
 	(void)core;
 	(void)command;
-	ft_putstr_fd("hello from exit\n", 2);
+	(void)res;
+	i = 1;
 	
-	return(0);
+	res = 0;
+	core->cur_process.shroom_time = FALSE;
+	return(res);
 }

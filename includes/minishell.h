@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:28:18 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/15 19:35:34 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/17 17:15:52 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,9 +254,11 @@ int		echo(t_command *command);
 // export.c
 int		export(t_shell *core, t_command *command);
 // exit.c
-int		ft_exit(t_shell *core, t_command *command);
+long long int	ft_exit(t_shell *core, t_command *command);
 // unset.c
 int		unset(t_shell *core, t_command *command);
+// cd.c
+int		cd(t_shell *core, t_command *command);
 
 // env_list_utils.c
 t_env	*find_env(t_env *env_list, const char *key);

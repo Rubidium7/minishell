@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 20:06:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/15 19:43:41 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/17 18:01:22 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int	run_builtin(t_shell *core, t_command *command)
 		return (export(core, command));
 	else if (!ft_strcmp(command->cmd_name, "unset"))
 		return (unset(core, command));
+	else if (!ft_strcmp(command->cmd_name, "cd"))
+		return (cd(core, command));
 	// TODO: implement
 	return (0);
 }
@@ -334,7 +336,7 @@ int	pipeline_execution(t_shell *core, t_command *commands)
 {
 	if (no_children_needed(commands))
 	{
-		ft_putstr_fd("no children needed\n", 2);
+		//ft_putstr_fd("no children needed\n", 2);
 		return (run_builtin(core, commands));
 	}
 	else
