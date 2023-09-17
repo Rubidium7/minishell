@@ -337,8 +337,9 @@ int	pipeline_execution(t_shell *core, t_command *commands)
 	if (no_children_needed(commands))
 	{
 		//ft_putstr_fd("no children needed\n", 2);
+		core->cur_process.terminated = FALSE;
 		return (run_builtin(core, commands));
 	}
 	else
-		return (execute_pipeline(core, commands));
+		return (process_exit_status(execute_pipeline(core, commands), core));
 }
