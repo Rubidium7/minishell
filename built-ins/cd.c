@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:26:10 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/17 18:26:50 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/17 18:33:27 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ t_bool	set_oldpwd(t_shell *core, char *arg)
 		if(!access(arg, F_OK) && S_ISDIR(statbuf.st_mode))
 		{
 			ft_putstr_fd(ERROR_SHROOM, 1);
-			ft_putstr_fd(": cd: ", 1);
+			ft_putstr_fd("cd: ", 1);
 			ft_putstr_fd(arg, 1);
 			ft_putstr_fd(": Not a directory\n", 1);
 			return (TRUE);
 		}
 		// otherwise not found error
 		ft_putstr_fd(ERROR_SHROOM, 1);
-		ft_putstr_fd(": cd: ", 1);
+		ft_putstr_fd("cd: ", 1);
 		ft_putstr_fd(arg, 1);
 		ft_putendl_fd(": No such file or directory", 2);
 		return (TRUE);
@@ -86,7 +86,7 @@ int	cd(t_shell *core, t_command *command)
 			{
 				// Put to 2?
 				ft_putstr_fd(ERROR_SHROOM, 1);
-				ft_putstr_fd(": cd: 🏠HOME not set\n", 1);
+				ft_putstr_fd("cd: 🏠HOME not set\n", 1);
 				// TODO: get rid of this
 				return (HOME_NOT_SET);
 			}
@@ -109,7 +109,7 @@ int	cd(t_shell *core, t_command *command)
 			if (core->cur_process.error_index != MALLOC_FAIL)
 			{
 				ft_putstr_fd(ERROR_SHROOM, 1);
-				ft_putstr_fd(": cd: 🔎OLDPWD not set\n", 1);
+				ft_putstr_fd("cd: 🔎OLDPWD not set\n", 1);
 			}
 			return (TRUE);
 		}
