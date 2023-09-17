@@ -40,6 +40,7 @@ void	process_line(t_shell *core, char *input);
 
 //history.c
 t_bool	fetch_history_file(t_shell *core);
+void	add_to_history_file(t_shell *core);
 void	add_to_history(char *str, t_shell *core);
 
 //fancy_prompt.c

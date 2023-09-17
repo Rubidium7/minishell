@@ -12,10 +12,28 @@
 
 #include "minishell.h"
 
+void	free_history(t_shell *core)
+{
+	int	i;
+
+	i = 0;
+	while (i != 500)
+	{
+		if (core->history[i])
+		{
+			free(core->history[i]);
+			core->history[i] = NULL;
+		}
+		i++;
+	}
+}
+
 int	handle_exit(t_shell *core)
 {
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &core->term.old);
+	add_to_history_file(core);
 	free(core->tmp_dir);
-	free_ar(core->env);
+	free_history(core);
+	//free_ar(core->env);
 	return (core->cur_process.ret);
 }

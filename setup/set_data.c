@@ -19,6 +19,8 @@ void	set_start_data(t_shell *core, char **start_env)
 	core->cur_process.ret = 0;
 	core->cur_process.shroom_time = TRUE;
 	core->env_list = NULL;
+	ft_bzero(core->history, 500);
+	core->history_index = 0;
 	//core->env = copy_array(start_env);
 	if (array_to_env_list(start_env, core, TRUE))
 		exit(SETUP_ERROR);

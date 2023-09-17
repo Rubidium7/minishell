@@ -175,6 +175,8 @@ typedef struct s_shell
 	t_current_process	cur_process;
 	t_env				*env_list;
 	char				**env; //to be replaced
+	char				*history[500];
+	int					history_index;
 	t_bool				history_saving;
 	char				*tmp_dir;
 }	t_shell;
