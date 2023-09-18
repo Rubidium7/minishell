@@ -19,7 +19,7 @@ static int	complain(void)
 	return (37);
 }
 
-int main(int ac, char **av, char **ev)
+int	main(int ac, char **av, char **ev)
 {
 	t_shell	core;
 
@@ -40,6 +40,6 @@ int main(int ac, char **av, char **ev)
 		else
 			ctrl_d_handler(&core);
 	}
-	handle_exit(&core); ///change this when env management has been changed!
+	handle_exit(&core);
 	return (core.cur_process.ret);
 }
