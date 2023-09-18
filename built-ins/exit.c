@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:26:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 16:31:46 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 16:44:48 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,13 @@ t_bool	is_numeric(char *str)
 {
 	int	i;
 
+	printf("str = %s\n", str);
 	i = 0;
 	if (str[i] == '-')
 		i++;
 	while (ft_isdigit(str[i]))
 		i++;
+	printf("i = %d\n", i);
 	if (str[i] == '\0')
 		return (TRUE);
 	return (FALSE);
