@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 20:19:05 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 12:44:30 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 13:14:39 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ t_env	*find_env(t_env *env_list, const char *key)
 
 	curr_env = env_list;
 	while (curr_env && ft_strcmp(key, curr_env->key))
-	{
 		curr_env = curr_env->next;
-	}
 	return (curr_env);
 }
 

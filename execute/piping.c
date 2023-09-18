@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 20:06:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 12:22:27 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 13:14:12 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,20 @@ int	find_path_problem(char **paths, char *cmd_name)
 
 void	execute_cmd(t_shell *core, t_command *command, char *exe_path)
 {
+	char	**env_array;
+
 	if (is_builtin(command))
 		exit(run_builtin(core, command));
 	else
-		execve(exe_path, command->cmd_ar, core->env); //is env correct?
+	{
+		env_array = env_list_to_array(core->env_list, core);
+		if (!env_array)
+		{
+			core->cur_process.error_index = MALLOC_FAIL;
+			return ;
+		}
+		execve(exe_path, command->cmd_ar, env_array);
+	}
 }
 
 void	handle_child(t_command *curr_command, int **pipes, t_shell *core,
