@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 10:21:30 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/18 17:38:41 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 20:59:00 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@
 # define WR "\033[1;37;41m"
 # define C "\033[0m"
 
-# define MINI_SHROOM "🍄\033[1;37mMini\033[1;31mShroom\033[0m"
+# define MINI_SHROOM "🍄 \033[1;37mMini\033[1;31mShroom\033[0m"
 # define ERROR_SHROOM "🐛 🕸\033[1;31mError\033[1;37m🕸Shroom: \033[0m"
 
 # define HISTORY_FILE ".shell_history.tmp"

@@ -6,24 +6,11 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:26:10 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/17 21:27:20 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 21:15:10 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static t_bool	print_cd_error(const char *arg, const char *message)
-{
-	ft_putstr_fd(ERROR_SHROOM, 2);
-	ft_putstr_fd("cd: ", 2);
-	if (arg)
-	{
-		ft_putstr_fd(arg, 2);
-		ft_putstr_fd(": ", 2);
-	}
-	ft_putendl_fd(message, 2);
-	return (TRUE);
-}
 
 // Updates OLDPWD with old_path and PWD with current path
 static t_bool	set_pwd_envs(t_shell *core, const char *old_path)
@@ -52,9 +39,9 @@ t_bool	cd_navigate(t_shell *core, char *arg)
 			return (FALSE);
 		stat(old_path, &statbuf);
 		if(!access(arg, F_OK) && S_ISDIR(statbuf.st_mode))
-			print_cd_error(arg, "Not a directory");
+			print_generic_error("cd", arg, "Not a directory");
 		else
-			print_cd_error(arg, "No such file or directory");
+			print_generic_error("cd", arg, "No such file or directory");
 		return (TRUE);
 	}
 	if (set_pwd_envs(core, old_path))
@@ -72,7 +59,7 @@ int	cd_env(t_shell *core, const char *env_var, const char *error_msg)
 	if (!path)
 	{
 		if (core->cur_process.error_index != MALLOC_FAIL)
-			print_cd_error(NULL, error_msg);
+			print_generic_error("cd", NULL, error_msg);
 		return (TRUE);
 	}
 	ret = cd_navigate(core, path);
