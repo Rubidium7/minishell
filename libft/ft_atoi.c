@@ -45,4 +45,4 @@ int	ft_atoi(const char *str)
 			return (the_sign(c));
 	}
 	return (n * c);
-}	
+}

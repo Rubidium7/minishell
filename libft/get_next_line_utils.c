@@ -76,7 +76,7 @@ void	clean_buf(t_buflist *c_buf, t_fdlist *c_fd)
 		i++;
 	}
 	c_buf->buffy[i2] = '\0';
-}	
+}
 
 t_fdlist	*clean_fd(t_fdlist *ptr_fd, t_fdlist *c_fd)
 {
@@ -92,7 +92,7 @@ t_fdlist	*clean_fd(t_fdlist *ptr_fd, t_fdlist *c_fd)
 				ptr_fd = ptr_fd->next_fd;
 			if (ptr_fd->next_fd)
 				ptr_fd->next_fd = ptr_fd->next_fd->next_fd;
-		}	
+		}
 		free(c_fd);
 	}
 	return (ptr_fd);

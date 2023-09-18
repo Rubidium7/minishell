@@ -46,7 +46,8 @@ static void	set_values(t_command *new, int index)
 	new->next = NULL;
 }
 
-t_command	*form_command(t_pipeline *pipeline, int index, t_shell *core, t_heredoc *heredoc)
+t_command	*form_command(t_pipeline *pipeline, \
+	int index, t_shell *core, t_heredoc *heredoc)
 {
 	t_command	*new;
 	int			size;
@@ -64,12 +65,13 @@ t_command	*form_command(t_pipeline *pipeline, int index, t_shell *core, t_heredo
 		return (free(new), NULL);
 	if (fill_command_array(new->cmd_ar, pipeline->start, pipeline->end))
 		return (free_ar(new->cmd_ar), free(new), NULL);
-	new->cmd_name = new->cmd_ar[0]; //we can decide if this should be malloced or not
+	new->cmd_name = new->cmd_ar[0];
 	core->cur_process.error_index = error_safe;
 	return (open_redirections(new, pipeline, heredoc, core), new);
 }
 
-t_command	*form_command_list(t_pipeline *current, t_shell *core, t_heredoc *heredoc)
+t_command	*form_command_list(t_pipeline *current, \
+	t_shell *core, t_heredoc *heredoc)
 {
 	t_command	*head;
 	t_command	*current_command;

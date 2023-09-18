@@ -20,7 +20,7 @@ typedef enum e_bool
 {
 	FALSE,
 	TRUE
-} t_bool;
+}	t_bool;
 
 typedef enum e_error
 {
@@ -42,7 +42,7 @@ typedef enum e_error
 	EXEC_ERROR,
 	PROMPT_ERROR,
 	HISTORY_ERROR
-} t_error_code;
+}	t_error_code;
 
 typedef enum e_internal_values
 {
@@ -56,7 +56,7 @@ typedef enum e_internal_values
 	NOT_FOUND = -6,
 	PIPE_FAIL = -7,
 	INVALID_IDENTIFIER = -8,
-} t_internal_values;
+}	t_internal_values;
 
 typedef enum e_syntax_error
 {
@@ -64,7 +64,7 @@ typedef enum e_syntax_error
 	UNEXPECTED_TOKEN = 1,
 	OPEN_QUOTE,
 	OPEN_PARENTHESES
-} t_syntax_error;
+}	t_syntax_error;
 
 typedef enum e_token
 {
@@ -82,7 +82,7 @@ typedef enum e_token
 	RPAR,
 	WHITESPACE,
 	EMPTY
-} t_token_type;
+}	t_token_type;
 
 typedef struct s_terminal
 {

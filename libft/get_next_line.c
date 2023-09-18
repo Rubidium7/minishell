@@ -95,7 +95,7 @@ int	read_file(int fd, t_buflist *beginning, t_buflist *current)
 }
 
 char	*get_next_line(int fd)
-{	
+{
 	static t_fdlist	*ptr_fd;
 	t_fdlist		*current_fd;
 	t_buflist		*current_buf;

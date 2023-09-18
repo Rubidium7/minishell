@@ -13,7 +13,7 @@
 #include "libft.h"
 
 static void	trim_beg(char const *s1, char const *set, int *beg)
-{	
+{
 	int	loca;
 	int	loca2;
 

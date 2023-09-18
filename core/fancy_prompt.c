@@ -40,20 +40,16 @@ char	*get_git(char *dir)
 	branch = get_branch_name();
 	if (!branch)
 		return (dir);
-	combine = ft_strjoin(B " git:(" CY, branch);
+	combine = ft_strjoin(B " git:" CY, branch);
 	free(branch);
 	if (!combine)
 		return (dir);
-	branch = ft_strjoin(combine, B ") ");
+	branch = ft_strjoin(dir, combine);
 	free(combine);
 	if (!branch)
 		return (dir);
-	combine = ft_strjoin(dir, branch);
-	free(branch);
-	if (!combine)
-		return (dir);
 	free(dir);
-	return (combine);
+	return (branch);
 }
 
 char	*get_dir_info(void)
