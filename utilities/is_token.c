@@ -1,49 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   character_utils.c                                  :+:      :+:    :+:   */
+/*   is_token.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/15 18:34:25 by nlonka            #+#    #+#             */
-/*   Updated: 2023/08/15 19:00:01 by nlonka           ###   ########.fr       */
+/*   Created: 2023/09/18 12:21:13 by vvagapov          #+#    #+#             */
+/*   Updated: 2023/09/18 12:26:33 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_bool	is_env_first_char(char c)
+t_bool	is_redir(t_token_type type)
 {
-	if (ft_isalpha(c) || c == '_')
+	if (type == RED_IN || type == HEREDOC)
+		return (TRUE);
+	if (type == RED_OUT || type == RED_OUT_APP)
 		return (TRUE);
 	return (FALSE);
 }
 
-t_bool	is_env_char(char c)
+t_bool	is_red_or_word(t_token_type type)
 {
-	if (ft_isalnum(c) || c == '_')
+	if (type == WORD)
+		return (TRUE);
+	if (is_redir(type))
 		return (TRUE);
 	return (FALSE);
 }
 
-t_bool	is_whitespace(char c)
+t_bool	is_ok_after_logic(t_token_type type)
 {
-	if (c == ' ')
+	if (is_red_or_word(type))
 		return (TRUE);
-	if (c >= 9 && c <= 13)
+	if (type == LPAR)
 		return (TRUE);
 	return (FALSE);
 }
 
-t_bool	is_special_char(char c)
+t_bool	is_logic(t_token_type type)
 {
-	if (c == '<' || c == '>')
+	if (type == OR)
 		return (TRUE);
-	if (c == '|' || c == '&')
-		return (TRUE);
-	if (c == '(' || c == ')')
-		return (TRUE);
-	if (c == '\'' || c == '\"')
+	if (type == AND)
 		return (TRUE);
 	return (FALSE);
 }

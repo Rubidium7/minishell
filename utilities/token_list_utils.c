@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 15:17:38 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/14 15:18:02 by nlonka           ###   ########.fr       */
+/*   Updated: 2023/09/18 12:28:23 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,3 @@ void	free_token_node(t_token *node)
 		empty_wildcard_list(node->wildcard);
 	free(node);
 }
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:34:19 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/14 15:17:32 by nlonka           ###   ########.fr       */
+/*   Updated: 2023/09/18 12:28:18 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*get_quoted_word(char *str, size_t *i, int quote, t_token *new)
 	size = 0;
 	*i += 1;
 	while (str[*i + size] && ((str[*i + size] != '\'' && quote == 1)
-	|| (str[*i + size] != '\"' && quote == 2)))
+			|| (str[*i + size] != '\"' && quote == 2)))
 		size++;
 	if (!str[*i + size])
 		new->open_quote = TRUE;
@@ -30,10 +30,10 @@ char	*get_quoted_word(char *str, size_t *i, int quote, t_token *new)
 	word[size] = '\0';
 	size = 0;
 	while (str[*i] && ((str[*i] != '\'' && quote == 1)
-	|| (str[*i] != '\"' && quote == 2)))
+			|| (str[*i] != '\"' && quote == 2)))
 	{
 		word[size] = str[*i];
-		size++; //so sorry for using the size var for an index here 😭
+		size++;
 		*i += 1;
 	}
 	if (new->open_quote == FALSE)
@@ -50,7 +50,7 @@ char	*get_word_token(char *str, size_t *i)
 	size = 0;
 	word_ind = 0;
 	while (str[*i + size] && !is_special_char(str[*i + size])
-	&& !is_whitespace(str[*i + size]))
+		&& !is_whitespace(str[*i + size]))
 		size++;
 	word = malloc(sizeof(char) * (size + 1));
 	if (!word)
@@ -77,7 +77,7 @@ size_t	size_of_token(t_token_type type)
 		return (0);
 	else if (type == HEREDOC || type == RED_OUT_APP)
 		return (2);
-	else if (type == OR || type == AND)
+	else if (is_logic(type))
 		return (2);
 	else
 		return (1);
@@ -105,4 +105,3 @@ void	indexify_token_list(t_token *current)
 		current = current->next;
 	}
 }
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 15:18:08 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/14 15:18:24 by nlonka           ###   ########.fr       */
+/*   Updated: 2023/09/18 12:27:10 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,3 +83,17 @@ char	*add_string_to(char *str, char *content, int start)
 	return (free(str), ans);
 }
 
+char	*join_three_strings(const char *s1, const char *s2, const char *s3)
+{
+	char	*temp;
+	char	*res;
+
+	temp = ft_strjoin(s1, s2);
+	if (!temp)
+		return (NULL);
+	res = ft_strjoin(temp, s3);
+	free(temp);
+	if (!res)
+		return (NULL);
+	return (res);
+}

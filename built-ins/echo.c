@@ -16,7 +16,7 @@ static t_bool	is_minus_n(const char *str)
 {
 	int	i;
 	
-	if (str[0] != '-' || str[1] != 'n')
+	if (!str || str[0] != '-' || str[1] != 'n')
 		return (FALSE);
 	i = 2;
 	while (str[i])
