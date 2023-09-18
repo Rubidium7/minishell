@@ -87,9 +87,9 @@ static char	*get_fancy_prompt(t_bool ret)
 	if (!tmp)
 		return (NULL);
 	if (ret)
-		complete_prompt = ft_strjoin(tmp, R "➜ "C);
+		complete_prompt = ft_strjoin(tmp, R " ➜ "C);
 	else
-		complete_prompt = ft_strjoin(tmp, G "➜ "C);
+		complete_prompt = ft_strjoin(tmp, G " ➜ "C);
 	free(tmp);
 	return (complete_prompt);
 }
