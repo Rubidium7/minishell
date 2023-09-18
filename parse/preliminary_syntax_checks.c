@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "minishell.h"
 
 t_bool	is_next_token_ok(t_token *current, t_token *next)
