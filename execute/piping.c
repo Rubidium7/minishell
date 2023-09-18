@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 20:06:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 13:14:12 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 13:27:44 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	find_path_problem(char **paths, char *cmd_name)
 		ft_putstr_fd(": Permission denied🐛\n", 2);
 	return (126);
 }
-
 
 void	execute_cmd(t_shell *core, t_command *command, char *exe_path)
 {
@@ -76,24 +75,9 @@ void	handle_child(t_command *curr_command, int **pipes, t_shell *core,
 		exit(1);
 	}
 	close_pipes(pipes);
-	//free_pipes(pipes); // maybe needed? nah
+	free_pipes(pipes); // maybe needed? nah
 	execute_cmd(core, curr_command, exe_path);
 	exit(1);
-}
-
-int	wait_for_children(pid_t *children, int len)
-{
-	int	i;
-	int	ret;
-
-	i = 0;
-	ret = 0;
-	while (i < len)
-	{
-		waitpid(children[i], &ret, 0);
-		i++;
-	}
-	return(ret);
 }
 
 char	**fetch_paths_array(t_shell *core)
@@ -182,62 +166,20 @@ int	handle_command(t_shell *core, pid_t *children, int **pipes,
 		exe_path = NULL;
 	else if ((access(command->cmd_name, X_OK) == SUCCESS
 		&& !S_ISDIR(file_info.st_mode)) || is_builtin(command))
-		exe_path = ft_strdup(command->cmd_name); // malloc
+		exe_path = ft_strdup(command->cmd_name);
 	else
-		exe_path = find_exe_path(core, command); // malloc
+		exe_path = find_exe_path(core, command);
 	if (!exe_path && core->cur_process.ret != 127
-	&& core->cur_process.ret != 126 && command->cmd_name)
+		&& core->cur_process.ret != 126 && command->cmd_name)
 	{
 		core->cur_process.error_index = MALLOC_FAIL;
 		return (MALLOC_FAIL);
 	}
-	// create a child process
-	// ft_putstr_fd("exe_path: ", 2); //debug
-	// ft_putstr_fd(exe_path, 2); //debug
-	// ft_putstr_fd("\n", 2); //debug
 	children[command->index] = fork();
 	if (!children[command->index])
 		handle_child(command, pipes, core, exe_path);
 	free(exe_path);
 	return (SUCCESS);
-}
-
-// Pipe and child init
-int	prepare_pipes_and_children(t_shell *core, int ***pipes, pid_t **children,
-int len)
-{
-	*pipes = malloc_pipes(len - 1);
-	if (!(*pipes))
-	{
-		core->cur_process.error_index = MALLOC_FAIL;
-		return (MALLOC_FAIL);
-	}
-	if (open_pipes(*pipes) != SUCCESS)
-	{
-		core->cur_process.error_index = PIPE_FAIL;
-		free(pipes);
-		return (PIPE_FAIL);
-	}
-	*children = ft_calloc(sizeof(pid_t), len);
-	if (!(*children))
-	{
-		core->cur_process.error_index = MALLOC_FAIL;
-		free(pipes);
-		return (MALLOC_FAIL);
-	}
-	return (SUCCESS);
-}
-
-// Pipe and child cleanup
-int	finalise_pipes_and_children(int **pipes, pid_t *children, int len)
-{
-	int			ret;
-
-	close_pipes(pipes);
-	ret = wait_for_children(children, len);
-	free_pipes(pipes);
-	free(children);
-	return (ret);
 }
 
 // Create pipes and children, handle each command, clean up
@@ -276,7 +218,6 @@ int	pipeline_execution(t_shell *core, t_command *commands)
 {
 	if (no_children_needed(commands))
 	{
-		//ft_putstr_fd("no children needed\n", 2);
 		core->cur_process.terminated = FALSE;
 		return (run_builtin(core, commands));
 	}

@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:28:18 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/18 12:33:43 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 13:28:07 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,6 +254,11 @@ int		is_last_command(t_command *command);
 // dup.c
 int		dup_input(t_command *command, int **pipes);
 int		dup_output(t_command *command, int **pipes);
+
+// prepare_and_finalise_pipeline.c
+int		prepare_pipes_and_children(t_shell *core, int ***pipes,
+	pid_t **children, int len);
+int		finalise_pipes_and_children(int **pipes, pid_t *children, int len);
 
 // builtins
 // pwd.c

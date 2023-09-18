@@ -6,7 +6,7 @@
 #    By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/03 20:58:45 by vvagapov          #+#    #+#              #
-#    Updated: 2023/09/18 12:20:29 by vvagapov         ###   ########.fr        #
+#    Updated: 2023/09/18 13:27:20 by vvagapov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ _UTILS := array_utils.c token_list_utils.c character_utils.c string_utils.c \
 		tokenizing_utils.c debug_utils.c ast_utils.c \
 		exiting.c errors.c cleaners.c is_token.c
 _EXE := piping.c pipes_utils.c memory_utils.c list_utils.c command_utils.c \
-		dup.c builtins_utils.c
+		dup.c builtins_utils.c prepare_and_finalise_pipeline.c
 _BUILTINS := cd.c echo.c env.c exit.c export.c pwd.c unset.c
 
 ALL_SRCS := $(addprefix $(CORE_DIR), $(_CORE)) \
