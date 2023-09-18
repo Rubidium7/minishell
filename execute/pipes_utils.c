@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:27:32 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 13:50:43 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 20:50:15 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ int	open_pipes(int **pipes)
 {
 	int	i;
 
+	if (!pipes)
+		return (SUCCESS);
 	i = 0;
-	while (pipes && pipes[i])
+	while (pipes[i])
 	{
 		if (pipe(pipes[i]) == -1)
 		{
@@ -30,10 +32,17 @@ int	open_pipes(int **pipes)
 
 void	close_pipes(int **pipes)
 {
-	while (pipes && *pipes)
+	int	i;
+
+	if (!pipes)
+		return ;
+	i = 0;
+	while (pipes[i] && pipes[i][0] != -1)
 	{
-		close((*pipes)[0]);
-		close((*pipes)[1]);
-		pipes++;
+		close(pipes[i][0]);
+		close(pipes[i][1]);
+		i++;
 	}
+	//ft_putnbr_fd(i, 2);
+	//ft_putstr_fd(" - i at which close pipes stopped\n", 2);
 }
