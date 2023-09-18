@@ -6,18 +6,18 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 12:18:59 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 12:20:08 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 17:06:47 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	run_builtin(t_shell *core, t_command *command)
+int	run_builtin(t_shell *core, t_command *command, t_bool is_child)
 {
 	if (!ft_strcmp(command->cmd_name, "pwd"))
 		return (pwd(core));
 	else if (!ft_strcmp(command->cmd_name, "exit"))
-		return (ft_exit(core, command));
+		return (ft_exit(core, command, is_child));
 	else if (!ft_strcmp(command->cmd_name, "echo"))
 		return (echo(command));
 	else if (!ft_strcmp(command->cmd_name, "env"))
