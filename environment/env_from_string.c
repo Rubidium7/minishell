@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_parsing.c                                      :+:      :+:    :+:   */
+/*   env_from_string.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 14:02:41 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 14:32:29 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 15:36:50 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	parse_env_str(char **key, char **content, char *str)
 
 t_bool	add_env_from_string(t_shell *core, char *str)
 {
-	t_internal_values	ret;
+	int					ret;
 	char				*key;
 	char				*content;
 
@@ -63,5 +63,8 @@ t_bool	add_env_from_string(t_shell *core, char *str)
 		ft_putstr_fd("': not a valid identifier\n", 2);
 		return (TRUE);
 	}
-	return (set_env(key, content, core));
+	ret = set_env(key, content, core);
+	free(key);
+	free(content);
+	return (ret);
 }
