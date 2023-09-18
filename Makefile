@@ -6,7 +6,7 @@
 #    By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/03 20:58:45 by vvagapov          #+#    #+#              #
-#    Updated: 2023/09/18 15:27:45 by vvagapov         ###   ########.fr        #
+#    Updated: 2023/09/18 17:25:10 by vvagapov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,6 +71,7 @@ ALL_SRCS := $(addprefix $(CORE_DIR), $(_CORE)) \
 SRCS = $(_CORE) $(_TOKENIZE) $(_PARSE) $(_SETUP) $(_REDIR) $(_WILD) $(_ENV) $(_UTILS) $(_EXE) $(_BUILTINS)
 OBJ_FILES = $(SRCS:.c=.o)
 OBJS = $(patsubst %, $(OBJS_DIR)%, $(SRCS:.c=.o))
+INCLUDES = includes/defines.h includes/minishell.h includes/structs.h 
 
 LIB = libft/libft.a
 
@@ -81,7 +82,7 @@ $(LIB):
 	@make bonus -C libft
 	@echo "$(COLOUR_GREEN)libft compilation completed$(COLOUR_END)"
 
-$(NAME): $(LIB) $(OBJS_DIR) $(OBJS)
+$(NAME): $(LIB) $(OBJS_DIR) $(OBJS) $(INCLUDES)
 	@cc $(FLAGS) $(OBJS) -o $@ $(READLINE) -L ./libft -lft
 	@echo "$(COLOUR_GREEN)$@ created$(COLOUR_END)"
 
