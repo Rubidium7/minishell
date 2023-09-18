@@ -130,6 +130,9 @@ char	*expand_envs_in_string(char *str, t_shell *core);
 //expand_envs.c
 t_bool	expand_envs(t_token *head, t_shell *core);
 
+//increment_shell_level.c
+t_bool	increment_shell_level(t_shell *core);
+
 // SETUP
 
 // set_data.c

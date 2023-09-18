@@ -26,7 +26,11 @@ t_bool	array_to_env_list(char **ar, t_shell *core, t_bool is_setup)
 		i++;
 	}
 	if (is_setup)
+	{
+		if (increment_shell_level(core))
+			return (TRUE);
 		return (set_env("OLDPWD", NULL, core));
+	}
 	return (FALSE);
 }
 
