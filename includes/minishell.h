@@ -44,7 +44,7 @@ void	add_to_history_file(t_shell *core);
 void	add_to_history(char *str, t_shell *core);
 
 //fancy_prompt.c
-void	readline_pretty(t_shell *core);
+char	*get_fancy_prompt(int ret);
 
 // tokenize
 

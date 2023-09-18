@@ -19,6 +19,28 @@ static int	complain(void)
 	return (37);
 }
 
+void	readline_pretty(t_shell *core)
+{
+	char	*tmp;
+	char	*fancy_prompt;
+
+	core->cur_process.input_line = NULL;
+	fancy_prompt = get_fancy_prompt(core->cur_process.ret);
+	if (!fancy_prompt)
+	{
+		error_print(PROMPT_ERROR);
+		if (core->cur_process.ret)
+			tmp = readline(MINI_SHROOM R "> "C);
+		else
+			tmp = readline(MINI_SHROOM G "> "C);
+	}
+	else
+		tmp = readline(fancy_prompt);
+	if (fancy_prompt)
+		free(fancy_prompt);
+	core->cur_process.input_line = tmp;
+}
+
 int	main(int ac, char **av, char **ev)
 {
 	t_shell	core;

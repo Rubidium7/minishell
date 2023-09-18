@@ -73,7 +73,25 @@ char	*get_dir_info(void)
 	return (get_git(current_directory));
 }
 
-static char	*get_fancy_prompt(t_bool ret)
+char	*add_prompt_ret(char *tmp, int ret)
+{
+	char	*number;
+	char	*combine;
+
+	number = ft_itoa(ret);
+	if (!number)
+		return (free(tmp), NULL);
+	combine = ft_strjoin(tmp, R " [");
+	free(tmp);
+	if (!combine)
+		return (NULL);
+	tmp = ft_strjoin(combine, number);
+	free(combine);
+	free(number);
+	return (tmp);
+}
+
+char	*get_fancy_prompt(int ret)
 {
 	char	*dir_info;
 	char	*tmp;
@@ -87,31 +105,14 @@ static char	*get_fancy_prompt(t_bool ret)
 	if (!tmp)
 		return (NULL);
 	if (ret)
-		complete_prompt = ft_strjoin(tmp, R " ➜ "C);
+	{
+		tmp = add_prompt_ret(tmp, ret);
+		if (!tmp)
+			return (NULL);
+		complete_prompt = ft_strjoin(tmp, "] ➜ "C);
+	}
 	else
 		complete_prompt = ft_strjoin(tmp, G " ➜ "C);
 	free(tmp);
 	return (complete_prompt);
-}
-
-void	readline_pretty(t_shell *core)
-{
-	char	*tmp;
-	char	*fancy_prompt;
-
-	core->cur_process.input_line = NULL;
-	fancy_prompt = get_fancy_prompt(!(!core->cur_process.ret));
-	if (!fancy_prompt)
-	{
-		error_print(PROMPT_ERROR);
-		if (core->cur_process.ret)
-			tmp = readline(MINI_SHROOM R "> "C);
-		else
-			tmp = readline(MINI_SHROOM G "> "C);
-	}
-	else
-		tmp = readline(fancy_prompt);
-	if (fancy_prompt)
-		free(fancy_prompt);
-	core->cur_process.input_line = tmp;
 }
