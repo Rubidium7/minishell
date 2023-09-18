@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:26:36 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 21:57:08 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 22:16:18 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,8 @@ int	unset(t_shell *core, t_command *command)
 	{
 		if (!is_valid_key(command->cmd_ar[i]))
 		{
-			core->cur_process.error_index = INVALID_IDENTIFIER;
 			print_generic_error("unset", command->cmd_ar[i],
 				"not a valid identifier");
-			/* ft_putstr_fd(ERROR_SHROOM, 2);
-			ft_putstr_fd(" unset: `", 2);
-			ft_putstr_fd(command->cmd_ar[i], 2);
-			ft_putstr_fd("': not a valid identifier\n", 2); */
 			ret = 1;
 		}
 		else if (unset_env(command->cmd_ar[i], core) && !ret)

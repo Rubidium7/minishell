@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 20:06:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 20:51:41 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 22:20:42 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,10 @@ static void	handle_child(t_command *curr_command, int **pipes, t_shell *core,
 	if (dup_input(curr_command, pipes) == -1
 		|| dup_output(curr_command, pipes) == -1)
 	{
-		// the below is useless, right?
-		// core->cur_process.error_index = DUP_ERROR;
 		error_print(EXEC_ERROR);
 		exit(1);
 	}
 	close_pipes(pipes);
-	//free_pipes(pipes); // maybe needed? nah
 	execute_cmd(core, curr_command, exe_path);
 	exit(1);
 }
@@ -93,7 +90,7 @@ static int	execute_pipeline(t_shell *core, t_command *commands)
 	int			ret;
 
 	len = list_len(commands);
-	ret = prepare_pipes_and_children(core, &pipes, &children, len); // malloc
+	ret = prepare_pipes_and_children(core, &pipes, &children, len);
 	if (ret != SUCCESS)
 	{
 		finalise_pipes_and_children(pipes, children, len);

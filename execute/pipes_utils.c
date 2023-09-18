@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:27:32 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 20:50:15 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 22:17:05 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,4 @@ void	close_pipes(int **pipes)
 		close(pipes[i][1]);
 		i++;
 	}
-	//ft_putnbr_fd(i, 2);
-	//ft_putstr_fd(" - i at which close pipes stopped\n", 2);
 }

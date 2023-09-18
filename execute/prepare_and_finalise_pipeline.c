@@ -6,15 +6,15 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 13:23:41 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 20:50:04 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 22:02:36 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_pipes(int **pipes, int len)
+static void	init_pipes(int **pipes, int len)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < len)
@@ -23,8 +23,6 @@ void	init_pipes(int **pipes, int len)
 		pipes[i][1] = -1;
 		i++;
 	}
-	//ft_putnbr_fd(i, 2);
-	//ft_putstr_fd(" - i at which init pipes stopped\n", 2);
 }
 
 // Pipe and child init
@@ -35,14 +33,12 @@ int len)
 	*pipes = malloc_pipes(len - 1);
 	if (!(*pipes))
 	{
-		//ft_putstr_fd("malloc failed\n", 2);
 		core->cur_process.error_index = MALLOC_FAIL;
 		return (MALLOC_FAIL);
 	}
 	init_pipes(*pipes, len - 1);
 	if (open_pipes(*pipes) != SUCCESS)
 	{
-		//ft_putstr_fd("opening pipes failed\n", 2);
 		core->cur_process.error_index = PIPE_FAIL;
 		return (PIPE_FAIL);
 	}

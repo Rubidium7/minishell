@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:26:14 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/15 20:35:58 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 22:16:46 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static t_bool	is_minus_n(const char *str)
 {
 	int	i;
-	
+
 	if (!str || str[0] != '-' || str[1] != 'n')
 		return (FALSE);
 	i = 2;
@@ -40,15 +40,14 @@ int	echo(t_command *command)
 		no_newline = TRUE;
 		i++;
 	}
-	//no -n option here
 	while (command->cmd_ar[i])
 	{
-		printf("%s", command->cmd_ar[i]);
+		ft_putstr_fd(command->cmd_ar[i], STDOUT_FILENO);
 		if (command->cmd_ar[i + 1])
-			printf(" ");
+			ft_putstr_fd(" ", STDOUT_FILENO);
 		i++;
 	}
 	if (!no_newline)
-		printf("\n");
+		ft_putchar_fd('\n', STDOUT_FILENO);
 	return (0);
 }

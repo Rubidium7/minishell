@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 13:57:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 14:30:28 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 22:06:45 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ t_bool	array_to_env_list(char **ar, t_shell *core, t_bool is_setup)
 	return (FALSE);
 }
 
+static char	**malloc_fail(t_shell *core)
+{
+	core->cur_process.error_index = MALLOC_FAIL;
+	return (NULL);
+}
+
 char	**env_list_to_array(t_env *env_list, t_shell *core)
 {
 	char	**res;
@@ -43,10 +49,7 @@ char	**env_list_to_array(t_env *env_list, t_shell *core)
 	len = env_list_len(env_list);
 	res = malloc(sizeof(t_env *) * (len + 1));
 	if (!res)
-	{
-		core->cur_process.error_index = MALLOC_FAIL;
-		return (NULL);
-	}
+		return (malloc_fail(core));
 	res[len] = NULL;
 	i = 0;
 	while (i < len)
@@ -58,8 +61,7 @@ char	**env_list_to_array(t_env *env_list, t_shell *core)
 		if (!res[i])
 		{
 			free_ar(res);
-			core->cur_process.error_index = MALLOC_FAIL;
-			return (NULL);
+			return (malloc_fail(core));
 		}
 		env_list = env_list->next;
 		i++;

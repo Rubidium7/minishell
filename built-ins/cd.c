@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:26:10 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 21:56:43 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 22:08:59 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static t_bool	set_pwd_envs(t_shell *core, const char *old_path)
 		return (TRUE);
 	return (FALSE);
 }
+
 // Saves old path;
 // navigates to the new path, throwing errors is necessary;
 // updates OLDPWD and PWD env variables with old and new paths
@@ -30,7 +31,7 @@ t_bool	cd_navigate(t_shell *core, char *arg)
 {
 	char		old_path[PATH_MAX_LEN + 1];
 	struct stat	statbuf;
-	
+
 	if (!getcwd(old_path, PATH_MAX_LEN))
 		return (TRUE);
 	if (chdir(arg) == -1)
@@ -38,7 +39,7 @@ t_bool	cd_navigate(t_shell *core, char *arg)
 		if (!ft_strlen(arg))
 			return (FALSE);
 		stat(old_path, &statbuf);
-		if(!access(arg, F_OK) && S_ISDIR(statbuf.st_mode))
+		if (!access(arg, F_OK) && S_ISDIR(statbuf.st_mode))
 			print_generic_error("cd", arg, "Not a directory");
 		else
 			print_generic_error("cd", arg, "No such file or directory");
@@ -54,7 +55,7 @@ int	cd_env(t_shell *core, const char *env_var, const char *error_msg)
 {
 	char	*path;
 	int		ret;
-	
+
 	path = fetch_env(env_var, core);
 	if (!path)
 	{

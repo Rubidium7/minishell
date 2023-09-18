@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:24:53 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 21:56:57 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 22:08:32 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	pwd(void)
 {
 	char	*res;
-	
+
 	res = NULL;
 	res = getcwd(res, 0);
 	if (!res)
