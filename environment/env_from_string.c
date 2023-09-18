@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 14:02:41 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 16:56:46 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 18:36:27 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ t_bool	add_env_from_string(t_shell *core, char *str)
 		ft_putstr_fd(" export: `", 2);
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd("': not a valid identifier\n", 2);
-		free(key);
-		free(content);
 		return (TRUE);
 	}
 	ret = set_env(key, content, core);
