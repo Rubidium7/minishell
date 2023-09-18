@@ -88,7 +88,6 @@ typedef struct s_terminal
 {
 	struct termios	new;
 	struct termios	old;
-
 }	t_terminal;
 
 typedef struct s_wildcard
@@ -157,6 +156,7 @@ typedef struct s_current_process
 	t_ast	*tree;
 	t_bool	shroom_time;
 	int		ret;
+	int		old_ret;
 }	t_current_process;
 
 typedef struct s_env

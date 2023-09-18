@@ -37,6 +37,10 @@ t_env	*delete_first(t_env *env_list)
 	if (!env_list)
 		return (NULL);
 	res = env_list->next;
+	if (env_list->key)
+		free(env_list->key);
+	if (env_list->content)
+		free(env_list->content);
 	free(env_list);
 	return (res);
 }
