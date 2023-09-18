@@ -45,7 +45,8 @@ t_token	*cleap_empty_strings(t_token *head)
 			current->next = current->next->next;
 			free_token_node(tmp);
 		}
-		current = current->next;
+		else
+			current = current->next;
 	}
 	return (clean_non_wildcards(head, head));
 }
