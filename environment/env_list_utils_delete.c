@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 20:19:05 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 14:31:45 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 23:10:38 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ t_bool	delete_next(t_env *env_list)
 	if (!env_list->next)
 		return (TRUE);
 	new_next = env_list->next->next;
+	if (env_list->next->key)
+		free(env_list->next->key);
+	if (env_list->next->content)
+		free(env_list->next->content);
 	free(env_list->next);
 	env_list->next = new_next;
 	return (FALSE);
