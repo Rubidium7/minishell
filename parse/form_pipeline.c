@@ -79,8 +79,6 @@ t_pipeline	*form_pipeline(t_token *head_token, int end_index, int *error_index)
 
 	current_token = head_token;
 	head_pipe = NULL;
-	//printf("current index %d end index %d\n", current_token->position, end_index); //debug
-	//print_token(current_token, ON); //debug
 	while (current_token->next && current_token->next->position < end_index)
 	{
 		if (current_token->type == PIPE)

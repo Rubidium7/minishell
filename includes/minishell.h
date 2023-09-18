@@ -75,8 +75,10 @@ t_ast		*form_tree(t_token *start, t_ast *up, int end_index, int *error_index);
 // form_pipeline.c
 t_pipeline	*form_pipeline(t_token *head_token, int end_index, int *error_index);
 
-// tree_execution.c
+//form_command.c
 t_command	*form_command_list(t_pipeline *current, t_shell *core, t_heredoc *heredoc);
+
+// tree_execution.c
 int			execute_tree(t_ast *tree, t_shell *core);
 
 // redirections
@@ -217,29 +219,39 @@ void	print_ar(char **array);
 // ast_utils.c
 t_ast	*new_ast_node(t_ast *up, t_pipeline *head, \
 	t_token_type type, int *error_index);
-t_token	*node_at_index(t_token *current, int end_index);
 int		previous_position(t_token *head, t_token *last);
+int		token_after_parentheses(t_token *current, int end_index);
+
+//heredoc_utils.c
+char	*create_heredoc_file(int heredoc_index, t_shell *core);
+t_bool	heredoc_input(int fd, char *limiter, t_bool expand, t_shell *core);
+
+//find_nodes.c
+t_token	*node_at_index(t_token *current, int end_index);
 t_token	*last_node(t_token *current, t_token *end);
-int		token_after_parentheses(t_token *current, int end_index);	
 int		find_logic_token(t_token *current, int end_index);
 
 // exiting.c
 int		handle_exit(t_shell *core);
+
+//syntax_error_printing.c
+t_bool	syntax_error(t_syntax_error type, t_token *token);
 
 // errors.c
 void	handle_error_value(int *error_index, int position);
 void	update_error_value(t_shell *core);
 void	error_print(t_error_code type);
 void	print_file_error(char *filename, t_error_code type);
-t_bool	syntax_error(t_syntax_error type, t_token *token);
 
-//cleaners.c
+//list_cleaners.c
 void	empty_wildcard_list(t_wildcard *current);
 void	empty_token_list(t_token *current);
 void	empty_heredoc_list(t_heredoc *current);
-void	free_command_node(t_command *node);
 void	empty_command_list(t_command *current);
 void	empty_pipeline_list(t_pipeline *current);
+
+//cleaners.c
+void	free_command_node(t_command *node);
 t_ast	*free_tree(t_ast *tree);
 void	clean_up(t_shell *core);
 

@@ -34,13 +34,6 @@ t_ast	*new_ast_node(t_ast *up, t_pipeline *head, \
 	return (new);
 }
 
-t_token	*node_at_index(t_token *current, int end_index)
-{
-	while (current && current->position != end_index)
-		current = current->next;
-	return (current);
-}
-
 int	previous_position(t_token *head, t_token *last)
 {
 	t_token	*current;
@@ -53,13 +46,6 @@ int	previous_position(t_token *head, t_token *last)
 	if (!current)
 		return (previous_position(head, current));
 	return (current->position);
-}
-
-t_token	*last_node(t_token *current, t_token *end)
-{
-	while (current->next != end)
-		current = current->next;
-	return (current);
 }
 
 int	token_after_parentheses(t_token *current, int end_index)
@@ -86,29 +72,4 @@ int	token_after_parentheses(t_token *current, int end_index)
 		current = current->next;
 	}
 	return (start);
-}
-
-int	find_logic_token(t_token *current, int end_index)
-{
-	int	index;
-	int	parentheses;
-
-	index = NO_LOGIC;
-	parentheses = 0;
-	while (current && current->position != end_index)
-	{
-		if (current->type == LPAR)
-			parentheses++;
-		else if (current->type == RPAR)
-			parentheses--;
-		else if (is_logic(current->type))
-		{
-			if (parentheses == 0)
-				index = current->position;
-			else if (index == NO_LOGIC)
-				index = PARENTHESES_ERROR;
-		}
-		current = current->next;
-	}
-	return (index);
 }
