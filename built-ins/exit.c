@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:26:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 17:00:27 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 17:06:04 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,15 @@ t_bool	is_numeric(char *str)
 	return (FALSE);
 }
 
-long long int	ft_exit(t_shell *core, t_command *command)
+long long int	ft_exit(t_shell *core, t_command *command, t_bool is_child)
 {
 	long long int	res;
 	int				i;
 	int				overflow;
 	char			*num_str;
 
+	if (!is_child)
+		write(2, "exit🍂\n", 9);
 	// no args -> return curr_process ret
 	if (!command->cmd_ar[1])
 	{

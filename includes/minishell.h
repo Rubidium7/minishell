@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:28:18 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/18 14:35:21 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 17:06:40 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,7 +251,7 @@ t_bool	is_logic(t_token_type type);
 
 // EXECUTOR
 // builtins_utils.c
-int		run_builtin(t_shell *core, t_command *command);
+int		run_builtin(t_shell *core, t_command *command, t_bool is_child);
 int		is_builtin(t_command *command);
 
 // command_list_utils.c
@@ -296,7 +296,7 @@ int		echo(t_command *command);
 // export.c
 int		export(t_shell *core, t_command *command);
 // exit.c
-long long int	ft_exit(t_shell *core, t_command *command);
+long long int	ft_exit(t_shell *core, t_command *command, t_bool is_child);
 // unset.c
 int		unset(t_shell *core, t_command *command);
 // cd.c
