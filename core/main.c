@@ -28,7 +28,6 @@ void	readline_pretty(t_shell *core)
 	fancy_prompt = get_fancy_prompt(core->cur_process.ret);
 	if (!fancy_prompt)
 	{
-		error_print(PROMPT_ERROR);
 		if (core->cur_process.ret)
 			tmp = readline(MINI_SHROOM R "> "C);
 		else
