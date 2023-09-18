@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 10:33:41 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/18 13:14:59 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 13:15:52 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,3 @@ void	set_start_data(t_shell *core, char **start_env)
 	if (!core->history_saving)
 		error_print(HISTORY_ERROR);
 }
-		
