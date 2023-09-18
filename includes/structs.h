@@ -155,6 +155,7 @@ typedef struct s_current_process
 	t_bool	terminated;
 	t_ast	*tree;
 	t_bool	shroom_time;
+	t_bool	empty_string;
 	int		ret;
 	int		old_ret;
 }	t_current_process;
