@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 20:06:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/17 18:01:22 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 12:22:27 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,44 +37,6 @@ int	find_path_problem(char **paths, char *cmd_name)
 	return (126);
 }
 
-char	**split_path(char* path)
-{
-	return ft_split(path, ':');
-	//https://i.kym-cdn.com/photos/images/newsfeed/001/889/888/265.jpeg
-}
-
-int	run_builtin(t_shell *core, t_command *command)
-{
-	if (!ft_strcmp(command->cmd_name, "pwd"))
-		return (pwd(core));
-	else if (!ft_strcmp(command->cmd_name, "exit"))
-		return (ft_exit(core, command));
-	else if (!ft_strcmp(command->cmd_name, "echo"))
-		return (echo(command));
-	else if (!ft_strcmp(command->cmd_name, "env"))
-		return (env(core));
-	else if (!ft_strcmp(command->cmd_name, "export"))
-		return (export(core, command));
-	else if (!ft_strcmp(command->cmd_name, "unset"))
-		return (unset(core, command));
-	else if (!ft_strcmp(command->cmd_name, "cd"))
-		return (cd(core, command));
-	// TODO: implement
-	return (0);
-}
-
-int	is_builtin(t_command *command)
-{
-	if (ft_strcmp(command->cmd_name, "cd")
-		&& ft_strcmp(command->cmd_name, "echo")
-		&& ft_strcmp(command->cmd_name, "env")
-		&& ft_strcmp(command->cmd_name, "exit")
-		&& ft_strcmp(command->cmd_name, "export")
-		&& ft_strcmp(command->cmd_name, "pwd")
-		&& ft_strcmp(command->cmd_name, "unset"))
-		return (FALSE);
-	return (TRUE);
-}
 
 void	execute_cmd(t_shell *core, t_command *command, char *exe_path)
 {
@@ -87,9 +49,6 @@ void	execute_cmd(t_shell *core, t_command *command, char *exe_path)
 void	handle_child(t_command *curr_command, int **pipes, t_shell *core,
 	char *exe_path)
 {
-/*	printf("child name: %s\n", curr_command->cmd_name);  //debug
- 	printf("red_in: %d\n", curr_command->red_in);
-	printf("red_out: %d\n", curr_command->red_out); */
 	set_child_signals();
 	if (curr_command->red_in == NOT_OPEN 
 	|| curr_command->red_out == NOT_OPEN)
@@ -127,36 +86,6 @@ int	wait_for_children(pid_t *children, int len)
 	return(ret);
 }
 
-// Joins the path to command name and returns the result if successful,
-// Otherwise sets the error index and returns NULL
-char	*join_path(t_shell *core, char* path, char *cmd_name)
-{
-	char	*full_path;
-	char	*path_with_slash;
-
-	path_with_slash = ft_strjoin(path, "/"); // malloc
-	if (!path_with_slash)
-	{
-		core->cur_process.error_index = MALLOC_FAIL;
-		return (NULL);
-	}
-	full_path = ft_strjoin(path_with_slash, cmd_name); // malloc
-	free(path_with_slash);
-	if (!full_path)
-	{
-		core->cur_process.error_index = MALLOC_FAIL;
-		return (NULL);
-	}
-	return (full_path);
-}
-
-/* char *check_path(t_shell *core, char *path, t_command *command)
-{
-	char	*exe_path;
-
-	exe_path = join_path(core, path, command->cmd_name);
-} */
-
 char	**fetch_paths_array(t_shell *core)
 {
 	char	*paths;
@@ -164,33 +93,36 @@ char	**fetch_paths_array(t_shell *core)
 
 	paths = fetch_env("PATH", core); // malloc
 	if (!paths)
-		return (NULL);
-	paths_split = split_path(paths); // malloc
-	if (!paths_split)
 	{
 		core->cur_process.error_index = MALLOC_FAIL;
+		return (NULL);
 	}
+	paths_split = ft_split(paths, ':'); // malloc
+	if (!paths_split)
+		core->cur_process.error_index = MALLOC_FAIL;
 	free(paths);
 	return (paths_split);
 }
 
-// Go through Paths and find the correct one.
-// If not found return NULL
+// Goes through Paths and finds the correct one.
+// If not found returns NULL
 char	*find_exe_path(t_shell *core, t_command *command)
 {
 	int		i;
 	char	*exe_path;
 	char	**paths_split;
 
-	paths_split = fetch_paths_array(core); // malloc
-	if (core->cur_process.error_index == MALLOC_FAIL)
+	paths_split = fetch_paths_array(core);
+	if (!paths_split && core->cur_process.error_index == MALLOC_FAIL)
 		return (NULL);
 	i = 0;
 	while (paths_split && paths_split[i] && command->cmd_name[0])
 	{
-		exe_path = join_path(core, paths_split[i], command->cmd_name); // malloc
+		exe_path = join_three_strings(paths_split[i], "/", command->cmd_name);
 		if (!exe_path || access(exe_path, X_OK) == SUCCESS)
 		{
+			if (!exe_path)
+				core->cur_process.error_index = MALLOC_FAIL;
 			free_ar(paths_split);
 			return (exe_path);
 		}
@@ -264,7 +196,7 @@ int	handle_command(t_shell *core, pid_t *children, int **pipes,
 int	prepare_pipes_and_children(t_shell *core, int ***pipes, pid_t **children,
 int len)
 {
-	*pipes = malloc_pipes(len - 1); // malloc
+	*pipes = malloc_pipes(len - 1);
 	if (!(*pipes))
 	{
 		core->cur_process.error_index = MALLOC_FAIL;
@@ -277,7 +209,6 @@ int len)
 		return (PIPE_FAIL);
 	}
 	*children = ft_calloc(sizeof(pid_t), len);
-	/* *children = malloc(sizeof(pid_t) * len); */
 	if (!(*children))
 	{
 		core->cur_process.error_index = MALLOC_FAIL;
@@ -321,7 +252,6 @@ int	execute_pipeline(t_shell *core, t_command *commands)
 		ret = handle_command(core, children, pipes, curr_command);
 		if (ret != SUCCESS)
 		{
-			ft_putstr_fd("handle_command failed\n", 2); //debug
 			finalise_pipes_and_children(pipes, children, len);
 			return (ret);
 		}
