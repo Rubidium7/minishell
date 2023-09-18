@@ -22,6 +22,8 @@ void	process_line(t_shell *core, char *input)
 		core->cur_process.ret = MALLOC_ERROR;
 		return (error_print(TOKEN_ERROR));
 	}
+	if (core->cur_process.empty_string)
+		core->cur_process.ret = 0;
 	if (!core->tokens->next)
 		return (empty_token_list(core->tokens));
 	core->tokens = expand_wildcards(core->tokens);
