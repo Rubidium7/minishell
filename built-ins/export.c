@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:26:23 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 18:42:51 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 18:52:08 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	export(t_shell *core, t_command *command)
 	int	i;
 	int	first_error_ret;
 	int	ret;
-
 
 	i = 1;
 	first_error_ret = 0;
