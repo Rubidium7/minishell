@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 16:34:48 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 16:34:49 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 16:40:35 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_bool	heredoc_input(int fd, char *limiter, t_bool expand, t_shell *core)
 			exit(0);
 		}
 		if (expand)
-		 	buffer = expand_envs_in_string(buffer, core);
+			buffer = expand_envs_in_string(buffer, core);
 		if (!buffer)
 			return (error_print(HEREDOC_ERROR), exit(2), TRUE);
 		ft_putendl_fd(buffer, fd);

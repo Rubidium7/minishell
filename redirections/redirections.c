@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 15:19:22 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/14 15:20:12 by nlonka           ###   ########.fr       */
+/*   Updated: 2023/09/18 16:39:02 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ void	open_outfile(t_command *new, t_token *current)
 		new->red_out = NOT_OPEN;
 	else if (current->type == RED_OUT)
 		new->red_out = open(current->filename,
-			   	O_WRONLY | O_CREAT | O_TRUNC, 0000644);
+				O_WRONLY | O_CREAT | O_TRUNC, 0000644);
 	else
 		new->red_out = open(current->filename,
-			   	O_WRONLY | O_CREAT | O_APPEND, 0000644);
+				O_WRONLY | O_CREAT | O_APPEND, 0000644);
 	if (new->red_out == NOT_OPEN)
 	{
 		if (current->ambiguity)

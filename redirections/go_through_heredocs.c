@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 16:34:40 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 16:34:42 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 16:39:32 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ t_heredoc	*remove_heredoc_node(t_heredoc *head, int index)
 	free(tmp);
 	return (head);
 }
-
 
 t_heredoc	*purge_heredoc_list(t_heredoc *head, t_pipeline *current)
 {
