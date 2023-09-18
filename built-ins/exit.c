@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:26:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 17:57:48 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 21:56:53 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,9 @@ long long int	slightly_special_atoi(char *str, int *overflow)
 	return (sign * res);
 }
 
-static t_bool	print_exit_error(const char *arg, const char *message)
-{
-	ft_putstr_fd(ERROR_SHROOM, 2);
-	ft_putstr_fd("exit: ", 2);
-	if (arg)
-	{
-		ft_putstr_fd(arg, 2);
-		ft_putstr_fd(": ", 2);
-	}
-	ft_putendl_fd(message, 2);
-	return (TRUE);
-}
-
 int	non_numeric_error(t_shell *core, const char *arg)
 {
-	print_exit_error(arg, "numeric argument required");
+	print_generic_error("exit", arg, "numeric argument required");
 	core->cur_process.shroom_time = FALSE;
 	return (255);
 }
@@ -102,13 +89,13 @@ long long int	ft_exit(t_shell *core, t_command *command, t_bool is_child)
 		return (MALLOC_FAIL);
 	}
 	if (!is_numeric(num_str))
-		return(non_numeric_error(core, command->cmd_ar[0]));
+		return(non_numeric_error(core, command->cmd_ar[1]));
 	res = slightly_special_atoi(num_str, &overflow);
 	if (overflow)
-		return(non_numeric_error(core, command->cmd_ar[0]));
+		return(non_numeric_error(core, command->cmd_ar[1]));
 	if (command->cmd_ar[2])
 	{
-		print_exit_error(NULL, "too many arguments");
+		print_generic_error("exit", NULL, "too many arguments");
 		return (1);
 	}
 	core->cur_process.shroom_time = FALSE;

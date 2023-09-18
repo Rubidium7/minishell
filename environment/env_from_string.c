@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 14:02:41 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 19:07:05 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 21:57:18 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,11 @@ t_bool	add_env_from_string(t_shell *core, char *str)
 	{
 		// should this be a separate error like this?
 		core->cur_process.error_index = INVALID_IDENTIFIER;
-		ft_putstr_fd(ERROR_SHROOM, 2);
+		print_generic_error("export", str, "not a valid identifier");
+		/* ft_putstr_fd(ERROR_SHROOM, 2);
 		ft_putstr_fd(" export: `", 2);
 		ft_putstr_fd(str, 2);
-		ft_putstr_fd("': not a valid identifier\n", 2);
+		ft_putstr_fd("': not a valid identifier\n", 2); */
 		return (TRUE);
 	}
 	ret = set_env(key, content, core);

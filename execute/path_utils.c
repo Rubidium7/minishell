@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 13:48:30 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 14:11:08 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 21:59:14 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,19 @@ static int	find_path_problem(char **paths, char *cmd_name)
 
 	if (access(cmd_name, F_OK) || paths)
 	{
-		ft_putstr_fd(ERROR_SHROOM, 2);
-		ft_putstr_fd(cmd_name, 2);
 		if (paths)
-			ft_putstr_fd(": shroom not found 🐛\n", 2);
+			print_generic_error(cmd_name, NULL, "shroom not found 🐛");
 		else
-			ft_putstr_fd(": No such file or directory 🐛\n", 2);
+			print_generic_error(cmd_name, NULL,
+				"No such file or directory 🐛");
 		return (127);
 	}
 	if (stat(cmd_name, &file_info))
 		return (MALLOC_FAIL);
-	ft_putstr_fd(ERROR_SHROOM, 2);
-	ft_putstr_fd(cmd_name, 2);
 	if (S_ISDIR(file_info.st_mode))
-		ft_putstr_fd(": is a directory 🐛\n", 2);
+		print_generic_error(cmd_name, NULL, "is a directory 🐛");
 	else
-		ft_putstr_fd(": Permission denied 🐛\n", 2);
+		print_generic_error(cmd_name, NULL, "Permission denied 🐛");
 	return (126);
 }
 

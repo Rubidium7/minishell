@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 17:06:16 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/18 21:15:15 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 21:58:14 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,17 @@ void	print_generic_error(const char *cmd, const char *arg, const char *msg)
 	}
 	if (arg)
 	{
-		ft_putstr_fd(arg, 2);
-		ft_putstr_fd(": ", 2);
+		if (!ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "unset"))
+		{
+			ft_putstr_fd("`", 2);
+			ft_putstr_fd(arg, 2);
+			ft_putstr_fd("'", 2);
+		}
+		else
+		{
+			ft_putstr_fd(arg, 2);
+			ft_putstr_fd(": ", 2);
+		}
 	}
 	ft_putendl_fd(msg, 2);
 }

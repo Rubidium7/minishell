@@ -6,13 +6,13 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:24:53 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 21:09:52 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 21:56:57 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	pwd(t_shell *core)
+int	pwd(void)
 {
 	char	*res;
 	
@@ -20,7 +20,8 @@ int	pwd(t_shell *core)
 	res = getcwd(res, 0);
 	if (!res)
 	{
-		ft_putstr_fd("error retrieving current directory\n", 2);
+		print_generic_error("pwd", "getcwd",
+			"error retrieving current directory");
 		return (1);
 	}
 	ft_putstr_fd(res, STDOUT_FILENO);

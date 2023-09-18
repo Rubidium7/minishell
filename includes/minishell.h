@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:28:18 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/18 21:32:13 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 21:48:30 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,7 +256,7 @@ int				finalise_pipes_and_children(int **pipes, pid_t *children,
 
 // BUILTINS
 // pwd.c
-int				pwd(t_shell *core);
+int				pwd(void);
 // env.c
 int				env(t_shell *core);
 // echo.c
