@@ -10,15 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+
+
 #include "minishell.h"
 
 t_bool	is_next_token_ok(t_token *current, t_token *next)
 {
-// 	printf("comparing: ");
-// 	print_token(current, OFF);
-// 	printf(" and ");
-// 	print_token(next, OFF);
-// 	printf("\n");
 	if (current->type == WORD && next->type == LPAR)
 		return (FALSE);
 	if (current->type == PIPE && !is_red_or_word(next->type))
@@ -42,14 +39,16 @@ t_bool	separated_syntax_check(t_token *current, int *error_index)
 			if (!current->next)
 				return (handle_error_value(error_index, UNEXPECTED_NL), TRUE);
 			if (current->next->type != WORD)
-				return (handle_error_value(error_index, current->next->position), TRUE);
+				return (handle_error_value \
+				(error_index, current->next->position), TRUE);
 		}
 		if (current->open_quote)
 			return (handle_error_value(error_index, UNEXPECTED_NL), TRUE);
 		if (current->type == AMPERSAND)
 			return (handle_error_value(error_index, current->position), TRUE);
 		if (current->next && !is_next_token_ok(current, current->next))
-			return (handle_error_value(error_index, current->next->position), TRUE);
+			return (handle_error_value \
+			(error_index, current->next->position), TRUE);
 		current = current->next;
 	}
 	return (FALSE);

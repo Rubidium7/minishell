@@ -16,7 +16,7 @@ static void	incrementer(int *int1, int *int2)
 {
 	*int1 += 1;
 	*int2 += 1;
-} //fuck you norm
+}
 
 static void	assign_numbers(int *fi, int *wi, int *back, int next_to_wild)
 {

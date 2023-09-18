@@ -102,6 +102,6 @@ t_token	*tokenize(char *str, t_shell *core)
 	}
 	mark_redirections(head);
 	if (expand_envs(head, core))
-			return (empty_token_list(head), NULL);
+		return (empty_token_list(head), NULL);
 	return (clean_quotes_and_whitespaces(head, head));
 }

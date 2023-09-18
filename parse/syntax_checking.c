@@ -25,7 +25,7 @@ t_ast	*error_in_parsing(t_shell *core, t_token *head)
 	else 
 		syntax_error(UNEXPECTED_TOKEN, \
 			node_at_index(head, core->cur_process.error_index));
-	return (NULL);	
+	return (NULL);
 }
 
 t_ast	*syntax_check(t_token *head, t_shell *core)

@@ -41,7 +41,7 @@ _CORE := main.c process_line.c history.c fancy_prompt.c
 _TOKENIZE := clean_token_list.c tokenize.c redirections_filenames.c
 _PARSE := parse.c preliminary_syntax_checks.c \
 		form_tree.c syntax_checking.c \
-		tree_execution.c form_pipeline.c
+		tree_execution.c form_pipeline.c form_command.c
 _SETUP := set_data.c set_input_mode.c manage_child_signals.c signal_handlers.c
 _REDIR := redirections.c heredoc.c heredoc_signals.c go_through_heredocs.c
 _ENV := environment_tools.c expand_envs_in_string.c expand_envs.c \
@@ -50,11 +50,12 @@ _ENV := environment_tools.c expand_envs_in_string.c expand_envs.c \
 _WILD := save_wildcards.c expand_wildcards.c wildcard_matching.c \
 		format_wildcard_into_string.c wildcards_in_filenames.c ft_ls.c
 _UTILS := array_utils.c token_list_utils.c character_utils.c string_utils.c \
-		tokenizing_utils.c debug_utils.c ast_utils.c \
-		exiting.c errors.c cleaners.c is_token.c
+		tokenizing_utils.c debug_utils.c ast_utils.c list_cleaners.c \
+		exiting.c errors.c cleaners.c is_token.c syntax_error_printing.c \
+		heredoc_utils.c
 _EXE := pipeline_execution.c pipes_utils.c memory_utils.c command_list_utils.c \
 		command_utils.c dup.c builtins_utils.c prepare_and_finalise_pipeline.c \
-		path_utils.c
+		path_utils.c find_nodes.c
 _BUILTINS := cd.c echo.c env.c exit.c export.c pwd.c unset.c
 
 ALL_SRCS := $(addprefix $(CORE_DIR), $(_CORE)) \

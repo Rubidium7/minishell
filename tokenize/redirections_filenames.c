@@ -68,8 +68,6 @@ void	save_redirection_filenames(t_token *current)
 			if (current->next && current->next->type == WORD)
 			{
 				current->ambiguity = current->next->ambiguity;
-				//printf("filename [%s]\ncontent [%s]\n", current->next->filename, current->next->content);
-				//printf("ambiguity [%d]\n", current->ambiguity);
 				if (!current->ambiguity)
 					current->filename = current->next->content;
 				else
