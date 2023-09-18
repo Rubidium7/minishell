@@ -6,7 +6,7 @@
 #    By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/03 20:58:45 by vvagapov          #+#    #+#              #
-#    Updated: 2023/09/18 18:02:03 by vvagapov         ###   ########.fr        #
+#    Updated: 2023/09/18 23:02:05 by vvagapov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,7 @@ _UTILS := array_utils.c token_list_utils.c character_utils.c string_utils.c \
 _EXE := pipeline_execution.c pipes_utils.c memory_utils.c command_list_utils.c \
 		command_utils.c dup.c builtins_utils.c prepare_and_finalise_pipeline.c \
 		path_utils.c
-_BUILTINS := cd.c echo.c env.c exit.c export.c pwd.c unset.c
+_BUILTINS := cd.c echo.c env.c exit.c exit_atoi.c export.c pwd.c unset.c
 
 ALL_SRCS := $(addprefix $(CORE_DIR), $(_CORE)) \
 			$(addprefix $(TOKENIZE_DIR), $(_TOKENIZE)) \

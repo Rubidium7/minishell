@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:28:18 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/18 21:48:30 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 22:36:05 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,6 +265,8 @@ int				echo(t_command *command);
 int				export(t_shell *core, t_command *command);
 // exit.c
 long long int	ft_exit(t_shell *core, t_command *command, t_bool is_child);
+// exit_utils.c
+long long int	slightly_special_atoi(char *str, int *overflow);
 // unset.c
 int				unset(t_shell *core, t_command *command);
 // cd.c
