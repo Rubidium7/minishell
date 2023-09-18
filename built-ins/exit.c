@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:26:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/17 23:42:10 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 16:31:46 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,15 @@ int	non_numeric_error(t_shell *core, const char *arg)
 
 t_bool	is_numeric(char *str)
 {
-	(void)str;
+	int	i;
+
+	i = 0;
+	if (str[i] == '-')
+		i++;
+	while (ft_isdigit(str[i]))
+		i++;
+	if (str[i] == '\0')
+		return (TRUE);
 	return (FALSE);
 }
 
