@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 20:06:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 14:08:54 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 17:21:10 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	execute_cmd(t_shell *core, t_command *command, char *exe_path)
 	char	**env_array;
 
 	if (is_builtin(command))
-		exit(run_builtin(core, command));
+		exit(run_builtin(core, command, TRUE));
 	else
 	{
 		env_array = env_list_to_array(core->env_list, core);
@@ -120,7 +120,7 @@ int	pipeline_execution(t_shell *core, t_command *commands)
 	if (no_children_needed(commands))
 	{
 		core->cur_process.terminated = FALSE;
-		return (run_builtin(core, commands));
+		return (run_builtin(core, commands, FALSE));
 	}
 	else
 		return (process_exit_status(execute_pipeline(core, commands), core));

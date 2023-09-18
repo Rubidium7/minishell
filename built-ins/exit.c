@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:26:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 16:44:48 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 17:06:04 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,25 +67,25 @@ t_bool	is_numeric(char *str)
 {
 	int	i;
 
-	printf("str = %s\n", str);
 	i = 0;
 	if (str[i] == '-')
 		i++;
 	while (ft_isdigit(str[i]))
 		i++;
-	printf("i = %d\n", i);
 	if (str[i] == '\0')
 		return (TRUE);
 	return (FALSE);
 }
 
-long long int	ft_exit(t_shell *core, t_command *command)
+long long int	ft_exit(t_shell *core, t_command *command, t_bool is_child)
 {
 	long long int	res;
 	int				i;
 	int				overflow;
 	char			*num_str;
 
+	if (!is_child)
+		write(2, "exit🍂\n", 9);
 	// no args -> return curr_process ret
 	if (!command->cmd_ar[1])
 	{
@@ -94,7 +94,7 @@ long long int	ft_exit(t_shell *core, t_command *command)
 	}
 	i = 1;
 	overflow = 0;
-	num_str = ft_strtrim(command->cmd_ar[0], " \t");
+	num_str = ft_strtrim(command->cmd_ar[1], " \t");
 	if (!num_str)
 	{
 		core->cur_process.error_index = MALLOC_FAIL;

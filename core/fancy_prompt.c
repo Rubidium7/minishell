@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 16:33:26 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 16:33:28 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 17:45:09 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ char	*get_git(char *dir)
 	branch = get_branch_name();
 	if (!branch)
 		return (dir);
-	combine = ft_strjoin("["M "git:" CY "(" B, branch);
+	combine = ft_strjoin(B " git:(" CY, branch);
 	free(branch);
 	if (!combine)
 		return (dir);
-	branch = ft_strjoin(combine, CY ")"C "]");
+	branch = ft_strjoin(combine, B ") ");
 	free(combine);
 	if (!branch)
 		return (dir);
@@ -67,10 +67,10 @@ char	*get_dir_info(void)
 	tmp = ft_strrchr(dir_path, '/') + 1;
 	if (!tmp)
 		return (NULL);
-	tmp = ft_strjoin("["Y, tmp);
+	tmp = ft_strjoin(" "Y, tmp);
 	if (!tmp)
 		return (NULL);
-	current_directory = ft_strjoin(tmp, C "]");
+	current_directory = ft_strjoin(tmp, C "");
 	free(tmp);
 	if (!current_directory)
 		return (NULL);
@@ -91,9 +91,9 @@ static char	*get_fancy_prompt(t_bool ret)
 	if (!tmp)
 		return (NULL);
 	if (ret)
-		complete_prompt = ft_strjoin(tmp, R "> "C);
+		complete_prompt = ft_strjoin(tmp, R "➜ "C);
 	else
-		complete_prompt = ft_strjoin(tmp, G "> "C);
+		complete_prompt = ft_strjoin(tmp, G "➜ "C);
 	free(tmp);
 	return (complete_prompt);
 }
