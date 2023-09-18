@@ -9,3 +9,4 @@ echo hi > "$<NON_EXISTENT>" does not produce correct error
 echo hi > ""$<NON_EXISTENT> has a double free....
 fix no command found return val
 echo crashes without arguments :D
+make sure env is correct in execve
