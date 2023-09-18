@@ -8,3 +8,4 @@ still need to make sure that redir syntax errors don't the precedence over other
 echo hi > "$<NON_EXISTENT>" does not produce correct error
 echo hi > ""$<NON_EXISTENT> has a double free....
 fix no command found return val
+echo crashes without arguments :D

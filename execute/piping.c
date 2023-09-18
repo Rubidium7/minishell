@@ -81,7 +81,7 @@ void	execute_cmd(t_shell *core, t_command *command, char *exe_path)
 	if (is_builtin(command))
 		exit(run_builtin(core, command));
 	else
-		execve(exe_path, command->cmd_ar, core->env);
+		execve(exe_path, command->cmd_ar, core->env); //is env correct?
 }
 
 void	handle_child(t_command *curr_command, int **pipes, t_shell *core,
