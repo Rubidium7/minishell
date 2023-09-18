@@ -69,8 +69,6 @@ char	*add_string_to(char *str, char *content, int start)
 	ans = malloc(sizeof(char) * (size + 1));
 	if (!ans)
 		return (free(str), NULL);
-	if (i == start && !str[i])
-		add_content(ans, &i2, content);
 	while (str[i])
 	{
 		if (i == start)
@@ -79,6 +77,8 @@ char	*add_string_to(char *str, char *content, int start)
 		i2++;
 		i++;
 	}
+	if (i2 != size)
+		add_content(ans, &i2, content);
 	ans[i2] = '\0';
 	return (free(str), ans);
 }
