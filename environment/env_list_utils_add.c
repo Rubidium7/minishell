@@ -1,49 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   memory_utils.c                                     :+:      :+:    :+:   */
+/*   env_list_utils_add.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/09 21:45:07 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 13:54:30 by vvagapov         ###   ########.fr       */
+/*   Created: 2023/09/13 20:19:05 by vvagapov          #+#    #+#             */
+/*   Updated: 2023/09/18 14:31:25 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	**malloc_pipes(int num)
+t_env	*create_env_var(const char *key, const char *content)
 {
-	int	**res;
-	int	i;
+	t_env	*res;
 
-	res = malloc(sizeof(int *) * (num + 1));
-	if (!res)
-		return (NULL);
-	res[num] = NULL;
-	i = 0;
-	while (i < num)
+	res = malloc(sizeof(t_env));
+	if (res)
 	{
-		res[i] = malloc(sizeof(int) * 2);
-		if (!res[i])
-		{
-			free(res);
+		res->key = ft_strdup(key);
+		res->content = ft_strdup(content);
+		if (!res->key || (content && !res->content))
 			return (NULL);
-		}
-		i++;
+		res->next = NULL;
 	}
 	return (res);
 }
 
-void	free_pipes(int **pipes)
+t_env	*add_node_to_end(t_env *env_list, t_env *new_node)
 {
-	int	i;
+	t_env	*tmp;
 
-	i = 0;
-	while (pipes[i])
-	{
-		free(pipes[i]);
-		i++;
-	}
-	free(pipes);
+	if (!env_list)
+		return (new_node);
+	tmp = env_list;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new_node;
+	return (env_list);
 }

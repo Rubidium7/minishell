@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 10:47:33 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/18 12:22:57 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:35:23 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,14 @@ char	**copy_array(char **src)
 	}
 	dst[y] = NULL;
 	return (dst);
+}
+
+int	ar_len(char **ar)
+{
+	int	res;
+
+	res = 0;
+	while (ar[res])
+		res++;
+	return (res);
 }

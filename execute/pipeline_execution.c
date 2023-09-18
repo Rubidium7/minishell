@@ -1,43 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   piping.c                                           :+:      :+:    :+:   */
+/*   pipeline_execution.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 20:06:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 13:27:44 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:08:54 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	find_path_problem(char **paths, char *cmd_name)
-{
-	struct stat	file_info;
-
-	if (access(cmd_name, F_OK) || paths)
-	{
-		ft_putstr_fd(ERROR_SHROOM, 2);
-		ft_putstr_fd(cmd_name, 2);
-		if (paths)
-			ft_putstr_fd(": shroom not found🐛\n", 2);
-		else
-			ft_putstr_fd(": No such file or directory🐛\n", 2);
-		return (127);
-	}
-	if (stat(cmd_name, &file_info))
-		return (MALLOC_FAIL);
-	ft_putstr_fd(ERROR_SHROOM, 2);
-	ft_putstr_fd(cmd_name, 2);
-	if (S_ISDIR(file_info.st_mode))
-		ft_putstr_fd(": is a directory🐛\n", 2);
-	else
-		ft_putstr_fd(": Permission denied🐛\n", 2);
-	return (126);
-}
-
-void	execute_cmd(t_shell *core, t_command *command, char *exe_path)
+static void	execute_cmd(t_shell *core, t_command *command, char *exe_path)
 {
 	char	**env_array;
 
@@ -55,19 +30,19 @@ void	execute_cmd(t_shell *core, t_command *command, char *exe_path)
 	}
 }
 
-void	handle_child(t_command *curr_command, int **pipes, t_shell *core,
+static void	handle_child(t_command *curr_command, int **pipes, t_shell *core,
 	char *exe_path)
 {
 	set_child_signals();
 	if (curr_command->red_in == NOT_OPEN 
-	|| curr_command->red_out == NOT_OPEN)
+		|| curr_command->red_out == NOT_OPEN)
 		exit(1);
 	if (core->cur_process.ret)
 		exit(core->cur_process.ret);
 	if (!exe_path)
 		exit(0);
 	if (dup_input(curr_command, pipes) == -1
-	|| dup_output(curr_command, pipes) == -1)
+		|| dup_output(curr_command, pipes) == -1)
 	{
 		// the below is useless, right?
 		// core->cur_process.error_index = DUP_ERROR;
@@ -75,87 +50,13 @@ void	handle_child(t_command *curr_command, int **pipes, t_shell *core,
 		exit(1);
 	}
 	close_pipes(pipes);
-	free_pipes(pipes); // maybe needed? nah
+	//free_pipes(pipes); // maybe needed? nah
 	execute_cmd(core, curr_command, exe_path);
 	exit(1);
 }
 
-char	**fetch_paths_array(t_shell *core)
-{
-	char	*paths;
-	char	**paths_split;
-
-	paths = fetch_env("PATH", core); // malloc
-	if (!paths)
-	{
-		core->cur_process.error_index = MALLOC_FAIL;
-		return (NULL);
-	}
-	paths_split = ft_split(paths, ':'); // malloc
-	if (!paths_split)
-		core->cur_process.error_index = MALLOC_FAIL;
-	free(paths);
-	return (paths_split);
-}
-
-// Goes through Paths and finds the correct one.
-// If not found returns NULL
-char	*find_exe_path(t_shell *core, t_command *command)
-{
-	int		i;
-	char	*exe_path;
-	char	**paths_split;
-
-	paths_split = fetch_paths_array(core);
-	if (!paths_split && core->cur_process.error_index == MALLOC_FAIL)
-		return (NULL);
-	i = 0;
-	while (paths_split && paths_split[i] && command->cmd_name[0])
-	{
-		exe_path = join_three_strings(paths_split[i], "/", command->cmd_name);
-		if (!exe_path || access(exe_path, X_OK) == SUCCESS)
-		{
-			if (!exe_path)
-				core->cur_process.error_index = MALLOC_FAIL;
-			free_ar(paths_split);
-			return (exe_path);
-		}
-		free(exe_path);
-		i++;
-	}
-	core->cur_process.ret = find_path_problem(paths_split, command->cmd_name);
-	if (paths_split)
-		free_ar(paths_split);
-	return (NULL);
-}
-
-int	has_args(char **args)
-{
-	int	i;
-
-	i = 0;
-	while (args[i])
-		i++;
-	if (i > 1)
-		return (TRUE);
-	return (FALSE);
-}
-
-t_bool	no_children_needed(t_command *commands)
-{
-	if (list_len(commands) > 1 || !commands->cmd_name)
-		return (FALSE);
-	if (!ft_strcmp(commands->cmd_name, "export") && has_args(commands->cmd_ar))
-			return (TRUE);
-	if (!ft_strcmp(commands->cmd_name, "cd")
-		|| !ft_strcmp(commands->cmd_name, "exit")
-		|| !ft_strcmp(commands->cmd_name, "unset"))
-		return (TRUE);
-	return (FALSE);
-}
-
-// Finds executable path,
-int	handle_command(t_shell *core, pid_t *children, int **pipes,
+// Finds executable path and forks to child process to execute command
+static int	handle_command(t_shell *core, pid_t *children, int **pipes,
 	t_command *command)
 {
 	char		*exe_path;
@@ -165,7 +66,7 @@ int	handle_command(t_shell *core, pid_t *children, int **pipes,
 	if (!command->cmd_name)
 		exe_path = NULL;
 	else if ((access(command->cmd_name, X_OK) == SUCCESS
-		&& !S_ISDIR(file_info.st_mode)) || is_builtin(command))
+			&& !S_ISDIR(file_info.st_mode)) || is_builtin(command))
 		exe_path = ft_strdup(command->cmd_name);
 	else
 		exe_path = find_exe_path(core, command);
@@ -183,14 +84,14 @@ int	handle_command(t_shell *core, pid_t *children, int **pipes,
 }
 
 // Create pipes and children, handle each command, clean up
-int	execute_pipeline(t_shell *core, t_command *commands)
+static int	execute_pipeline(t_shell *core, t_command *commands)
 {
 	int			**pipes;
 	t_command	*curr_command;
 	pid_t		*children;
 	int			len;
 	int			ret;
-	
+
 	len = list_len(commands);
 	ret = prepare_pipes_and_children(core, &pipes, &children, len); // malloc
 	if (ret != SUCCESS)

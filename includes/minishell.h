@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:28:18 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/18 13:28:07 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:35:21 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,15 +92,35 @@ void	set_heredoc_mode(t_shell *core, int mode);
 // go_through_heredocs.c
 t_bool	go_through_heredocs(t_ast *tree, t_shell *core);
 
-// environment
+// ENVIRONMENT
+// env_converters.c
+t_bool	array_to_env_list(char **ar, t_shell *core, t_bool is_setup);
+char	**env_list_to_array(t_env *env_list, t_shell *core);
+
+// env_from_string.c
+t_bool	add_env_from_string(t_shell *core, char *str);
+
+// env_list_utils_add.c
+t_env	*create_env_var(const char *key, const char *content);
+t_env	*add_node_to_end(t_env *env_list, t_env *new_node);
+
+// env_list_utils_delete.c
+t_bool	delete_next(t_env *env_list);
+t_env	*delete_first(t_env *env_list);
+void	clear_env_list(t_env *env_list);
+
+// env_list_utils_search.c
+t_env	*find_env(t_env *env_list, const char *key);
+t_env	*find_prev(t_env *env_list, const char *key);
+
+// env_list_utils.c
+int		env_list_len(t_env *env_list);
+
 // environment_tools.c
 char	*fetch_env(const char *key, t_shell *core);
 t_bool	set_env(const char *key, const char *content, t_shell *core);
 t_bool	unset_env(const char *key, t_shell *core);
-t_bool	array_to_env_list(char **ar, t_shell *core, t_bool is_setup);
-char	**env_list_to_array(t_env *env_list, t_shell *core);
 void	print_envs(int mode, t_shell *core);
-t_bool	add_env_from_string(t_shell *core, char *str);
 
 //expand_envs_in_string.c
 char	*expand_envs_in_string(char *str, t_shell *core);
@@ -108,7 +128,7 @@ char	*expand_envs_in_string(char *str, t_shell *core);
 //expand_envs.c
 t_bool	expand_envs(t_token *head, t_shell *core);
 
-//setup
+// SETUP
 
 // set_data.c
 void	set_start_data(t_shell *core, char **start_env);
@@ -158,6 +178,7 @@ char	**ft_ls(void);
 // array_utils.c
 void	free_ar(char **array);
 char	**copy_array(char **src);
+int		ar_len(char **ar);
 
 // list_utils.c
 t_token	*remove_from_token_list(t_token *head, t_token *target);
@@ -228,39 +249,44 @@ t_bool	is_red_or_word(t_token_type type);
 t_bool	is_ok_after_logic(t_token_type type);
 t_bool	is_logic(t_token_type type);
 
-// executor
-// piping.c
+// EXECUTOR
+// builtins_utils.c
+int		run_builtin(t_shell *core, t_command *command);
+int		is_builtin(t_command *command);
+
+// command_list_utils.c
+int		list_len(t_command *list);
+
+// command_utils.c
+int		is_first_command(t_command *command);
+int		is_last_command(t_command *command);
+int		has_args(char **args);
+t_bool	no_children_needed(t_command *commands);
+
+// dup.c
+int		dup_input(t_command *command, int **pipes);
+int		dup_output(t_command *command, int **pipes);
+
+// memory_utils.c
+int		**malloc_pipes(int num);
+void	free_pipes(int **pipes);
+
+// path_utils.c
+char	*find_exe_path(t_shell *core, t_command *command);
+
+// pipeline_execution.c
 int		pipeline_execution(t_shell *core, t_command *commands);
 
 // pipes_utils.c
 int		open_pipes(int **pipes);
 void	close_pipes(int **pipes);
 
-// builtins_utils.c
-int		run_builtin(t_shell *core, t_command *command);
-int		is_builtin(t_command *command);
-
-// memory_utils.c
-int		**malloc_pipes(int num);
-void	free_pipes(int **pipes);
-
-// list_utils.c
-int		list_len(t_command *list);
-
-// command_utils.c
-int		is_first_command(t_command *command);
-int		is_last_command(t_command *command);
-
-// dup.c
-int		dup_input(t_command *command, int **pipes);
-int		dup_output(t_command *command, int **pipes);
-
 // prepare_and_finalise_pipeline.c
 int		prepare_pipes_and_children(t_shell *core, int ***pipes,
 	pid_t **children, int len);
 int		finalise_pipes_and_children(int **pipes, pid_t *children, int len);
 
-// builtins
+// BUILTINS
 // pwd.c
 int		pwd(t_shell *core);
 // env.c
@@ -275,16 +301,5 @@ long long int	ft_exit(t_shell *core, t_command *command);
 int		unset(t_shell *core, t_command *command);
 // cd.c
 int		cd(t_shell *core, t_command *command);
-
-// env_list_utils.c
-t_env	*find_env(t_env *env_list, const char *key);
-t_env	*find_prev(t_env *env_list, const char *key);
-t_bool	delete_next(t_env *env_list);
-t_env	*delete_first(t_env *env_list);
-t_env	*create_env_var(const char *key, const char *content);
-void	clear_env_list(t_env *env_list);
-t_env	*add_node_to_end(t_env *env_list, t_env *new_node);
-int		parse_env_str(char **key, char **content, char *str);
-
 
 #endif
