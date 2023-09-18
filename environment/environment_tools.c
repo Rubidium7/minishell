@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 13:58:41 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 12:21:43 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 12:59:42 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,9 +140,7 @@ t_bool	array_to_env_list(char **ar, t_shell *core, t_bool is_setup)
 	while (i < len)
 	{
 		if (add_env_from_string(core, ar[i]))
-		{
 			return (TRUE);
-		}
 		i++;
 	}
 	if (is_setup)
@@ -164,10 +162,7 @@ char	*fetch_env(const char *key, t_shell *core)
 	{
 		res = ft_strdup(matching_env->content);
 		if (matching_env->content && !res)
-		{
-			//ft_putstr_fd("strdup content returned NULL\n", 2);
 			core->cur_process.error_index = MALLOC_FAIL;
-		}
 		return (res);
 	}
 	return (NULL);
@@ -187,7 +182,6 @@ t_bool	set_env(const char *key, const char *content, t_shell *core)
 		matching_env->content = ft_strdup(content);
 		if (!matching_env->content && content)
 		{
-			//ft_putstr_fd("content shouldn't be NULL but it is after strdup\n", 2);
 			core->cur_process.error_index = MALLOC_FAIL;
 			return (TRUE);
 		}
@@ -198,7 +192,6 @@ t_bool	set_env(const char *key, const char *content, t_shell *core)
 		matching_env = create_env_var(key, content);
 		if (!matching_env)
 		{
-			//ft_putstr_fd("create_env_var returned NULL\n", 2);
 			core->cur_process.error_index = MALLOC_FAIL;
 			return (TRUE);
 		}
@@ -238,7 +231,6 @@ void print_envs(int mode, t_shell *core)
 {
 	t_env	*curr_env;
 
-	(void)mode; //TODO
 	curr_env = core->env_list;
 	while (curr_env)
 	{
@@ -259,34 +251,3 @@ void print_envs(int mode, t_shell *core)
 		curr_env = curr_env->next;
 	}
 }
-
-/* 
-t_env	*add_env_var(t_env *env_list, const char *key, const char *content)
-{
-	t_env	*curr_env;
-
-	curr_env = env_list;
-	while (curr_env && curr_env->next)
-	{
-		curr_env = curr_env->next;
-	}
-	if (curr_env)
-	{
-		curr_env->next = create_env_var(key, content);
-		if (!curr_env->next)
-		{
-			return (NULL);
-		}
-		return (env_list);
-	}
-	else
-	{
-		curr_env = create_env_var(key, content);
-		if (!curr_env->next)
-		{
-			return (NULL);
-		}
-		return (curr_env);
-	}
-} 
-*/

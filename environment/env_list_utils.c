@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 20:19:05 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/15 14:47:51 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 12:44:30 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,7 @@ t_env	*add_node_to_end(t_env *env_list, t_env *new_node)
 	t_env	*tmp;
 	
 	if(!env_list)
-	{
 		return (new_node);
-	}
 	tmp = env_list;
 	while (tmp->next)
 		tmp = tmp->next;
