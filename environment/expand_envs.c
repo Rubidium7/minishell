@@ -22,6 +22,8 @@ t_bool	expand_words_envs(t_token *current, t_shell *core)
 	current->content = expand_envs_in_string(current->content, core);
 	if (!current->content)
 		return (free(old_content), TRUE);
+	if (!current->content[0] && old_content[0] && !current->quote)
+		core->cur_process.empty_string = TRUE;
 	if (current->after_redir && !current->content[0]
 		&& old_content[0] && !current->quote)
 	{
@@ -38,6 +40,7 @@ t_bool	expand_envs(t_token *head, t_shell *core)
 	t_token	*current;
 
 	current = head;
+	core->cur_process.empty_string = FALSE;
 	while (current)
 	{
 		if (current->type == WORD 
