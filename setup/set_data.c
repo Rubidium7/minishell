@@ -29,6 +29,7 @@ void	set_start_data(t_shell *core, char **start_env)
 	g_sigint_received = FALSE;
 	set_termios(&core->term);
 	core->cur_process.ret = 0;
+	core->cur_process.old_ret = 0;
 	core->cur_process.shroom_time = TRUE;
 	core->env_list = NULL;
 	zero_history(core->history);

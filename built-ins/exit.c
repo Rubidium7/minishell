@@ -60,7 +60,7 @@ int	non_numeric_error(t_shell *core, const char *arg)
 {
 	print_exit_error(arg, "numeric argument required");
 	core->cur_process.shroom_time = FALSE;
-	return (2);
+	return (255);
 }
 
 t_bool	is_numeric(char *str)
@@ -90,7 +90,7 @@ long long int	ft_exit(t_shell *core, t_command *command, t_bool is_child)
 	if (!command->cmd_ar[1])
 	{
 		core->cur_process.shroom_time = FALSE;
-		return (core->cur_process.ret);
+		return (core->cur_process.old_ret);
 	}
 	i = 1;
 	overflow = 0;

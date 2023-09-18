@@ -17,6 +17,7 @@ void	parse(t_shell *core)
 	core->cur_process.tree = syntax_check(core->tokens->next, core);
 	if (!core->cur_process.tree)
 		return ;
+	core->cur_process.old_ret = core->cur_process.ret;
 	core->cur_process.ret = SUCCESS;
 	core->cur_process.error_index = SUCCESS;
 	if (go_through_heredocs(core->cur_process.tree, core))
