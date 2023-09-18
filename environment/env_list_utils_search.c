@@ -1,26 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_list_utils.c                                   :+:      :+:    :+:   */
+/*   env_list_utils_search.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 20:19:05 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 14:06:29 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:31:55 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	env_list_len(t_env *env_list)
+t_env	*find_env(t_env *env_list, const char *key)
 {
-	int	res;
+	t_env	*curr_env;
 
-	res = 0;
-	while (env_list)
+	curr_env = env_list;
+	while (curr_env && ft_strcmp(key, curr_env->key))
+		curr_env = curr_env->next;
+	return (curr_env);
+}
+
+// RETURNS:
+// - pointer to a node before matching variable if the match is found
+// - NULL if the matching node is first
+// - pointer to the last node if no match is found
+t_env	*find_prev(t_env *env_list, const char *key)
+{
+	t_env	*curr_env;
+	t_env	*prev;
+
+	curr_env = env_list;
+	prev = NULL;
+	while (curr_env && ft_strcmp(key, curr_env->key))
 	{
-		env_list = env_list->next;
-		res++;
+		prev = curr_env;
+		curr_env = curr_env->next;
 	}
-	return (res);
+	return (prev);
 }

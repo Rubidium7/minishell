@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_utils.c                                       :+:      :+:    :+:   */
+/*   command_list_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:50:06 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/11 15:19:57 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 13:55:21 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	list_len(t_command *list)
 {
-	int res;
+	int	res;
 
 	res = 0;
-	while(list)
+	while (list)
 	{
 		list = list->next;
 		res++;

@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 13:23:41 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 13:28:10 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:12:29 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	wait_for_children(pid_t *children, int len)
 		waitpid(children[i], &ret, 0);
 		i++;
 	}
-	return(ret);
+	return (ret);
 }
 
 // Pipe and child cleanup

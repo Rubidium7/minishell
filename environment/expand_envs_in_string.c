@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 13:58:52 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/13 13:58:54 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:34:32 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*expand_return_value(char *str, int start, t_shell *core)
 {
 	char	*number;
-	
+
 	str = remove_string_section(str, start - 1, start + 1);
 	if (!str)
 		return (NULL);

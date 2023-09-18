@@ -6,147 +6,11 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 13:58:41 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 13:14:23 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:33:55 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	env_list_len(t_env *env_list)
-{
-	int	res;
-
-	res = 0;
-	while (env_list)
-	{
-		env_list = env_list->next;
-		res++;
-	}
-	return (res);
-}
-
-char	**env_list_to_array(t_env *env_list, t_shell *core)
-{
-	char	**res;
-	int		len;
-	int		i;
-
-	len = env_list_len(env_list);
-	res = malloc(sizeof(t_env *) * (len + 1));
-	if (!res)
-	{
-		core->cur_process.error_index = MALLOC_FAIL;
-		return (NULL);
-	}
-	res[len] = NULL;
-	i = 0;
-	while (i < len)
-	{
-		if (env_list->content)
-			res[i] = join_three_strings(env_list->key, "=", env_list->content);
-		else
-			res[i] = ft_strdup(env_list->key);
-		if (!res[i])
-		{
-			// ft_putstr_fd("string joining failure\n", 2);
-			free_ar(res);
-			core->cur_process.error_index = MALLOC_FAIL;
-			return (NULL);
-		}
-		env_list = env_list->next;
-		i++;
-	}
-	return (res);
-}
-
-int	ar_len(char **ar)
-{
-	int	res;
-
-	res = 0;
-	while (ar[res])
-		res++;
-	return (res);
-}
-
-int	parse_env_str(char **key, char **content, char *str)
-{
-	int		len;
-	int		equal_index;
-	
-	if (!is_env_first_char(str[0]))
-		return (INVALID_IDENTIFIER);
-	len = ft_strlen(str);
-	equal_index = 1;
-	while (equal_index < len && str[equal_index] != '=')
-	{
-		if (!is_env_char(str[equal_index]))
-			return (INVALID_IDENTIFIER);
-		equal_index++;
-	}
-	if (equal_index == len)
-		*content = NULL;
-	else
-	{
-		*content = ft_substr(str, equal_index + 1, len - equal_index - 1);
-		if (!(*content))
-			return (MALLOC_FAIL);
-	}
-	*key = ft_substr(str, 0, equal_index);
-	if (!(*key))
-		return (MALLOC_FAIL);
-	return (SUCCESS);
-}
-
-//
-t_bool	add_env_from_string(t_shell *core, char *str)
-{
-	t_internal_values	ret;
-	char				*key;
-	char				*content;
-	
-	ret = parse_env_str(&key, &content, str);
-	if (ret == MALLOC_FAIL)
-	{
-		// ft_putstr_fd("parse_env_str returned NULL\n", 2);
-		core->cur_process.error_index = MALLOC_FAIL;
-		return (TRUE);
-	}
-	else if (ret == INVALID_IDENTIFIER)
-	{
-		// should this be a separate error like this?
-		core->cur_process.error_index = INVALID_IDENTIFIER;
-		ft_putstr_fd(ERROR_SHROOM, 2);
-		ft_putstr_fd(" export: `", 2);
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd("': not a valid identifier\n", 2);
-		return (TRUE);
-	}
-	/* ft_putstr_fd("key: ", 2);
-	ft_putstr_fd(key, 2);
-	ft_putstr_fd(", content: ", 2);
-	ft_putstr_fd(content, 2);
-	ft_putstr_fd("\n", 2); */
-	return(set_env(key, content, core));
-}
-
-t_bool	array_to_env_list(char **ar, t_shell *core, t_bool is_setup)
-{
-	int		i;
-	int		len;
-
-	len = ar_len(ar);
-	i = 0;
-	while (i < len)
-	{
-		if (add_env_from_string(core, ar[i]))
-			return (TRUE);
-		i++;
-	}
-	if (is_setup)
-		return (set_env("OLDPWD", NULL, core));
-	return (FALSE);
-}
 
 // Fetches env variable content by key.
 // RETURNS: string with copy of content on success, NULL on failure
@@ -174,7 +38,7 @@ char	*fetch_env(const char *key, t_shell *core)
 t_bool	set_env(const char *key, const char *content, t_shell *core)
 {
 	t_env	*matching_env;
-	
+
 	matching_env = find_env(core->env_list, key);
 	if (matching_env)
 	{
@@ -207,7 +71,7 @@ t_bool	set_env(const char *key, const char *content, t_shell *core)
 t_bool	unset_env(const char *key, t_shell *core)
 {
 	t_env	*matching_env_prev;
-	
+
 	if (!core->env_list)
 		return (TRUE);
 	matching_env_prev = find_prev(core->env_list, key);
@@ -227,7 +91,7 @@ t_bool	unset_env(const char *key, t_shell *core)
 	}
 }
 
-void print_envs(int mode, t_shell *core)
+void	print_envs(int mode, t_shell *core)
 {
 	t_env	*curr_env;
 
@@ -235,7 +99,7 @@ void print_envs(int mode, t_shell *core)
 	while (curr_env)
 	{
 		if (!((mode == EXPORT && !ft_strcmp("_", curr_env->key))
-			|| (mode == ENV && !curr_env->content)))
+				|| (mode == ENV && !curr_env->content)))
 		{
 			if (mode == EXPORT)
 				ft_putstr_fd("declare -x ", 1);
