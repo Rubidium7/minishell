@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:24:10 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/17 20:39:49 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 13:08:47 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,6 @@ typedef struct s_shell
 	t_token				*tokens;
 	t_current_process	cur_process;
 	t_env				*env_list;
-	char				**env; //to be replaced
 	char				*history[500];
 	int					history_index;
 	t_bool				history_saving;

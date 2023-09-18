@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 10:33:41 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/15 19:44:36 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 13:15:52 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	set_start_data(t_shell *core, char **start_env)
 	core->env_list = NULL;
 	zero_history(core->history);
 	core->history_index = 0;
-	//core->env = copy_array(start_env);
 	if (array_to_env_list(start_env, core, TRUE))
 		exit(SETUP_ERROR);
 	core->tmp_dir = fetch_env("TMPDIR", core);
@@ -44,4 +43,3 @@ void	set_start_data(t_shell *core, char **start_env)
 	if (!core->history_saving)
 		error_print(HISTORY_ERROR);
 }
-		

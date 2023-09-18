@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 17:06:16 by nlonka            #+#    #+#             */
-/*   Updated: 2023/08/16 14:41:36 by nlonka           ###   ########.fr       */
+/*   Updated: 2023/09/18 12:25:47 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,12 @@
 
 void	handle_error_value(int *error_index, int position)
 {
-	//printf("1 error position is %d\n", position); //debug
-	//printf("1 error index is %d\n", *error_index); //debug
 	if (*error_index == DEFAULT || *error_index == UNEXPECTED_NL)
 		*error_index = position;
 	else if (position != UNEXPECTED_NL && position < *error_index)
 		*error_index = position;
 	if (*error_index != UNEXPECTED_NL && *error_index < 0)
 		*error_index = UNEXPECTED_NL;
-	//printf("2 error position is %d\n", *error_index); //debug
 }
 
 void	update_error_value(t_shell *core)

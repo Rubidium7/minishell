@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:28:18 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/17 17:15:52 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 13:28:07 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,7 @@ t_bool	is_redir(t_token_type type);
 //string_utils.c
 char	*remove_string_section(char *str, int start, int end);
 char	*add_string_to(char *str, char *content, int start);
-
+char	*join_three_strings(const char *s1, const char *s2, const char *s3);
 
 //debug_utils.c
 void	test_file(const char *str);
@@ -236,6 +236,10 @@ int		pipeline_execution(t_shell *core, t_command *commands);
 int		open_pipes(int **pipes);
 void	close_pipes(int **pipes);
 
+// builtins_utils.c
+int		run_builtin(t_shell *core, t_command *command);
+int		is_builtin(t_command *command);
+
 // memory_utils.c
 int		**malloc_pipes(int num);
 void	free_pipes(int **pipes);
@@ -250,6 +254,11 @@ int		is_last_command(t_command *command);
 // dup.c
 int		dup_input(t_command *command, int **pipes);
 int		dup_output(t_command *command, int **pipes);
+
+// prepare_and_finalise_pipeline.c
+int		prepare_pipes_and_children(t_shell *core, int ***pipes,
+	pid_t **children, int len);
+int		finalise_pipes_and_children(int **pipes, pid_t *children, int len);
 
 // builtins
 // pwd.c

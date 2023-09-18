@@ -1,7 +1,16 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   is_token.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/18 12:21:13 by vvagapov          #+#    #+#             */
+/*   Updated: 2023/09/18 12:26:33 by vvagapov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
-
 
 t_bool	is_redir(t_token_type type)
 {
@@ -20,6 +29,7 @@ t_bool	is_red_or_word(t_token_type type)
 		return (TRUE);
 	return (FALSE);
 }
+
 t_bool	is_ok_after_logic(t_token_type type)
 {
 	if (is_red_or_word(type))

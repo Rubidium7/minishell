@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 11:29:26 by nlonka            #+#    #+#             */
-/*   Updated: 2023/08/21 11:29:28 by nlonka           ###   ########.fr       */
+/*   Updated: 2023/09/18 12:50:43 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int main(int ac, char **av, char **ev)
 	if (ac != 1 && av[0])
 		return (complain());
 	set_start_data(&core, ev);
-	//print_ar(core.env);
 	while (core.cur_process.shroom_time)
 	{
 		set_input_mode(&core, ON);

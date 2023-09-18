@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   array_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 10:47:33 by nlonka            #+#    #+#             */
-/*   Updated: 2023/08/14 18:51:19 by nlonka           ###   ########.fr       */
+/*   Updated: 2023/09/18 12:22:57 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	free_ar(char **array)
 	}
 	free(array);
 }
-	
 
 char	**copy_array(char **src)
 {
