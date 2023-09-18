@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:28:18 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/18 17:06:40 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 18:01:00 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ void	wildcards_in_filenames(t_token *current);
 //ft_ls.c
 char	**ft_ls(void);
 
-//utilities
+// UTILITIES
 
 //token_list_utils.c
 // array_utils.c
@@ -226,7 +226,7 @@ int		token_after_parentheses(t_token *current, int end_index);
 char	*create_heredoc_file(int heredoc_index, t_shell *core);
 t_bool	heredoc_input(int fd, char *limiter, t_bool expand, t_shell *core);
 
-//find_nodes.c
+//find_token_nodes.c
 t_token	*node_at_index(t_token *current, int end_index);
 t_token	*last_node(t_token *current, t_token *end);
 int		find_logic_token(t_token *current, int end_index);
