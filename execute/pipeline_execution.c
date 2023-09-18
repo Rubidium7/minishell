@@ -59,6 +59,7 @@ static int	handle_command(t_shell *core, pid_t *children, int **pipes,
 	char		*exe_path;
 	struct stat	file_info;
 
+	core->cur_process.ret = SUCCESS;
 	stat(command->cmd_name, &file_info);
 	if (!command->cmd_name)
 		exe_path = NULL;
