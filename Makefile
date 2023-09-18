@@ -46,7 +46,8 @@ _SETUP := set_data.c set_input_mode.c manage_child_signals.c signal_handlers.c
 _REDIR := redirections.c heredoc.c heredoc_signals.c go_through_heredocs.c
 _ENV := environment_tools.c expand_envs_in_string.c expand_envs.c \
 		env_list_utils.c env_list_utils_add.c env_list_utils_delete.c \
-		env_list_utils_search.c env_converters.c env_from_string.c
+		env_list_utils_search.c env_converters.c env_from_string.c \
+		increment_shell_level.c
 _WILD := save_wildcards.c expand_wildcards.c wildcard_matching.c \
 		format_wildcard_into_string.c wildcards_in_filenames.c ft_ls.c
 _UTILS := array_utils.c token_list_utils.c character_utils.c string_utils.c \
