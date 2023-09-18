@@ -68,7 +68,7 @@ char	*expand_env(char *str, int start, int end, t_shell *core)
 		return (NULL);
 	}
 	if (!content)
-		return (str);
+		return (expand_envs_in_string(str, core));
 	str = add_string_to(str, content, start - 1);
 	free(content);
 	if (!str)
