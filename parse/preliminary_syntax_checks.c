@@ -21,9 +21,11 @@ t_bool	is_next_token_ok(t_token *current, t_token *next)
 	if (is_logic(current->type)
 		&& next->type != LPAR && !is_red_or_word(next->type))
 		return (FALSE);
-	if (current->type == LPAR && !is_red_or_word(next->type))
+	if (current->type == LPAR && next->type != LPAR 
+		&& !is_red_or_word(next->type))
 		return (FALSE);
-	if (current->type == RPAR && !is_logic(next->type))
+	if (current->type == RPAR && next->type != RPAR 
+		&& !is_logic(next->type))
 		return (FALSE);
 	return (TRUE);
 }

@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 13:23:41 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 22:02:36 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/19 08:28:33 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static void	init_pipes(int **pipes, int len)
 	i = 0;
 	while (i < len)
 	{
-		pipes[i][0] = -1;
-		pipes[i][1] = -1;
+		pipes[i][0] = NOT_PIPE;
+		pipes[i][1] = NOT_PIPE;
 		i++;
 	}
 }

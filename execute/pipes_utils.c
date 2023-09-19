@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:27:32 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 22:17:05 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/19 08:28:51 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	close_pipes(int **pipes)
 	if (!pipes)
 		return ;
 	i = 0;
-	while (pipes[i] && pipes[i][0] != -1)
+	while (pipes[i] && pipes[i][0] != NOT_PIPE)
 	{
 		close(pipes[i][0]);
 		close(pipes[i][1]);

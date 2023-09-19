@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 11:29:26 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/18 12:50:43 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/19 08:24:22 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static int	complain(void)
 {
-	ft_putendl_fd("Running scripts is not supported", 2);
-	ft_putendl_fd("Please upgrade to a better shell program", 2);
+	ft_putendl_fd("Running scripts is not supported", STDERR_FILENO);
+	ft_putendl_fd("Please upgrade to a better shell program", STDERR_FILENO);
 	return (37);
 }
 

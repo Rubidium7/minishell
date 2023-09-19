@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 13:58:41 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 23:08:03 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/19 08:21:23 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,15 +102,19 @@ void	print_envs(int mode, t_shell *core)
 				|| (mode == ENV && !curr_env->content)))
 		{
 			if (mode == EXPORT)
-				ft_putstr_fd("declare -x ", 1);
-			ft_putstr_fd(curr_env->key, 1);
+				ft_putstr_fd("declare -x ", STDOUT_FILENO);
+			ft_putstr_fd(curr_env->key, STDOUT_FILENO);
 			if (curr_env->content)
 			{
-				ft_putstr_fd("=", 1);
-				ft_putstr_fd(curr_env->content, 1);
+				ft_putstr_fd("=", STDOUT_FILENO);
+				if (mode == EXPORT)
+					ft_putchar_fd('"', STDOUT_FILENO);
+				ft_putstr_fd(curr_env->content, STDOUT_FILENO);
+				if (mode == EXPORT)
+					ft_putchar_fd('"', STDOUT_FILENO);
 			}
 			if (mode == EXPORT || curr_env->content)
-				ft_putstr_fd("\n", 1);
+				ft_putstr_fd("\n", STDOUT_FILENO);
 		}
 		curr_env = curr_env->next;
 	}

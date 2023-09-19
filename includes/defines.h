@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 10:21:30 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/18 20:59:00 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/19 08:27:56 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define NO 0
 # define EXPORT 1
 # define ENV 2
+# define NOT_PIPE -1
 
 //different colour codes
 //R red
