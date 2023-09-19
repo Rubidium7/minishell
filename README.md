@@ -1,3 +1,3 @@
 # minishell
 
-🦕 in progress 🦕
+we did it 🍄
