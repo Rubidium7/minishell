@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/09 21:26:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2024/03/06 15:33:54 by nlonka           ###   ########.fr       */
+/*   Created: 2024/03/06 15:35:23 by nlonka            #+#    #+#             */
+/*   Updated: 2024/03/06 15:36:37 by nlonka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,9 @@ static long long int	exit_with_arg(t_shell *core, char *arg, t_bool *success)
 		return (non_numeric_error(core, arg));
 	}
 	res = slightly_special_atoi(trimmed_str, &overflow);
-	if (overflow)
-	{
-		free(trimmed_str);
-		return (non_numeric_error(core, arg));
-	}
 	free(trimmed_str);
+	if (overflow)
+		return (non_numeric_error(core, arg));
 	*success = TRUE;
 	return (res);
 }

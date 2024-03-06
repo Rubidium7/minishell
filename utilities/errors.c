@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 17:06:16 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/18 22:45:22 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/19 08:31:14 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,27 @@
 
 void	print_generic_error(const char *cmd, const char *arg, const char *msg)
 {
-	ft_putstr_fd(ERROR_SHROOM, 2);
+	ft_putstr_fd(ERROR_SHROOM, STDERR_FILENO);
 	if (cmd)
 	{
-		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(cmd, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
 	}
 	if (arg)
 	{
 		if (!ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "unset"))
 		{
-			ft_putstr_fd("`", 2);
-			ft_putstr_fd(arg, 2);
-			ft_putstr_fd("': ", 2);
+			ft_putstr_fd("`", STDERR_FILENO);
+			ft_putstr_fd(arg, STDERR_FILENO);
+			ft_putstr_fd("': ", STDERR_FILENO);
 		}
 		else
 		{
-			ft_putstr_fd(arg, 2);
-			ft_putstr_fd(": ", 2);
+			ft_putstr_fd(arg, STDERR_FILENO);
+			ft_putstr_fd(": ", STDERR_FILENO);
 		}
 	}
-	ft_putendl_fd(msg, 2);
+	ft_putendl_fd(msg, STDERR_FILENO);
 }
 
 void	handle_error_value(int *error_index, int position)
@@ -61,32 +61,35 @@ void	update_error_value(t_shell *core)
 void	error_print(t_error_code type)
 {
 	if (type == SETUP_ERROR)
-		ft_putendl_fd("system call failed in setting up process🕷🕸", 2);
+		ft_putendl_fd("system call failed in setting up process🕷🕸",
+			STDERR_FILENO);
 	if (type == TOKEN_ERROR)
-		ft_putendl_fd("system call failed in tokenizing process🕷🕸", 2);
+		ft_putendl_fd("system call failed in tokenizing process🕷🕸",
+			STDERR_FILENO);
 	if (type == PARSE_ERROR)
-		ft_putendl_fd("system call failed in parsing process🕷🕸", 2);
+		ft_putendl_fd("system call failed in parsing process🕷🕸", STDERR_FILENO);
 	if (type == HEREDOC_ERROR)
-		ft_putendl_fd("system call failed in heredoc process🕷🕸", 2);
+		ft_putendl_fd("system call failed in heredoc process🕷🕸", STDERR_FILENO);
 	if (type == WILDCARD_ERROR)
-		ft_putendl_fd("system call failed in heredoc process🕷🕸", 2);
+		ft_putendl_fd("system call failed in heredoc process🕷🕸", STDERR_FILENO);
 	if (type == EXEC_ERROR)
-		ft_putendl_fd("system call failed in executing process🕷🕸", 2);
+		ft_putendl_fd("system call failed in executing process🕷🕸",
+			STDERR_FILENO);
 	if (type == HISTORY_ERROR)
-		ft_putendl_fd("problem fetching the history file🕷🕸", 2);
+		ft_putendl_fd("problem fetching the history file🕷🕸", STDERR_FILENO);
 }
 
 void	print_file_error(char *filename, t_error_code type)
 {
-	ft_putstr_fd(ERROR_SHROOM, 2);
+	ft_putstr_fd(ERROR_SHROOM, STDERR_FILENO);
 	if (type != HEREDOC_FILE_ERROR)
-		ft_putstr_fd(filename, 2);
+		ft_putstr_fd(filename, STDERR_FILENO);
 	if (type == NO_RIGHTS)
-		ft_putendl_fd(": Permission denied", 2);
+		ft_putendl_fd(": Permission denied", STDERR_FILENO);
 	if (type == NO_FILE)
-		ft_putendl_fd(": No such file or directory", 2);
+		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
 	if (type == HEREDOC_FILE_ERROR)
-		ft_putendl_fd("heredoc file open error", 2);
+		ft_putendl_fd("heredoc file open error", STDERR_FILENO);
 	if (type == AMBIGUOUS)
-		ft_putendl_fd(": ambiguous redirect", 2);
+		ft_putendl_fd(": ambiguous redirect", STDERR_FILENO);
 }

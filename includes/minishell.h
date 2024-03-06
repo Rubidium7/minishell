@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:28:18 by nlonka            #+#    #+#             */
-/*   Updated: 2023/09/18 22:36:05 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/18 23:29:58 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,14 +176,6 @@ char			*remove_string_section(char *str, int start, int end);
 char			*add_string_to(char *str, char *content, int start);
 char			*join_three_strings(const char *s1, const char *s2,
 					const char *s3);
-// debug_utils.c
-void			test_file(const char *str);
-void			print_token_list(t_token *current, int print_quotes);
-void			print_token(t_token *token, int new_line);
-void			print_tree_in_execution_order(t_ast *tree);
-void			print_file(const char *filename, int write_fd);
-void			print_heredocs(t_ast *tree, int print_files);
-void			print_ar(char **array);
 // ast_utils.c
 t_ast			*new_ast_node(t_ast *up, t_pipeline *head, t_token_type type,
 					int *error_index);

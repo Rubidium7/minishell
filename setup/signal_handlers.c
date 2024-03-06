@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handlers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlonka <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:28:00 by nlonka            #+#    #+#             */
-/*   Updated: 2023/08/20 21:50:10 by nlonka           ###   ########.fr       */
+/*   Updated: 2023/09/19 08:20:59 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	heredoc_ctrl_c_handler(int signum)
 {
 	(void)signum;
-	ft_putstr_fd("\n", 1);
+	ft_putstr_fd("\n", STDOUT_FILENO);
 	exit (1);
 }
 

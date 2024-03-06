@@ -6,7 +6,7 @@
 #    By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/03 20:58:45 by vvagapov          #+#    #+#              #
-#    Updated: 2023/09/18 23:02:05 by vvagapov         ###   ########.fr        #
+#    Updated: 2023/09/18 23:26:30 by vvagapov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,9 +51,9 @@ _ENV := environment_tools.c expand_envs_in_string.c expand_envs.c \
 _WILD := save_wildcards.c expand_wildcards.c wildcard_matching.c \
 		format_wildcard_into_string.c wildcards_in_filenames.c ft_ls.c
 _UTILS := array_utils.c token_list_utils.c character_utils.c string_utils.c \
-		tokenizing_utils.c debug_utils.c ast_utils.c list_cleaners.c \
-		exiting.c errors.c cleaners.c is_token.c syntax_error_printing.c \
-		heredoc_utils.c find_token_nodes.c
+		tokenizing_utils.c ast_utils.c list_cleaners.c exiting.c errors.c \
+		cleaners.c is_token.c syntax_error_printing.c heredoc_utils.c \
+		find_token_nodes.c
 _EXE := pipeline_execution.c pipes_utils.c memory_utils.c command_list_utils.c \
 		command_utils.c dup.c builtins_utils.c prepare_and_finalise_pipeline.c \
 		path_utils.c

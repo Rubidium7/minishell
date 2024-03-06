@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:26:36 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 22:16:18 by vvagapov         ###   ########.fr       */
+/*   Updated: 2023/09/19 08:33:56 by vvagapov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ int	unset(t_shell *core, t_command *command)
 				"not a valid identifier");
 			ret = 1;
 		}
-		else if (unset_env(command->cmd_ar[i], core) && !ret)
-			ret = 1;
+		else
+			unset_env(command->cmd_ar[i], core);
 		i++;
 	}
 	return (ret);
