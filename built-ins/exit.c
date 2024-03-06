@@ -6,7 +6,7 @@
 /*   By: vvagapov <vvagapov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 21:26:21 by vvagapov          #+#    #+#             */
-/*   Updated: 2023/09/18 23:03:34 by vvagapov         ###   ########.fr       */
+/*   Updated: 2024/03/06 15:33:54 by nlonka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static long long int	exit_with_arg(t_shell *core, char *arg, t_bool *success)
 		free(trimmed_str);
 		return (non_numeric_error(core, arg));
 	}
+	free(trimmed_str);
 	*success = TRUE;
 	return (res);
 }
