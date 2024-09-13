@@ -71,7 +71,7 @@ long long int	ft_exit(t_shell *core, t_command *command, t_bool is_child)
 	t_bool			success;
 
 	if (!is_child)
-		write(2, "exit🍂\n", 9);
+		write(2, "exit\n", 9);
 	if (!command->cmd_ar[1])
 	{
 		core->cur_process.shroom_time = FALSE;

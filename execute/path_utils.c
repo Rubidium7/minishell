@@ -35,18 +35,18 @@ static int	find_path_problem(char **paths, char *cmd_name)
 	if (access(cmd_name, F_OK) || paths)
 	{
 		if (paths)
-			print_generic_error(cmd_name, NULL, "shroom not found 🐛");
+			print_generic_error(cmd_name, NULL, "shroom not found");
 		else
 			print_generic_error(cmd_name, NULL,
-				"No such file or directory 🐛");
+				"No such file or directory");
 		return (127);
 	}
 	if (stat(cmd_name, &file_info))
 		return (MALLOC_FAIL);
 	if (S_ISDIR(file_info.st_mode))
-		print_generic_error(cmd_name, NULL, "is a directory 🐛");
+		print_generic_error(cmd_name, NULL, "is a directory");
 	else
-		print_generic_error(cmd_name, NULL, "Permission denied 🐛");
+		print_generic_error(cmd_name, NULL, "Permission denied");
 	return (126);
 }
 

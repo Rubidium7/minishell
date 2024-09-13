@@ -109,10 +109,10 @@ char	*get_fancy_prompt(int ret)
 		tmp = add_prompt_ret(tmp, ret);
 		if (!tmp)
 			return (NULL);
-		complete_prompt = ft_strjoin(tmp, "] ➜ "C);
+		complete_prompt = ft_strjoin(tmp, "] > "C);
 	}
 	else
-		complete_prompt = ft_strjoin(tmp, G " ➜ "C);
+		complete_prompt = ft_strjoin(tmp, G " > "C);
 	free(tmp);
 	return (complete_prompt);
 }
