@@ -27,7 +27,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About the project
 
-[![Product Name Screen Shot][product-screenshot]](./screenshots/basic_functionality.PNG)
+![basic_functionality.PNG](./screenshots/basic_functionality.PNG)
 
 
 
