@@ -63,7 +63,7 @@ char	*get_dir_info(void)
 	tmp = ft_strrchr(dir_path, '/') + 1;
 	if (!tmp)
 		return (NULL);
-	tmp = ft_strjoin(" "Y, tmp);
+	tmp = ft_strjoin(" dir:"Y, tmp);
 	if (!tmp)
 		return (NULL);
 	current_directory = ft_strjoin(tmp, C "");

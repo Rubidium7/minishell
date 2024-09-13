@@ -30,7 +30,7 @@ void	ctrl_c_handler(int signum)
 
 void	ctrl_d_handler(t_shell *core)
 {
-	write(2, "exit🍂\n", 9);
+	write(2, "exit\n", 5);
 	handle_exit(core);
 	exit(core->cur_process.ret);
 }

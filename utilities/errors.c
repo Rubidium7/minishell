@@ -61,22 +61,25 @@ void	update_error_value(t_shell *core)
 void	error_print(t_error_code type)
 {
 	if (type == SETUP_ERROR)
-		ft_putendl_fd("system call failed in setting up process🕷🕸",
+		ft_putendl_fd("system call failed in setting up process",
 			STDERR_FILENO);
 	if (type == TOKEN_ERROR)
-		ft_putendl_fd("system call failed in tokenizing process🕷🕸",
+		ft_putendl_fd("system call failed in tokenizing process",
 			STDERR_FILENO);
 	if (type == PARSE_ERROR)
-		ft_putendl_fd("system call failed in parsing process🕷🕸", STDERR_FILENO);
+		ft_putendl_fd("system call failed in parsing process", STDERR_FILENO);
 	if (type == HEREDOC_ERROR)
-		ft_putendl_fd("system call failed in heredoc process🕷🕸", STDERR_FILENO);
+		ft_putendl_fd("system call failed in heredoc process", STDERR_FILENO);
 	if (type == WILDCARD_ERROR)
-		ft_putendl_fd("system call failed in heredoc process🕷🕸", STDERR_FILENO);
+		ft_putendl_fd("system call failed in heredoc process", STDERR_FILENO);
 	if (type == EXEC_ERROR)
-		ft_putendl_fd("system call failed in executing process🕷🕸",
+		ft_putendl_fd("system call failed in executing process",
 			STDERR_FILENO);
 	if (type == HISTORY_ERROR)
-		ft_putendl_fd("problem fetching the history file🕷🕸", STDERR_FILENO);
+	{
+		ft_putendl_fd("problem fetching the history file", STDERR_FILENO);
+		ft_putendl_fd("might mean that there's no TMPDIR env set", STDERR_FILENO);
+	}
 }
 
 void	print_file_error(char *filename, t_error_code type)
