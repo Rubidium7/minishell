@@ -37,7 +37,7 @@ static char	*heredoc_prompt(t_shell *core)
 	char	*buffer;
 
 	set_heredoc_mode(core, ON);
-	buffer = readline("🐊"CY"here"C G"croc> "C);
+	buffer = readline(CY"here"C G"doc> "C);
 	set_heredoc_mode(core, OFF);
 	return (buffer);
 }
