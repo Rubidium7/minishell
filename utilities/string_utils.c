@@ -22,7 +22,7 @@ char	*remove_string_section(char *str, int start, int end)
 	i = 0;
 	i2 = 0;
 	if (!str || start < 0 || end < 0 || end <= start
-		|| (ft_strlen(str) - (end - start) < 0))
+		|| (((int)ft_strlen(str)) - end - start) < 0)
 		return (str);
 	size = ft_strlen(str) - (end - start);
 	ans = malloc(sizeof(char) * (size + 1));

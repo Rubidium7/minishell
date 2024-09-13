@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+t_bool	g_sigint_received;
+
 
 static int	complain(void)
 {
